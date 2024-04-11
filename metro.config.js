@@ -1,30 +1,21 @@
-const {
-  getDefaultConfig: getRNDefaultConfig,
-  mergeConfig,
-} = require('@react-native/metro-config');
-const {getDefaultConfig: getExpoDefaultConfig} = require('expo/metro-config');
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 
-module.exports = (() => {
-  // Get the default React Native and Expo configurations
-  const rnConfig = getRNDefaultConfig(__dirname);
-  const expoConfig = getExpoDefaultConfig(__dirname);
+// Get the default configuration
+const defaultConfig = getDefaultConfig(__dirname);
+const {assetExts, sourceExts} = defaultConfig.resolver;
 
-  // Merge the React Native and Expo configurations
-  let mergedConfig = mergeConfig(rnConfig, expoConfig);
-
-  // Apply additional configurations for react-native-svg-transformer
-  const {transformer, resolver} = mergedConfig;
-
-  mergedConfig.transformer = {
-    ...transformer,
+// Define the custom configuration, including the transformer for SVG files
+const customConfig = {
+  transformer: {
     babelTransformerPath: require.resolve('react-native-svg-transformer'),
-  };
+  },
+  resolver: {
+    assetExts: assetExts.filter(ext => ext !== 'svg'), // Exclude 'svg' from the default asset extensions
+    sourceExts: [...sourceExts, 'svg'], // Include 'svg' in the source extensions
+  },
+};
 
-  mergedConfig.resolver = {
-    ...resolver,
-    assetExts: resolver.assetExts.filter(ext => ext !== 'svg'),
-    sourceExts: [...resolver.sourceExts, 'svg'],
-  };
+// Merge the default config with the custom config
+const mergedConfig = mergeConfig(defaultConfig, customConfig);
 
-  return mergedConfig;
-})();
+module.exports = mergedConfig;
