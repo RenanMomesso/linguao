@@ -68,3 +68,6 @@ export const theme = {
     text: scale(14),
   },
 };
+
+
+export type Theme = typeof theme;
