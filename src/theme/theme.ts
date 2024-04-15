@@ -1,7 +1,7 @@
 import { Dimensions } from "react-native";
 const { width } = Dimensions.get("window");
 
-const scale = (size: number) => (width / 375) * size;
+const scale = (size: number) => Math.ceil((width / 375) * size);
 
 export const theme = {
   colors: {
@@ -40,6 +40,7 @@ export const theme = {
     Red: "#FFF7F8",
     Orange: "#FFF8ED",
     Cyan: "#F8FEFD",
+    white: "#FFFFFF",
     transparent: {
       Purple: "#6949FF",
       Yellow: "#FFD300",
@@ -57,6 +58,8 @@ export const theme = {
     regular: "Nunito-Regular",
     semibold: "Nunito-SemiBold",
     bold: "Nunito-Bold",
+    black: "Nunito-Black",
+
   },
   fontSize: {
     heading1: scale(48),

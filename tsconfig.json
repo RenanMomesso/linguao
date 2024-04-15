@@ -10,6 +10,11 @@
       "@/hooks/*": ["hooks/*"],
       "@/services/*": ["services/*"],
       "@/store/*": ["store/*"],
+      "@/images/*": ["images/*"],
+      "@/navigation/*": ["navigation/*"],
+      "@/screens/*": ["screens/*"],
+      "@/types/*": ["types/*"],
+      "@/assets/*": ["assets/*"],
       
     }
   }

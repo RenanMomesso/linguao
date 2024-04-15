@@ -1,10 +1,11 @@
 import { View, Text } from "react-native";
 import React from "react";
+import TextComponent from "./Text";
 
 const Test = () => {
   return (
     <View>
-      <Text>Test</Text>
+      <TextComponent>Test</TextComponent>
     </View>
   );
 };
