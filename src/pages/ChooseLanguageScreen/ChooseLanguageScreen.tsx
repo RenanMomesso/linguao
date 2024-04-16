@@ -12,7 +12,7 @@ import Button from "@/components/Button/Button";
 import ElingoBaloons from "@/components/ElingoBaloons/ElingoBaloons";
 import BaloonTextOne from "@/assets/images/BaloonText1.svg";
 
-const SelectLanguageScreen = () => {
+const ChooseLanguageScreen = () => {
   const [languages, setLanguages] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState({
     languages: "",
@@ -109,4 +109,4 @@ const SelectLanguageScreen = () => {
   );
 };
 
-export default SelectLanguageScreen;
+export default ChooseLanguageScreen;
