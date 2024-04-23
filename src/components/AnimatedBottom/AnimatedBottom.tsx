@@ -13,12 +13,12 @@ const AnimatedBottom = () => {
     <Animated.View
       entering={FadeInDown.duration(200)}
       style={{
-        height: 200,
+        height: 150,
         backgroundColor: "red",
         position: "absolute",
         bottom: 0,
         width: 400,
-        zIndex:0
+        zIndex:10
       }}>
       <Text>Success</Text>
     </Animated.View>

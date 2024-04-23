@@ -2,7 +2,7 @@ import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Routes from "./src/navigation/Routes";
 import ThemeProviderComponent from "@/theme/StyledThemeProvider";
-import TempComponent from "@/components/TempComponent";
+import TempComponent from "@/pages/TranslateSentenceScreen/components/WordsSelectors";
 
 const App = () => {
   return (

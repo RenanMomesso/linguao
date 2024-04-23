@@ -20,7 +20,7 @@ export const BottomContainer = styled.View`
   width: 100%;
   align-self: center;
   gap: 12px;
-  z-index: 2;
+  z-index: 11;
   padding-top: 20px;
 `;
 
