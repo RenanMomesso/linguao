@@ -14,7 +14,7 @@ import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 
 import WordsSelectors from "@/pages/TranslateSentenceScreen/components/WordsSelectors";
 import { DuoDragDropRef } from "@/components/DuoDragAndDrop";
-
+import AudioPlayer from "@/components/AudioPlayer/AudioPlayer";
 
 const TranslateSentenceScreen = () => {
   const wordsRef = useRef<DuoDragDropRef>(null);
@@ -68,6 +68,7 @@ const TranslateSentenceScreen = () => {
           gap: 10,
           marginBottom: 50,
         }}>
+        <AudioPlayer />
         <TouchableOpacity
           style={{
             padding: 20,
