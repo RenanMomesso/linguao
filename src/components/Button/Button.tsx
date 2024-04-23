@@ -25,7 +25,9 @@ const Button = ({
         borderRadius: 8,
         alignItems: "center",
       }}>
-      <TextComponent color={textColor} weight="bold">{buttonText}</TextComponent>
+      <TextComponent color={textColor} weight="bold">
+        {buttonText}
+      </TextComponent>
     </TouchableOpacity>
   );
 };

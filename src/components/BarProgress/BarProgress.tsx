@@ -13,21 +13,27 @@ const ProgressContainer = styled.View`
   border-radius: 8px;
 `;
 
-const ProgressStatus = styled.View`
-  width: 20px;
+const ProgressStatus = styled.View<{ percentageStatus: number }>`
+  width: ${({ percentageStatus }) => `${percentageStatus}%`};
   height: 100%;
-  background-color: red;
+  background-color: ${({ theme }) => theme.colors.primary};
   border-radius: 8px;
 `;
 
-const BarProgress = () => {
+const BarProgress = ({
+  percentageStatus,
+  icon,
+}: {
+  percentageStatus: number;
+  icon?: any;
+}) => {
   const navigation = useNavigation();
 
   return (
-    <Row style={{gap:50}}>
-      <ArrowLeftIcon onPress={() => navigation.goBack()} />
+    <Row style={{ gap: 50 }}>
+      {icon ? icon : <ArrowLeftIcon onPress={() => navigation.goBack()} />}
       <ProgressContainer>
-        <ProgressStatus />
+        <ProgressStatus percentageStatus={percentageStatus} />
       </ProgressContainer>
     </Row>
   );

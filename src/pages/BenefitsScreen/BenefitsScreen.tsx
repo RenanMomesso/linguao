@@ -10,16 +10,9 @@ import TextComponent from "@/components/Text";
 import LanguageItem from "@/components/LanguageItem/LanguageItem";
 import Button from "@/components/Button/Button";
 import ElingoBaloons from "@/components/ElingoBaloons/ElingoBaloons";
-import BaloonTextOne from "@/assets/images/BaloonTextOne.svg";
-import { useNavigation } from "@react-navigation/native";
-import { useTypedNavigation } from "@/hooks/useNavigationTyped";
+import BaloonTextOne from "@/assets/images/BaloonText1.svg";
 
-const SelectLanguageScreen = () => {
-
-  const navigation = useTypedNavigation();
-  const handleContinue = () => {
-    navigation.navigate("ChooseLanguageScreen");
-  }
+const BenefitsScreen = () => {
   const [languages, setLanguages] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState({
     languages: "",
@@ -56,7 +49,7 @@ const SelectLanguageScreen = () => {
         padding: 20,
         backgroundColor: theme.colors.white,
       }}>
-      <BarProgress percentageStatus={10}/>
+      <BarProgress />
       <Container
         style={{
           marginTop: 20,
@@ -107,7 +100,7 @@ const SelectLanguageScreen = () => {
       <BottomContainer>
         <Button
           buttonText="Continue"
-          onPressButton={handleContinue}
+          onPressButton={() => {}}
           backgroundColor="primary"
           textColor="white"
         />
@@ -116,4 +109,4 @@ const SelectLanguageScreen = () => {
   );
 };
 
-export default SelectLanguageScreen;
+export default BenefitsScreen;

@@ -20,6 +20,12 @@ export const BottomContainer = styled.View`
   width: 100%;
   align-self: center;
   gap: 12px;
-  background-color: white;
+  z-index: 2;
   padding-top: 20px;
+`;
+
+export const HR = styled.View`
+  width: 100%;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors.greyScale500};
 `;

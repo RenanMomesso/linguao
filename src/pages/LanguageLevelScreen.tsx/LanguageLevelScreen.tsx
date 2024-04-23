@@ -5,45 +5,23 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import { theme } from "@/theme/theme";
 import Button from "@/components/Button/Button";
 import ElingoBaloons from "@/components/ElingoBaloons/ElingoBaloons";
-import WhatLearn from "@/assets/images/WhatLearn.svg";
+import HowMuchEnglish from "@/assets/images/HowMuchEnglish.svg";
 import { useNavigation } from "@react-navigation/native";
-import LanguageList from "@/components/LanguageList/LanguageList";
+
+import TextComponent from "@/components/Text";
+import { levels } from "@/utils/levels";
+import Selectable from "@/components/Selectable/Selectable";
+import EmptyBaloon from "@/assets/images/EmptyBaloon.svg";
+import { View } from "react-native";
 import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 
-const ChooseLanguageScreen = () => {
+const LanguageLevelScreen = () => {
   const navigation = useTypedNavigation();
   const handleContinue = () => {
-    navigation.navigate("LanguageLevelScreen");
+    navigation.navigate("ReasonStudyScreen");
   };
   const [languages, setLanguages] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState({
-    languages: "",
-    flags: "",
-  } as any);
-
-  const getCountriesFlag = async () => {
-    try {
-      const response = await fetch(
-        "https://restcountries.com/v3.1/all?fields=languages,flags",
-      );
-      const data = await response.json();
-      const responseArray = data.map((item: any) => ({
-        languages: item.languages[Object.keys(item.languages)[0]],
-        flags: item.flags.png,
-      }));
-
-      const removeDuplicateds = responseArray.filter(
-        (item: any, index: any, self: any) =>
-          index === self.findIndex((t: any) => t.languages === item.languages),
-      );
-      setLanguages(removeDuplicateds);
-    } catch (error) {
-      console.log("Error", error);
-    }
-  };
-  useEffect(() => {
-    getCountriesFlag();
-  }, []);
+  const [selectedLanguage, setSelectedLanguage] = useState("");
 
   return (
     <Container
@@ -51,7 +29,7 @@ const ChooseLanguageScreen = () => {
         padding: 20,
         backgroundColor: theme.colors.white,
       }}>
-      <BarProgress percentageStatus={20} />
+      <BarProgress percentageStatus={30} />
       <Container
         style={{
           marginTop: 20,
@@ -67,13 +45,36 @@ const ChooseLanguageScreen = () => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <ElingoBaloons BaloonImg={WhatLearn} />
+          <ElingoBaloons
+            BaloonImg={() => (
+              <View>
+                <EmptyBaloon />
+                <TextComponent
+                  size="heading6"
+                  weight="bold"
+                  align="justify"
+                  style={{ marginTop: 20, position: "absolute", left: 40 }}>
+                  How much English {"\n"}do you know?
+                </TextComponent>
+              </View>
+            )}
+          />
         </Animated.View>
-        <LanguageList
-          selectedLanguage={selectedLanguage}
-          data={languages}
-          setSelectedLanguage={setSelectedLanguage}
-        />
+        <Container
+          backgroundColor="white"
+          style={{
+            gap: 20,
+            marginTop: 20,
+          }}>
+          {levels.map(item => (
+            <Selectable>
+              <item.Icon />
+              <TextComponent size="heading5" align="left" style={{ flex: 1 }}>
+                {item.title}
+              </TextComponent>
+            </Selectable>
+          ))}
+        </Container>
       </Container>
       <BottomContainer>
         <Button
@@ -87,4 +88,4 @@ const ChooseLanguageScreen = () => {
   );
 };
 
-export default ChooseLanguageScreen;
+export default LanguageLevelScreen;

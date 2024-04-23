@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { BottomContainer, Container } from "@/theme/GlobalComponents";
 import BarProgress from "@/components/BarProgress/BarProgress";
@@ -10,16 +10,17 @@ import TextComponent from "@/components/Text";
 import LanguageItem from "@/components/LanguageItem/LanguageItem";
 import Button from "@/components/Button/Button";
 import ElingoBaloons from "@/components/ElingoBaloons/ElingoBaloons";
-import BaloonTextOne from "@/assets/images/BaloonTextOne.svg";
-import { useNavigation } from "@react-navigation/native";
+import EmptyBaloon from "@/assets/images/EmptyBaloon.svg";
+import { studyReasons } from "@/utils/studyReasons";
+import Selectable from "@/components/Selectable/Selectable";
 import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 
-const SelectLanguageScreen = () => {
-
+const ReasonStudyScreen = () => {
   const navigation = useTypedNavigation();
   const handleContinue = () => {
-    navigation.navigate("ChooseLanguageScreen");
-  }
+    navigation.navigate("StudyTargetScreen");
+  };
+
   const [languages, setLanguages] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState({
     languages: "",
@@ -56,7 +57,7 @@ const SelectLanguageScreen = () => {
         padding: 20,
         backgroundColor: theme.colors.white,
       }}>
-      <BarProgress percentageStatus={10}/>
+      <BarProgress percentageStatus={40} />
       <Container
         style={{
           marginTop: 20,
@@ -72,36 +73,41 @@ const SelectLanguageScreen = () => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <ElingoBaloons BaloonImg={BaloonTextOne} />
+          <ElingoBaloons
+            BaloonImg={() => (
+              <View>
+                <EmptyBaloon />
+                <TextComponent
+                  size="heading6"
+                  weight="bold"
+                  align="justify"
+                  style={{ marginTop: 20, position: "absolute", left: 40 }}>
+                  Why are you {"\n"}studying English?
+                </TextComponent>
+              </View>
+            )}
+          />
         </Animated.View>
-        {selectedLanguage.languages && (
-          <>
-            <TextComponent
-              size="heading5"
-              style={{ marginVertical: 20 }}
-              weight="bold"
-              align="left">
-              Your native language
-            </TextComponent>
-            <LanguageItem
-              selectedLanguage={selectedLanguage}
-              itemText={selectedLanguage.languages}
-              itemImage={selectedLanguage.flags}
-              onPressItem={() => {}}
-            />
-          </>
-        )}
-        <TextComponent
-          size="heading5"
-          style={{ marginVertical: 20 }}
-          weight="bold"
-          align="left">
-          App language
-        </TextComponent>
-        <LanguageList
-          selectedLanguage={selectedLanguage}
-          data={languages}
-          setSelectedLanguage={setSelectedLanguage}
+
+        <FlatList
+          contentContainerStyle={{
+            paddingVertical: 20,
+          }}
+          ItemSeparatorComponent={() => {
+            return <View style={{ marginVertical: 10 }} />;
+          }}
+          data={studyReasons}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+            <Selectable>
+              <TextComponent size="heading4" align="left">
+                {item.icon}
+              </TextComponent>
+              <TextComponent size="heading5" align="left">
+                {item.title}
+              </TextComponent>
+            </Selectable>
+          )}
         />
       </Container>
       <BottomContainer>
@@ -116,4 +122,4 @@ const SelectLanguageScreen = () => {
   );
 };
 
-export default SelectLanguageScreen;
+export default ReasonStudyScreen;

@@ -1,31 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import React from "react";
 import { BottomContainer, Container } from "@/theme/GlobalComponents";
 import HiThereImgSvg from "@/assets/images/HiThereImg.svg";
 import ElingoIcon from "@/assets/images/ElingoIcon.svg";
 import TextComponent from "@/components/Text";
-import Animated, { FadeInUp, FadeOutDown } from "react-native-reanimated";
+import Animated, { FadeInUp } from "react-native-reanimated";
 import BarProgress from "@/components/BarProgress/BarProgress";
 import Button from "@/components/Button/Button";
-import { useNavigation } from "@react-navigation/native";
+import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 
 const WelcomeScreen = () => {
-  const navigation = useNavigation();
-  const [navigate, setNavigate] = useState(false);
+  const navigation = useTypedNavigation();
 
   const navigateToSelectLanguageScreen = () => {
-    setNavigate(true); 
+    navigation.navigate("SelectLanguageScreen");
   };
-
-  useEffect(() => {
-    if (navigate) {
-      navigation.navigate("SelectLanguageScreen");
-    }
-
-    return () => {
-      setNavigate(false);
-    };
-  }, [navigate, navigation]);
 
   return (
     <Container
@@ -33,7 +21,7 @@ const WelcomeScreen = () => {
       style={{
         padding: 20,
       }}>
-      <BarProgress />
+      <BarProgress percentageStatus={0} />
       <Container
         backgroundColor="white"
         style={{
@@ -63,7 +51,9 @@ const WelcomeScreen = () => {
         />
         <Button
           buttonText="I ALREADY HAVE AN ACCOUNT"
-          onPressButton={() => {}}
+          onPressButton={() => {
+            navigation.navigate("UserNavigations");
+          }}
           backgroundColor="primary100"
           textColor="primary"
         />
