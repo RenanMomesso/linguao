@@ -27,6 +27,12 @@ export type ExercisesStackProps = {
   Home: undefined;
   ExercicesLoading: undefined;
   TranslateSentenceScreen: undefined
+  SpeakTheSentenceScreen: undefined
+  WhatDoesTheAudioSayScreen: undefined
+  WhatDoesTheSentenceSayScreen: undefined
+  FillInTheBlanksScreen: undefined
+  MatchWordPairScreen: undefined
+  SelectTheCorrectImageScreen: undefined
 }
 
 export type ExercisesStack = StackNavigationProp<ExercisesStackProps>;

@@ -9,7 +9,7 @@ let sound:any = null;
 function playSoundFromURL() {
   // Initialize the sound object
   sound = new Sound(
-    "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.mp3",
+    require("../../assets/sounds/sound_test.mp3"),
     null,
     error => {
       if (error) {

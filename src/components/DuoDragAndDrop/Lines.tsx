@@ -12,7 +12,7 @@ interface LinesProps {
 }
 
 export default function Lines(props: LinesProps) {
-  const { containerHeight, containerStyle, numLines, lineHeight, lineStyle, renderTopLine = true } = props;
+  const { containerHeight, containerStyle, numLines, lineHeight, lineStyle, renderTopLine = false } = props;
   const arr = new Array(numLines).fill(0);
 
   return (

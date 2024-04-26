@@ -1,20 +1,24 @@
 import { View, TouchableOpacity, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { BottomContainer, Container, HR } from "@/theme/GlobalComponents";
+import { BottomContainer, Container, HR, Row } from "@/theme/GlobalComponents";
 import BarProgress from "@/components/BarProgress/BarProgress";
 import TextComponent from "@/components/Text";
 import { theme } from "@/theme/theme";
 import Button from "@/components/Button/Button";
 
 import AnimatedBottom from "@/components/AnimatedBottom/AnimatedBottom";
-import PlaySoundIcon from "@/assets/images/PlaySound.svg";
-import PlaySoundIconWorking from "@/assets/images/PlaySoundIconWorking.svg";
 import CloseIcon from "@/assets/images/closeIcon.svg";
 import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 
 import WordsSelectors from "@/pages/TranslateSentenceScreen/components/WordsSelectors";
 import { DuoDragDropRef } from "@/components/DuoDragAndDrop";
 import AudioPlayer from "@/components/AudioPlayer/AudioPlayer";
+import ControllingAnimationProgress from "@/components/LottieAnimation/LottieAnimation";
+import jsonLottie from "@/assets/json/Lc8090d9Br.json";
+import LottieView from "lottie-react-native";
+import ExercicesLayout from "../../layouts/ExercicesLayout";
+import { useNavigation } from "@react-navigation/native";
+import { ExercisesStack, ExercisesStackProps } from "@/interface/navigation.interface";
 
 const TranslateSentenceScreen = () => {
   const wordsRef = useRef<DuoDragDropRef>(null);
@@ -22,11 +26,12 @@ const TranslateSentenceScreen = () => {
   const [soundPlaying, setSoundPlaying] = useState(false);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(true);
 
-  const navigation = useTypedNavigation();
+  const navigation = useNavigation<ExercisesStack>();
 
   const handleShowAnswer = () => {
     console.log(wordsRef.current?.getAnsweredWords());
-    setShowAnswer(true);
+    setShowAnswer(true); 
+    navigation.navigate("SpeakTheSentenceScreen")
   };
 
   const handleChangeButtonDisable = (changeValue: boolean) => {
@@ -34,49 +39,34 @@ const TranslateSentenceScreen = () => {
   };
 
   return (
-    <Container
-      backgroundColor="white"
-      style={{
-        padding: 20,
-      }}>
-      <StatusBar barStyle="dark-content" backgroundColor={"white"} />
-      <BarProgress
-        percentageStatus={10}
-        icon={<CloseIcon onPress={() => navigation.goBack()} />}
-      />
-      <TextComponent
-        size="heading5"
-        weight="bold"
-        align="left"
+    <ExercicesLayout
+      barProgressPercentage={40}
+      pageTitle="Translate the sentence">
+      <Row
         style={{
-          marginTop: 30,
-        }}>
-        Translate this sentence
-      </TextComponent>
-
-      <HR
-        style={{
-          marginVertical: 20,
-          backgroundColor: theme.colors.greyScale300,
-        }}
-      />
-
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
           gap: 10,
           marginBottom: 50,
         }}>
-        <AudioPlayer />
+        {/* <AudioPlayer /> */}
         <TouchableOpacity
           style={{
-            padding: 20,
+            padding: 10,
+            // height: 50,
+            // width: 50,
             borderRadius: 50,
             backgroundColor: theme.colors.primary,
           }}
           onPress={() => setSoundPlaying(prev => !prev)}>
-          {soundPlaying ? <PlaySoundIconWorking /> : <PlaySoundIcon />}
+          <LottieView
+            progress={100}
+            source={jsonLottie}
+            autoPlay={soundPlaying}
+            loop={false}
+            style={{
+              height: 30,
+              width: 30,
+            }}
+          />
         </TouchableOpacity>
         <TextComponent
           size="heading5"
@@ -90,7 +80,8 @@ const TranslateSentenceScreen = () => {
           }}>
           The quick brown fox jumps over the lazy dog
         </TextComponent>
-      </View>
+      </Row>
+
       <WordsSelectors
         disableGesture={showAnswer}
         ref={wordsRef}
@@ -106,7 +97,7 @@ const TranslateSentenceScreen = () => {
         />
       </BottomContainer>
       {showAnswer && <AnimatedBottom />}
-    </Container>
+    </ExercicesLayout>
   );
 };
 

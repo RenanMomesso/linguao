@@ -1,4 +1,5 @@
 import React from "react";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 import styled from "styled-components/native";
 
 
@@ -13,7 +14,11 @@ export const SelectableContainer = styled.TouchableOpacity`
     gap: 22px;
 `
 
-const Selectable = ({ children, ...rest }: any) => {
+export interface SelectableProps extends TouchableOpacityProps {
+  children: React.ReactNode;
+}
+
+const Selectable = ({ children, ...rest }: SelectableProps) => {
   return <SelectableContainer {...rest}>{children}</SelectableContainer>;
 };
 

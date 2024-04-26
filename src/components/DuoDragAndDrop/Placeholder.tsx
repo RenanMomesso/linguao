@@ -12,6 +12,6 @@ export default function Placeholder({ style }: PlaceholderProps) {
 const styles = StyleSheet.create({
   placeholder: {
     backgroundColor: colors.grey,
-    borderRadius: 8,
+    borderRadius: 20,
   },
 });

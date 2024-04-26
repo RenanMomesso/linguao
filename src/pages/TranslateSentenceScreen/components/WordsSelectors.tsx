@@ -2,7 +2,12 @@ import DuoDragDrop, { DuoDragDropRef, Word } from "@/components/DuoDragAndDrop";
 import { theme } from "@/theme/theme";
 import { forwardRef, useRef } from "react";
 
-const WordsSelectors = forwardRef<DuoDragDropRef, any>((props, ref) => {
+interface WordsSelectorsProps {
+  buttonDisable: (disable: boolean) => void;
+  disableGesture?: boolean;
+  wordsExample?: string[];
+}
+const WordsSelectors = forwardRef<DuoDragDropRef, WordsSelectorsProps>((props, ref) => {
   return (
     <DuoDragDrop
       ref={ref}
@@ -29,7 +34,7 @@ const WordsSelectors = forwardRef<DuoDragDropRef, any>((props, ref) => {
         );
       }}
       wordHeight={50}
-      words={[
+      words={props.wordsExample || [
         "Juan",
         "She",
         "apples",
@@ -42,7 +47,6 @@ const WordsSelectors = forwardRef<DuoDragDropRef, any>((props, ref) => {
         "blew",
         "wind",
         "hard",
-        "abukalatauila",
       ]}
     />
   );
