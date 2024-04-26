@@ -1,18 +1,19 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { Container } from "@/theme/GlobalComponents";
 import LingoImg from "@/assets/images/LingoImg.svg";
 import TextComponent from "@/components/Text";
 import LoadingIcon from "@/components/Loading/Loading";
 import { View } from "react-native";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
+import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 
 const SplashScreen = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useTypedNavigation();
   useFocusEffect(
     useCallback(() => {
       setTimeout(() => {
         navigation.navigate("WelcomeScreen");
-      }, 3000);
+      }, 2000);
     }, []),
   );
 

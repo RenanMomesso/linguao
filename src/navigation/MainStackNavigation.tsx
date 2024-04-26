@@ -1,11 +1,9 @@
-import { View, Text } from "react-native";
 import React from "react";
 import {
   StackNavigationOptions,
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import Test from "@/components/Test";
 import SplashScreen from "@/pages/SplashScreen/SplashScreen";
 import WelcomeScreen from "@/pages/WelcomeScreen/WelcomeScreen";
 import SelectLanguageScreen from "@/pages/SelectLanguageScreen/SelectLanguageScreen";
@@ -80,7 +78,7 @@ const MainStackNavigation = () => {
           ...TransitionPresets.ModalFadeTransition,
         }}
       />
-     
+
       <Stack.Screen
         name="UserNavigations"
         component={BottomNavigation}
