@@ -1,9 +1,7 @@
-import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { BottomContainer, Container } from "@/theme/GlobalComponents";
 import BarProgress from "@/components/BarProgress/BarProgress";
 import Animated, { FadeInUp } from "react-native-reanimated";
-import ElingoAndTextRight from "@/assets/images/ElingoAndTextRight.svg";
 import { theme } from "@/theme/theme";
 import LanguageList from "@/components/LanguageList/LanguageList";
 import TextComponent from "@/components/Text";
@@ -11,33 +9,25 @@ import LanguageItem from "@/components/LanguageItem/LanguageItem";
 import Button from "@/components/Button/Button";
 import ElingoBaloons from "@/components/ElingoBaloons/ElingoBaloons";
 import BaloonTextOne from "@/assets/images/BaloonTextOne.svg";
-import { useNavigation } from "@react-navigation/native";
 import { useTypedNavigation } from "@/hooks/useNavigationTyped";
+import { getCountryLanguagesFlags } from "@/services/countryFlags";
+import { languageProps } from "@/dtos/languages";
 
 const SelectLanguageScreen = () => {
-
   const navigation = useTypedNavigation();
   const handleContinue = () => {
     navigation.navigate("ChooseLanguageScreen");
-  }
+  };
   const [languages, setLanguages] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState({
+  const [selectedLanguage, setSelectedLanguage] = useState<languageProps>({
     languages: "",
     flags: "",
-  } as any);
+  });
 
   const getCountriesFlag = async () => {
     try {
-      const response = await fetch(
-        "https://restcountries.com/v3.1/all?fields=languages,flags",
-      );
-      const data = await response.json();
-      const responseArray = data.map((item: any) => ({
-        languages: item.languages[Object.keys(item.languages)[0]],
-        flags: item.flags.png,
-      }));
-
-      const removeDuplicateds = responseArray.filter(
+      const flagsLanguages = await getCountryLanguagesFlags();
+      const removeDuplicateds = flagsLanguages.filter(
         (item: any, index: any, self: any) =>
           index === self.findIndex((t: any) => t.languages === item.languages),
       );
@@ -56,7 +46,7 @@ const SelectLanguageScreen = () => {
         padding: 20,
         backgroundColor: theme.colors.white,
       }}>
-      <BarProgress percentageStatus={10}/>
+      <BarProgress percentageStatus={10} />
       <Container
         style={{
           marginTop: 20,
