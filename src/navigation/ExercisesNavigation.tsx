@@ -11,6 +11,7 @@ import {
 } from "@react-navigation/stack";
 import MatchWordPairScreen from "@/pages/ExerciciesScreens/MatchWordPairScreen/MatchWordPairScreen";
 import FillInTheBlanksScreen from "@/pages/ExerciciesScreens/FillInTheBlanksScreen/FillInTheBlanksScreen";
+import LessonCompletedScreen from "@/pages/LessonCompletedScreen/LessonCompletedScreen";
 
 const Stack = createStackNavigator<ExercisesStackProps>();
 
@@ -56,6 +57,10 @@ const ExercisesNavigation = () => {
       <Stack.Screen
         name="FillInTheBlanksScreen"
         component={FillInTheBlanksScreen}
+      />
+      <Stack.Screen
+        name="LessonCompletedScreen"
+        component={LessonCompletedScreen}
       />
     </Stack.Navigator>
   );

@@ -4,6 +4,7 @@ import LinguaoDoubt from "@/assets/images/LinguaoDoubt.svg";
 import AnimatedButton from "@/components/AnimatedButton/AnimatedButton";
 import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 import { useFocusEffect } from "@react-navigation/native";
+import { theme } from "@/theme/theme";
 
 const homePlaysData = [
   {
@@ -89,7 +90,7 @@ const HomePlays = () => {
   useFocusEffect(
     useCallback(() => {
       navigation.getParent()?.setOptions({
-        
+          display: "flex",
       });
     }, []),
   );
@@ -111,7 +112,7 @@ const HomePlays = () => {
           <View
             style={{
               height: 100,
-              backgroundColor: "red",
+              backgroundColor: theme.colors.greyScale200,
               marginBottom: 40,
             }}
           />

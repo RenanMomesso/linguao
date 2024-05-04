@@ -4,13 +4,15 @@ import Button from "@/components/Button/Button";
 import { ExercisesStack } from "@/interface/navigation.interface";
 import React, { useState } from "react";
 import useMatchWordPair from "./useMatchWordPair";
+import TextComponent from "@/components/Text";
+import { theme } from "@/theme/theme";
 
 interface MatchWordPairScreenProps {
   navigation: ExercisesStack;
 }
 
 const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
-  const { wordsPairs, handleWordPress, selectedMatchWord, selectedWord } =
+  const { wordsPairs, handleWordPress, selectedMatchWord, detectIfMatched } =
     useMatchWordPair();
 
   return (
@@ -26,14 +28,13 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
                 styles.word,
                 word.matched ? styles.matched : null,
                 {
-                  backgroundColor:
-                    selectedMatchWord?.[0].word === word.word
-                      ? "lightblue"
-                      : "white",
+                  backgroundColor: detectIfMatched(word)
+                    ? theme.colors.primary200
+                    : "white",
                 },
               ]}
-              onPress={() => handleWordPress(word, word.word)}>
-              <Text style={styles.text}>{word.word}</Text>
+              onPress={() => handleWordPress(word.word, "word")}>
+              <TextComponent style={styles.text}>{word.word}</TextComponent>
             </TouchableOpacity>
           ))}
         </View>
@@ -44,20 +45,22 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
               style={[
                 styles.word,
                 {
-                  backgroundColor:
-                    selectedMatchWord?.[1]?.translation === word.translation
-                      ? "lightblue"
-                      : "white",
+                  backgroundColor: detectIfMatched(word)
+                    ? theme.colors.primary200
+                    : "white",
                 },
               ]}
-              onPress={() => handleWordPress(word, word.translation)}>
-              <Text style={styles.text}>{word.translation}</Text>
+              onPress={() => handleWordPress(word.translation, "translation")}>
+              <TextComponent style={styles.text}>
+                {word.translation}
+              </TextComponent>
             </TouchableOpacity>
           ))}
         </View>
       </View>
       <ExercicesLayout.Footer>
         <Button
+          disabled={false}
           backgroundColor="Blue"
           buttonText="Next"
           onPressButton={() => navigation.navigate("FillInTheBlanksScreen")}
@@ -87,6 +90,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 10,
     width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderRadius: 12,
+    borderColor: theme.colors.greyScale300
   },
   matched: {
     backgroundColor: "lightgreen",

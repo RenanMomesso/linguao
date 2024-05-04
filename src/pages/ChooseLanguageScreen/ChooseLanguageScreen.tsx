@@ -9,6 +9,7 @@ import WhatLearn from "@/assets/images/WhatLearn.svg";
 import { useNavigation } from "@react-navigation/native";
 import LanguageList from "@/components/LanguageList/LanguageList";
 import { useTypedNavigation } from "@/hooks/useNavigationTyped";
+import { languageProps } from "@/dtos/languages";
 
 const ChooseLanguageScreen = () => {
   const navigation = useTypedNavigation();
@@ -16,10 +17,10 @@ const ChooseLanguageScreen = () => {
     navigation.navigate("LanguageLevelScreen");
   };
   const [languages, setLanguages] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState({
+  const [selectedLanguage, setSelectedLanguage] = useState<languageProps>({
     languages: "",
     flags: "",
-  } as any);
+  });
 
   const getCountriesFlag = async () => {
     try {

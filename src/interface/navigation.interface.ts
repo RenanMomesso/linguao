@@ -10,7 +10,7 @@ export type NavigationStackProps = {
   ReasonStudyScreen: undefined;
   StudyTargetScreen: undefined;
   OnboardingCompleted: undefined;
-  UserNavigations: undefined
+  UserNavigations: undefined;
 };
 
 export type AuthenticationStack = StackNavigationProp<NavigationStackProps>;
@@ -26,18 +26,21 @@ export type NavigationBottomProps = {
 export type ExercisesStackProps = {
   Home: undefined;
   ExercicesLoading: undefined;
-  TranslateSentenceScreen: undefined
-  SpeakTheSentenceScreen: undefined
-  WhatDoesTheAudioSayScreen: undefined
-  WhatDoesTheSentenceSayScreen: undefined
-  FillInTheBlanksScreen: undefined
-  MatchWordPairScreen: undefined
-  SelectTheCorrectImageScreen: undefined
-}
+  TranslateSentenceScreen: undefined;
+  SpeakTheSentenceScreen: undefined;
+  WhatDoesTheAudioSayScreen: undefined;
+  WhatDoesTheSentenceSayScreen: undefined;
+  FillInTheBlanksScreen: undefined;
+  MatchWordPairScreen: undefined;
+  SelectTheCorrectImageScreen: undefined;
+  LessonCompletedScreen: undefined;
+};
 
 export type ExercisesStack = StackNavigationProp<ExercisesStackProps>;
 
 export type BottomNavigationStack =
   BottomTabNavigationProp<NavigationBottomProps>;
 
-export type NavigationProps = AuthenticationStack & BottomNavigationStack & ExercisesStack;
+export type NavigationProps = AuthenticationStack &
+  BottomNavigationStack &
+  ExercisesStack;
