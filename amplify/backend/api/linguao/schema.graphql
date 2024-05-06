@@ -1,0 +1,6 @@
+type EnglishSentence @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  sentence: String
+  audioUrl: String
+  fakeWords: [String]
+}

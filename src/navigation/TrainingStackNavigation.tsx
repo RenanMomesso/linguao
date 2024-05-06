@@ -1,4 +1,4 @@
-import TrainingScreenPresentation from "@/pages/TrainingScreenPresentation/TrainingScreenPresentation";
+import TrainingScreenPresentation from "@/pages/TrainingScreens/TrainingScreenPresentation/TrainingScreenPresentation";
 import { StackNavigationOptions, createStackNavigator } from "@react-navigation/stack";
 
 

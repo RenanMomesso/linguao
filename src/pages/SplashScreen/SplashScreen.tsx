@@ -9,6 +9,7 @@ import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 
 const SplashScreen = () => {
   const navigation = useTypedNavigation();
+
   useFocusEffect(
     useCallback(() => {
       setTimeout(() => {
