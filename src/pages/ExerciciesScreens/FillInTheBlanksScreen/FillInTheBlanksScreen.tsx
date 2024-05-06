@@ -18,15 +18,17 @@ interface FillInTheBlanksScreenProps {
   navigation: ExercisesStack;
 }
 
-const FillInTheBlanksScreen = ({navigation}:FillInTheBlanksScreenProps) => {
+const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
   const [filledInSentences, setFilledInSentences] = useState(
     sentences.map(sentence => ({
       ...sentence,
       userInput: "",
     })),
   );
+  const [index, setIndex] = useState(0);
 
-  const handleFill = (word, index) => {
+  const handleFill = (word) => {
+    setIndex(index + 1);
     const newSentences = filledInSentences.map((item, idx) => {
       if (idx === index) {
         return { ...item, userInput: word };
@@ -47,25 +49,25 @@ const FillInTheBlanksScreen = ({navigation}:FillInTheBlanksScreenProps) => {
                 sentence.userInput || <Text style={styles.blank}>_____</Text>,
               )}
             </Text>
-            <View style={styles.wordsContainer}>
-              {words.map(word => (
-                <TouchableOpacity
-                  key={word}
-                  style={styles.button}
-                  onPress={() => handleFill(word, index)}>
-                  <Text style={styles.buttonText}>{word}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
           </View>
         ))}
+        <View style={styles.wordsContainer}>
+          {words.map(word => (
+            <TouchableOpacity
+              key={word}
+              style={styles.button}
+              onPress={() => handleFill(word, 1)}>
+              <Text style={styles.buttonText}>{word}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
       <ExercicesLayout.Footer>
         <Button
           disabled={false}
           backgroundColor="primary"
           buttonText="Next"
-          onPressButton={() => navigation.navigate("LessonCompletedScreen")}
+          onPressButton={() => navigation.navigate("SelectCorrectImgTextScreen")}
           touchSoundDisabled={false}
           textColor="Red"
         />

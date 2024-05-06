@@ -34,6 +34,7 @@ export type ExercisesStackProps = {
   MatchWordPairScreen: undefined;
   SelectTheCorrectImageScreen: undefined;
   LessonCompletedScreen: undefined;
+  SelectCorrectImgTextScreen: undefined;
 };
 
 export type ExercisesStack = StackNavigationProp<ExercisesStackProps>;

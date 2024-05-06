@@ -12,6 +12,7 @@ import {
 import MatchWordPairScreen from "@/pages/ExerciciesScreens/MatchWordPairScreen/MatchWordPairScreen";
 import FillInTheBlanksScreen from "@/pages/ExerciciesScreens/FillInTheBlanksScreen/FillInTheBlanksScreen";
 import LessonCompletedScreen from "@/pages/LessonCompletedScreen/LessonCompletedScreen";
+import SelectCorrectImgTextScreen from "@/pages/ExerciciesScreens/SelectCorrectImgTextScreen/SelectCorrectImgTextScreen";
 
 const Stack = createStackNavigator<ExercisesStackProps>();
 
@@ -61,6 +62,10 @@ const ExercisesNavigation = () => {
       <Stack.Screen
         name="LessonCompletedScreen"
         component={LessonCompletedScreen}
+      />
+      <Stack.Screen
+        name="SelectCorrectImgTextScreen"
+        component={SelectCorrectImgTextScreen}
       />
     </Stack.Navigator>
   );
