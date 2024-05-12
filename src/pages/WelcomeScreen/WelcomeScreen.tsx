@@ -21,7 +21,7 @@ const WelcomeScreen = () => {
       style={{
         padding: 20,
       }}>
-      <BarProgress percentageStatus={0} />
+      {/* <BarProgress percentageStatus={0} /> */}
       <Container
         backgroundColor="white"
         style={{

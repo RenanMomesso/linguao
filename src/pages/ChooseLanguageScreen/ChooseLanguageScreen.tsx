@@ -6,21 +6,24 @@ import { theme } from "@/theme/theme";
 import Button from "@/components/Button/Button";
 import ElingoBaloons from "@/components/ElingoBaloons/ElingoBaloons";
 import WhatLearn from "@/assets/images/WhatLearn.svg";
-import { useNavigation } from "@react-navigation/native";
 import LanguageList from "@/components/LanguageList/LanguageList";
 import { useTypedNavigation } from "@/hooks/useNavigationTyped";
-import { languageProps } from "@/dtos/languages";
+import { useAppDispatch } from "@/store";
+import { setTargetLanguage, updateUser } from "@/store/reducer/userReducer";
 
 const ChooseLanguageScreen = () => {
+  
+  const dispatch = useAppDispatch();
   const navigation = useTypedNavigation();
   const handleContinue = () => {
+    dispatch(setTargetLanguage(selectedLanguage.languages));
     navigation.navigate("LanguageLevelScreen");
   };
   const [languages, setLanguages] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState<languageProps>({
+  const [selectedLanguage, setSelectedLanguage] = useState({
     languages: "",
     flags: "",
-  });
+  } as any);
 
   const getCountriesFlag = async () => {
     try {
@@ -42,9 +45,12 @@ const ChooseLanguageScreen = () => {
       console.log("Error", error);
     }
   };
+
   useEffect(() => {
     getCountriesFlag();
   }, []);
+
+  const disabledContinue = selectedLanguage.languages === "";
 
   return (
     <Container
@@ -80,7 +86,10 @@ const ChooseLanguageScreen = () => {
         <Button
           buttonText="Continue"
           onPressButton={handleContinue}
-          backgroundColor="primary"
+          backgroundColor={
+            disabledContinue ? "greyScale400" : "primary"
+          } 
+          disabled={disabledContinue}
           textColor="white"
         />
       </BottomContainer>

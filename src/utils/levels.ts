@@ -6,7 +6,7 @@ import LevelFour from "@/assets/images/level3.svg";
 export const levels = [
   {
     id: 1,
-    title: "I just started learning English",
+    title: "I just started learning today",
     Icon: LevelOne,
   },
   {

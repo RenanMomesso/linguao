@@ -12,18 +12,21 @@ import BaloonTextOne from "@/assets/images/BaloonTextOne.svg";
 import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 import { getCountryLanguagesFlags } from "@/services/countryFlags";
 import { languageProps } from "@/dtos/languages";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { setUserNativeLanguage, updateUser } from "@/store/reducer/userReducer";
 
 const SelectLanguageScreen = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.user);
   const navigation = useTypedNavigation();
+
   const handleContinue = () => {
+    if(!user.user?.nativeLanguange || !user.user?.nativeLanguangeFlag) {
+      return;
+    }
     navigation.navigate("ChooseLanguageScreen");
   };
   const [languages, setLanguages] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState<languageProps>({
-    languages: "",
-    flags: "",
-  });
-
   const getCountriesFlag = async () => {
     try {
       const flagsLanguages = await getCountryLanguagesFlags();
@@ -39,6 +42,15 @@ const SelectLanguageScreen = () => {
   useEffect(() => {
     getCountriesFlag();
   }, []);
+
+  const handleSelectLanguage = (language: languageProps) => {
+    dispatch(
+      setUserNativeLanguage({
+        nativeLanguange: language.languages,
+        nativeLanguangeFlag: language.flags,
+      }),
+    );
+  };
 
   return (
     <Container
@@ -64,7 +76,7 @@ const SelectLanguageScreen = () => {
           }}>
           <ElingoBaloons BaloonImg={BaloonTextOne} />
         </Animated.View>
-        {selectedLanguage.languages && (
+        {user.user?.nativeLanguange && (
           <>
             <TextComponent
               size="heading5"
@@ -74,9 +86,12 @@ const SelectLanguageScreen = () => {
               Your native language
             </TextComponent>
             <LanguageItem
-              selectedLanguage={selectedLanguage}
-              itemText={selectedLanguage.languages}
-              itemImage={selectedLanguage.flags}
+              selectedLanguage={{
+                languages: user.user?.nativeLanguange,
+                flags: user.user?.nativeLanguangeFlag,
+              }}
+              itemText={user.user?.nativeLanguange}
+              itemImage={user.user.nativeLanguangeFlag}
               onPressItem={() => {}}
             />
           </>
@@ -89,16 +104,20 @@ const SelectLanguageScreen = () => {
           App language
         </TextComponent>
         <LanguageList
-          selectedLanguage={selectedLanguage}
+          selectedLanguage={{
+            languages: user.user?.nativeLanguange,
+            flags: user.user?.nativeLanguangeFlag,
+          }}
           data={languages}
-          setSelectedLanguage={setSelectedLanguage}
+          setSelectedLanguage={handleSelectLanguage}
         />
       </Container>
       <BottomContainer>
         <Button
+          disabled={!user.user?.nativeLanguange || !user.user?.nativeLanguangeFlag}
           buttonText="Continue"
           onPressButton={handleContinue}
-          backgroundColor="primary"
+          backgroundColor={user.user?.nativeLanguange && user.user?.nativeLanguangeFlag ? "primary" : "greyScale400"}
           textColor="white"
         />
       </BottomContainer>

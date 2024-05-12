@@ -29,3 +29,11 @@ export const HR = styled.View`
   height: 1px;
   background-color: ${({ theme }) => theme.colors.greyScale500};
 `;
+
+
+export const Column = styled.View`
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+`

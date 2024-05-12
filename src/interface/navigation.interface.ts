@@ -37,11 +37,22 @@ export type ExercisesStackProps = {
   SelectCorrectImgTextScreen: undefined;
 };
 
+export type TrainingStackProps = {
+  Training: undefined;
+  TrainingListening: undefined;
+  TrainingReading: undefined;
+  TrainingSpeaking: undefined;
+  TrainingWriting: undefined;
+}
+
+export type TrainingStack = StackNavigationProp<TrainingStackProps>;
 export type ExercisesStack = StackNavigationProp<ExercisesStackProps>;
+
 
 export type BottomNavigationStack =
   BottomTabNavigationProp<NavigationBottomProps>;
 
 export type NavigationProps = AuthenticationStack &
   BottomNavigationStack &
-  ExercisesStack;
+  ExercisesStack &
+  TrainingStackProps;
