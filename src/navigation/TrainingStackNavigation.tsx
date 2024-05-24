@@ -1,6 +1,9 @@
 import { TrainingStackProps } from "@/interface/navigation.interface";
 import TrainingListeningsScreen from "@/pages/TrainingScreens/TrainingListeningsScreen/TrainingListeningsScreen";
 import TrainingScreenPresentation from "@/pages/TrainingScreens/TrainingScreenPresentation/TrainingScreenPresentation";
+import TrainingScreenVideoLevels from "@/pages/TrainingScreens/TrainingScreensVideo/TrainingScreenVideoLevels/TrainingScreenVideoLevels";
+import TrainingVideosScreen from "@/pages/TrainingScreens/TrainingScreensVideo/TrainingVideosScreen/TrainingVideosScreen";
+import TrainingVideoScreen from "@/pages/TrainingScreens/TrainingVideoScreen/TrainingVideoScreen";
 import {
   StackNavigationOptions,
   createStackNavigator,
@@ -32,6 +35,20 @@ const TrainingStackNavigation = () => {
         name="TrainingWriting"
         component={TrainingScreenPresentation}
       />
+      <Stack.Group>
+        <Stack.Screen
+          name="TrainingVideosScreenLevels"
+          component={TrainingScreenVideoLevels}
+        />
+        <Stack.Screen
+          name="TrainingVideosScreen"
+          component={TrainingVideosScreen}
+        />
+        <Stack.Screen
+          name="TrainingVideoScreen"
+          component={TrainingVideoScreen}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 };

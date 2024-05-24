@@ -9,6 +9,8 @@ import HomeIcon from "@/assets/images/homeIconOutlined.svg";
 import Home from "@/pages/Home/HomeScreen";
 import ExercisesNavigation from "./ExercisesNavigation";
 import DumbbellsIcon from "@/assets/images/DumbbellsIcon.svg";
+import ProfileIcon from "@/assets/images/Profile.svg";
+import StarIcon from "@/assets/images/StarIcon.svg";
 import TicketStar from "@/assets/images/TicketStar.svg";
 import TicketStarActived from "@/assets/images/TicketStarIconActived.svg";
 import TextComponent from "@/components/Text";
@@ -97,8 +99,24 @@ const BottomNavigation = () => {
           },
         }}
       />
-      <BottomTabNavigation.Screen name="Premium" component={View} />
-      <BottomTabNavigation.Screen name="Account" component={View} />
+      <BottomTabNavigation.Screen
+        name="Premium"
+        component={View}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return !focused ? <StarIcon /> : <StarIcon />;
+          },
+        }}
+      />
+      <BottomTabNavigation.Screen
+        name="Account"
+        component={View}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return !focused ? <ProfileIcon /> : <ProfileIcon />;
+          },
+        }}
+      />
     </BottomTabNavigation.Navigator>
   );
 };

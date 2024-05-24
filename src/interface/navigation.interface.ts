@@ -43,11 +43,17 @@ export type TrainingStackProps = {
   TrainingReading: undefined;
   TrainingSpeaking: undefined;
   TrainingWriting: undefined;
-}
+  TrainingVideosScreenLevels: undefined;
+  TrainingVideosScreen: {
+    level: string;
+  };
+  TrainingVideoScreen: {
+    videoUrl: string;
+  };
+};
 
 export type TrainingStack = StackNavigationProp<TrainingStackProps>;
 export type ExercisesStack = StackNavigationProp<ExercisesStackProps>;
-
 
 export type BottomNavigationStack =
   BottomTabNavigationProp<NavigationBottomProps>;

@@ -90,7 +90,7 @@ const HomePlays = () => {
   useFocusEffect(
     useCallback(() => {
       navigation.getParent()?.setOptions({
-          display: "flex",
+        display: "flex",
       });
     }, []),
   );
@@ -106,16 +106,12 @@ const HomePlays = () => {
               padding: 10,
               borderBottomColor: "black",
               marginVertical: 10,
-            }}>
-            <Text>{section.title}</Text>
-          </View>
-          <View
-            style={{
               height: 100,
-              backgroundColor: theme.colors.greyScale200,
               marginBottom: 40,
-            }}
-          />
+              display: "flex",
+            }}>
+            
+          </View>
         </>
       )}
       ItemSeparatorComponent={() => (
@@ -142,6 +138,7 @@ const HomePlays = () => {
               flexDirection: "row",
             }}>
             <AnimatedButton
+              
               showStart={index < 1}
               onPress={() => {
                 navigation.navigate("ExercicesLoading");
