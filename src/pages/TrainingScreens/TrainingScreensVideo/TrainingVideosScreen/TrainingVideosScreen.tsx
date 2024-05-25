@@ -6,6 +6,7 @@ import { TrainingStack } from "@/interface/navigation.interface";
 import BarProgress from "@/components/BarProgress/BarProgress";
 import VideoListening from "@/components/VideoListening/VideoListening";
 import { Image } from "react-native";
+import GoBack from "@/components/GoBack/GoBack";
 interface TrainingVideosScreenProps {
   navigation: TrainingStack;
 }
@@ -22,7 +23,7 @@ const TrainingVideosScreen = ({ navigation }: TrainingVideosScreenProps) => {
       style={{
         padding: 20,
       }}>
-      <BarProgress percentageStatus={0} />
+      <GoBack />
       <TextComponent weight="black" size="heading5" align="left">
         Pick on video
       </TextComponent>

@@ -52,7 +52,7 @@ const WelcomeScreen = () => {
         <Button
           buttonText="I ALREADY HAVE AN ACCOUNT"
           onPressButton={() => {
-            navigation.navigate("UserNavigations");
+            navigation.navigate("SigninScreen");
           }}
           backgroundColor="primary100"
           textColor="primary"

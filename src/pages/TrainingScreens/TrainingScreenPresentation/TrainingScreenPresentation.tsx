@@ -4,6 +4,7 @@ import TextComponent from "@/components/Text";
 import Selectable from "@/components/Selectable/Selectable";
 import { TrainingStack } from "@/interface/navigation.interface";
 import BarProgress from "@/components/BarProgress/BarProgress";
+import GoBack from "@/components/GoBack/GoBack";
 interface TrainingScreenPresentationProps {
   navigation: TrainingStack;
 }
@@ -16,11 +17,16 @@ const TrainingScreenPresentation = ({
       style={{
         padding: 20,
       }}>
-      <BarProgress percentageStatus={0} />
-      <TextComponent weight="black" size="heading5" align="left">
-        Choose training method
+      <GoBack />
+      <TextComponent
+        weight="black"
+        size="heading5"
+        align="left"
+        style={{
+          marginTop: 40,
+        }}>
+        Choose a training type
       </TextComponent>
-
       <Container
         backgroundColor="white"
         style={{

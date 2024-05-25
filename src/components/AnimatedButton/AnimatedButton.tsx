@@ -51,6 +51,27 @@ const Button3D: React.FC<Button3DProps> = ({
     };
   });
 
+  useEffect(() => {
+    let interval:any = null;
+    let interval2:any = null;
+    if (showStart) {
+      interval = setInterval(() => {
+        translateY.value = withSpring(15);
+        scale.value = withSpring(0.96);
+      }, 4000);
+
+      interval2 = setInterval(() => {
+        translateY.value = withSpring(0);
+        scale.value = withSpring(1);
+      }, 5400);
+    }
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(interval2);
+    };
+  }, [showStart]);
+
   return (
     <>
       <Container {...rest}>
@@ -58,19 +79,27 @@ const Button3D: React.FC<Button3DProps> = ({
           disabled={disabled}
           onPressIn={onPressIn}
           onPressOut={onPressOut}
-          style={[{ backgroundColor: bgColor }, animatedStyle]}
+          style={[
+            { backgroundColor: disabled ? theme.colors.greyScale300 : bgColor },
+            animatedStyle,
+          ]}
           onPress={onPress}
-          bgColor={bgColor}>
+          bgColor={disabled ? theme.colors.greyScale300 : bgColor}>
           {showStart && (
             <StartIcon
               style={{ position: "absolute", top: -60, zIndex: 9999 }}
             />
           )}
-          <ElpiseOrange style={{ position: "absolute", left: 10, top: 10 }} />
-          <Union />
+          <ElpiseOrange
+            color={disabled ? theme.colors.greyScale200 : "#FFDA6A"}
+            style={{ position: "absolute", left: 10, top: 10 }}
+          />
+          <Union color={disabled ? theme.colors.greyScale400 : "white"} />
         </AnimatedPressable>
 
-        <ShadowView bgShadowColor={bgShadowColor} />
+        <ShadowView
+          bgShadowColor={disabled ? theme.colors.greyScale400 : bgShadowColor}
+        />
       </Container>
     </>
   );

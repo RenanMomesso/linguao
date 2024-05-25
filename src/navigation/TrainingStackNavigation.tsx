@@ -39,6 +39,10 @@ const TrainingStackNavigation = () => {
         <Stack.Screen
           name="TrainingVideosScreenLevels"
           component={TrainingScreenVideoLevels}
+          options={{
+            headerShown: true,
+            headerTitle: "Choose a level to start learning",
+          }}
         />
         <Stack.Screen
           name="TrainingVideosScreen"

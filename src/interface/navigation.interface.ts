@@ -11,6 +11,7 @@ export type NavigationStackProps = {
   StudyTargetScreen: undefined;
   OnboardingCompleted: undefined;
   UserNavigations: undefined;
+  SigninScreen: undefined;
 };
 
 export type AuthenticationStack = StackNavigationProp<NavigationStackProps>;

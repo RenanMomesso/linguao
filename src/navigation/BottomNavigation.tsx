@@ -15,6 +15,7 @@ import TicketStar from "@/assets/images/TicketStar.svg";
 import TicketStarActived from "@/assets/images/TicketStarIconActived.svg";
 import TextComponent from "@/components/Text";
 import TrainingStackNavigation from "./TrainingStackNavigation";
+import AccountNavigation from "./AccountNavigation";
 
 const bottomTabNavigationOptions: BottomTabNavigationOptions = {
   headerShown: false,
@@ -109,9 +110,11 @@ const BottomNavigation = () => {
         }}
       />
       <BottomTabNavigation.Screen
-        name="Account"
-        component={View}
+        name="AccountNavigation"
+        component={AccountNavigation}
+        
         options={{
+          tabBarLabel: "Account",
           tabBarIcon: ({ focused }) => {
             return !focused ? <ProfileIcon /> : <ProfileIcon />;
           },

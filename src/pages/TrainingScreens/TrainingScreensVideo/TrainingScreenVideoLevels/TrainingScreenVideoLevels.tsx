@@ -22,10 +22,6 @@ const TrainingScreenVideoLevels = ({
       style={{
         padding: 20,
       }}>
-      <BarProgress percentageStatus={0} />
-      <TextComponent weight="black" size="heading5" align="left">
-        Choose level of training
-      </TextComponent>
 
       <Container
         backgroundColor="white"
