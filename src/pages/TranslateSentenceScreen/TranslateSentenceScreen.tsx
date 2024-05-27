@@ -8,7 +8,6 @@ import Button from "@/components/Button/Button";
 
 import AnimatedBottom from "@/components/AnimatedBottom/AnimatedBottom";
 
-
 import WordsSelectors from "@/pages/TranslateSentenceScreen/components/WordsSelectors";
 import { DuoDragDropRef } from "@/components/DuoDragAndDrop";
 
@@ -16,7 +15,13 @@ import jsonLottie from "@/assets/json/Lc8090d9Br.json";
 import LottieView from "lottie-react-native";
 import ExercicesLayout from "../../layouts/ExercicesLayout";
 import { useNavigation } from "@react-navigation/native";
-import { ExercisesStack, ExercisesStackProps } from "@/interface/navigation.interface";
+import {
+  ExercisesStack,
+  ExercisesStackProps,
+} from "@/interface/navigation.interface";
+import { useQuery } from "@apollo/client";
+import { englishSentenceQuery } from "./translateSentenceQuery";
+import LoadingIcon from "@/components/Loading/Loading";
 
 const TranslateSentenceScreen = () => {
   const wordsRef = useRef<DuoDragDropRef>(null);
@@ -24,18 +29,33 @@ const TranslateSentenceScreen = () => {
   const [soundPlaying, setSoundPlaying] = useState(false);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(true);
 
+  const { data, loading } = useQuery(englishSentenceQuery);
+
+  const sentence = data?.listEnglishSentences?.items[0]?.sentence;
+  useEffect(() => {
+    StatusBar.setBarStyle("dark-content");
+  }, []);
+
+  console.log(
+    "🚀 ~ TranslateSentenceScreen ~ data:",
+    JSON.stringify(data?.listEnglishSentences?.items[0], undefined, 3),
+  );
+
+  const translation = "O homem esta chateado com a mulher";
+  const splitWordsTranslation = translation.split(" ");
+
   const navigation = useNavigation<ExercisesStack>();
 
   const handleShowAnswer = () => {
     console.log(wordsRef.current?.getAnsweredWords());
-    setShowAnswer(true); 
-    navigation.navigate("SpeakTheSentenceScreen")
+    setShowAnswer(true);
+    navigation.navigate("SpeakTheSentenceScreen");
   };
 
   const handleChangeButtonDisable = (changeValue: boolean) => {
     setButtonIsDisabled(changeValue);
   };
-
+  if (loading) return <LoadingIcon />;
   return (
     <ExercicesLayout
       barProgressPercentage={40}
@@ -76,11 +96,12 @@ const TranslateSentenceScreen = () => {
             flexWrap: "wrap",
             maxWidth: "80%",
           }}>
-          The quick brown fox jumps over the lazy dog
+          {sentence}
         </TextComponent>
       </Row>
 
       <WordsSelectors
+        wordsExample={data?.listEnglishSentences?.items[0]?.fakeWords.concat(splitWordsTranslation)}
         disableGesture={showAnswer}
         ref={wordsRef}
         buttonDisable={handleChangeButtonDisable}

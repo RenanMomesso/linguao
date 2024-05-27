@@ -1,6 +1,18 @@
+enum EnglishLevel {
+  C1
+  C2
+  A1
+  A2
+  B1
+  B2
+}
+
 type EnglishSentence @model @auth(rules: [{allow: public}]) {
   id: ID!
   sentence: String
   audioUrl: String
+  translation: String
   fakeWords: [String]
+  level: EnglishLevel
 }
+ 
