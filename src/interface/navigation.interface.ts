@@ -12,6 +12,7 @@ export type NavigationStackProps = {
   OnboardingCompleted: undefined;
   UserNavigations: undefined;
   SigninScreen: undefined;
+  CreateProfileScreen: undefined;
 };
 
 export type AuthenticationStack = StackNavigationProp<NavigationStackProps>;

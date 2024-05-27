@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BottomContainer, Container } from "@/theme/GlobalComponents";
 import GoBack from "@/components/GoBack/GoBack";
 import TextComponent from "@/components/Text";
-import { TextInput } from "react-native";
+import { Alert, TextInput } from "react-native";
 import Button from "@/components/Button/Button";
-import { signIn } from "aws-amplify/auth";
+import { signIn, signOut, getCurrentUser, AuthUser } from "aws-amplify/auth";
+import { useAppDispatch } from "@/store";
+import { setLoading } from "@/store/reducer/uiReducer";
 
 const SigninScreen = () => {
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,6 +20,7 @@ const SigninScreen = () => {
         password,
       });
     } catch (error) {
+      Alert.alert("Error", (error as Error).message);
       console.log("error signing in", error);
     }
   };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StackNavigationOptions,
   createStackNavigator,
@@ -15,81 +15,93 @@ import OnboardingCompleted from "@/pages/OnboardingScreens/OnboardingCompleted/O
 import { NavigationStackProps } from "@/interface/navigation.interface";
 import BottomNavigation from "./BottomNavigation";
 import SigninScreen from "@/pages/OnboardingScreens/SigninScreen/SigninScreen";
-
+import CreateProfileScreen from "@/pages/OnboardingScreens/CreateProfileScreen/CreateProfileScreen";
+import { getCurrentUser } from "aws-amplify/auth";
+import { Hub } from "aws-amplify/utils";
+import { HubCallback } from "@aws-amplify/core";
+import { useAppDispatch } from "@/store";
+import { setLoading } from "@/store/reducer/uiReducer";
 const mainStackNavigationOptions: StackNavigationOptions = {
   headerShown: false,
 };
 const MainStackNavigation = () => {
+  const [user, setUser] = useState<any>({});
+  const dispatch = useAppDispatch();
   const Stack = createStackNavigator<NavigationStackProps>();
-  return (
-    <Stack.Navigator screenOptions={mainStackNavigationOptions}>
-      <Stack.Screen
-        name="SplashScreen"
-        component={SplashScreen}
-        options={{
-          ...TransitionPresets.ModalFadeTransition,
-        }}
-      />
+  let loggedOutScreens = undefined;
 
-      
+  if (!user?.userId) {
+    loggedOutScreens = (
+      <>
+        <Stack.Screen
+          name="SigninScreen"
+          component={SigninScreen}
+          options={{
+            ...TransitionPresets.ModalFadeTransition,
+          }}
+        />
+        <Stack.Screen
+          name="CreateProfileScreen"
+          component={CreateProfileScreen}
+          options={{
+            ...TransitionPresets.ModalFadeTransition,
+          }}
+        />
+        <Stack.Screen
+          name="WelcomeScreen"
+          component={WelcomeScreen}
+          options={{
+            ...TransitionPresets.ModalFadeTransition,
+          }}
+        />
+        <Stack.Screen
+          name="SelectLanguageScreen"
+          component={SelectLanguageScreen}
+          options={{
+            ...TransitionPresets.ModalFadeTransition,
+          }}
+        />
+        <Stack.Screen
+          name="ChooseLanguageScreen"
+          component={ChooseLanguageScreen}
+          options={{
+            ...TransitionPresets.ModalFadeTransition,
+          }}
+        />
+        <Stack.Screen
+          name="LanguageLevelScreen"
+          component={LanguageLevelScreen}
+          options={{
+            ...TransitionPresets.ModalFadeTransition,
+          }}
+        />
+        <Stack.Screen
+          name="ReasonStudyScreen"
+          component={ReasonStudyScreen}
+          options={{
+            ...TransitionPresets.ModalFadeTransition,
+          }}
+        />
+        <Stack.Screen
+          name="StudyTargetScreen"
+          component={StudyTargetScreen}
+          options={{
+            ...TransitionPresets.ModalFadeTransition,
+          }}
+        />
+        <Stack.Screen
+          name="OnboardingCompleted"
+          component={OnboardingCompleted}
+          options={{
+            ...TransitionPresets.ModalFadeTransition,
+          }}
+        />
+      </>
+    );
+  }
 
-      <Stack.Screen
-        name="SigninScreen"
-        component={SigninScreen}
-        options={{
-          ...TransitionPresets.ModalFadeTransition,
-        }}
-      />
-      <Stack.Screen
-        name="WelcomeScreen"
-        component={WelcomeScreen}
-        options={{
-          ...TransitionPresets.ModalFadeTransition,
-        }}
-      />
-      <Stack.Screen
-        name="SelectLanguageScreen"
-        component={SelectLanguageScreen}
-        options={{
-          ...TransitionPresets.ModalFadeTransition,
-        }}
-      />
-      <Stack.Screen
-        name="ChooseLanguageScreen"
-        component={ChooseLanguageScreen}
-        options={{
-          ...TransitionPresets.ModalFadeTransition,
-        }}
-      />
-      <Stack.Screen
-        name="LanguageLevelScreen"
-        component={LanguageLevelScreen}
-        options={{
-          ...TransitionPresets.ModalFadeTransition,
-        }}
-      />
-      <Stack.Screen
-        name="ReasonStudyScreen"
-        component={ReasonStudyScreen}
-        options={{
-          ...TransitionPresets.ModalFadeTransition,
-        }}
-      />
-      <Stack.Screen
-        name="StudyTargetScreen"
-        component={StudyTargetScreen}
-        options={{
-          ...TransitionPresets.ModalFadeTransition,
-        }}
-      />
-      <Stack.Screen
-        name="OnboardingCompleted"
-        component={OnboardingCompleted}
-        options={{
-          ...TransitionPresets.ModalFadeTransition,
-        }}
-      />
-
+  if (user?.userId) {
+    loggedOutScreens = (
       <Stack.Screen
         name="UserNavigations"
         component={BottomNavigation}
@@ -97,6 +109,41 @@ const MainStackNavigation = () => {
           ...TransitionPresets.ModalFadeTransition,
         }}
       />
+    );
+  }
+
+  useEffect(() => {
+    const listener: HubCallback = data => {
+      const { payload, channel, patternInfo, source } = data;
+      if (payload.event === "signOut") {
+        getUser();
+      }
+      if (channel === "auth") {
+        getUser();
+      }
+    };
+    Hub.listen("auth", listener);
+  }, []);
+
+  const getUser = async () => {
+    dispatch(setLoading(true));
+    try {
+      const userResponse = await getCurrentUser();
+      setUser(userResponse);
+    } catch (error) {
+      setUser({});
+      console.log("error getting user", error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  return (
+    <Stack.Navigator screenOptions={mainStackNavigationOptions}>
+      {loggedOutScreens}
     </Stack.Navigator>
   );
 };

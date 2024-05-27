@@ -7,13 +7,11 @@ import { theme } from "@/theme/theme";
 import Button from "@/components/Button/Button";
 
 import AnimatedBottom from "@/components/AnimatedBottom/AnimatedBottom";
-import CloseIcon from "@/assets/images/closeIcon.svg";
-import { useTypedNavigation } from "@/hooks/useNavigationTyped";
+
 
 import WordsSelectors from "@/pages/TranslateSentenceScreen/components/WordsSelectors";
 import { DuoDragDropRef } from "@/components/DuoDragAndDrop";
-import AudioPlayer from "@/components/AudioPlayer/AudioPlayer";
-import ControllingAnimationProgress from "@/components/LottieAnimation/LottieAnimation";
+
 import jsonLottie from "@/assets/json/Lc8090d9Br.json";
 import LottieView from "lottie-react-native";
 import ExercicesLayout from "../../layouts/ExercicesLayout";

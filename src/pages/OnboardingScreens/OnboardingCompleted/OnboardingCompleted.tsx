@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect } from "react";
 import { BottomContainer, Container } from "@/theme/GlobalComponents";
-import LingoImg from "@/assets/images/LingoImg.svg";
 import TextComponent from "@/components/Text";
 import AwesomeBaloon from "@/assets/images/Awesome.svg";
 import OnboardingCompletedIlustration from "@/assets/images/OnboardingCompleted.svg";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Button from "@/components/Button/Button";
+import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 
 const OnboardingCompleted = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useTypedNavigation();
 
   return (
     <Container

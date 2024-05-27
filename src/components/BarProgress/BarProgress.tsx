@@ -4,6 +4,8 @@ import ArrowLeftIcon from "@/assets/images/ArrowLeft.svg";
 import styled from "styled-components/native";
 import { Row } from "@/theme/GlobalComponents";
 import { useNavigation } from "@react-navigation/native";
+import TextComponent from "../Text";
+import { NavigationProps } from "@/interface/navigation.interface";
 
 const ProgressContainer = styled.View`
   flex-direction: row;
@@ -27,7 +29,10 @@ const BarProgress = ({
   percentageStatus: number;
   icon?: any;
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
+  const handleSkipInformation = () => {
+    navigation.navigate("CreateProfileScreen");
+  };
 
   return (
     <Row style={{ gap: 50 }}>
@@ -35,6 +40,7 @@ const BarProgress = ({
       <ProgressContainer>
         <ProgressStatus percentageStatus={percentageStatus} />
       </ProgressContainer>
+      <TextComponent onPress={handleSkipInformation}>Skip</TextComponent>
     </Row>
   );
 };

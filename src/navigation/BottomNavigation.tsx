@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
@@ -16,6 +16,7 @@ import TicketStarActived from "@/assets/images/TicketStarIconActived.svg";
 import TextComponent from "@/components/Text";
 import TrainingStackNavigation from "./TrainingStackNavigation";
 import AccountNavigation from "./AccountNavigation";
+import { getCurrentUser } from "aws-amplify/auth";
 
 const bottomTabNavigationOptions: BottomTabNavigationOptions = {
   headerShown: false,
@@ -47,6 +48,12 @@ const bottomTabNavigationOptions: BottomTabNavigationOptions = {
 
 const BottomNavigation = () => {
   const BottomTabNavigation = createBottomTabNavigator();
+
+  useEffect(() => {
+    getCurrentUser().then((user) => {
+      console.log("user", user);
+    });
+  }, []);
 
   return (
     <BottomTabNavigation.Navigator screenOptions={bottomTabNavigationOptions}>
@@ -112,7 +119,6 @@ const BottomNavigation = () => {
       <BottomTabNavigation.Screen
         name="AccountNavigation"
         component={AccountNavigation}
-        
         options={{
           tabBarLabel: "Account",
           tabBarIcon: ({ focused }) => {

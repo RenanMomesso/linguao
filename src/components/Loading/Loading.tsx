@@ -7,6 +7,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { ForwardedLoadingIcon } from "@/assets/images";
+import { View } from "react-native";
 
 const AnimatedLoadingIcon =
   Animated.createAnimatedComponent(ForwardedLoadingIcon);
@@ -32,7 +33,22 @@ const LoadingIcon = () => {
       ],
     };
   });
-  return <AnimatedLoadingIcon style={animatedStyle} />;
+  return (
+    <View
+      style={{
+        flex: 1,
+        position: "absolute",
+        zIndex: 999,
+        alignItems: "center",
+        alignSelf: "center",
+        justifyContent: "center",
+        height: "100%",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        width: "100%",
+      }}>
+      <AnimatedLoadingIcon style={animatedStyle} />
+    </View>
+  );
 };
 
 export default LoadingIcon;
