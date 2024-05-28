@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const englishSentenceQuery = gql`
   query getEnglishSentences {
-    listEnglishSentences(filter: { level: { eq: B1 } }) {
+    listEnglishSentences(limit: 1) {
       items {
         level
         id
@@ -10,6 +10,7 @@ export const englishSentenceQuery = gql`
         sentence
         audioUrl
         createdAt
+        translation
       }
     }
   }

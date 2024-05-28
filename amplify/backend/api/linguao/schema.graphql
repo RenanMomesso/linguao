@@ -1,3 +1,16 @@
+type Word @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  languange: String
+  portuguese: String
+  wordlistID: ID! @index(name: "byWordList")
+}
+
+type WordList @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  level: EnglishLevel
+  Words: [Word] @hasMany(indexName: "byWordList", fields: ["id"])
+}
+
 enum EnglishLevel {
   C1
   C2

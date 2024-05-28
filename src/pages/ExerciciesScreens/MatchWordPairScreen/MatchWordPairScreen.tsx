@@ -10,10 +10,42 @@ import { theme } from "@/theme/theme";
 interface MatchWordPairScreenProps {
   navigation: ExercisesStack;
 }
-
+const words = [
+  { english: "hello", portuguese: "ola" },
+  { english: "bye", portuguese: "tchau" },
+  { english: "man", portuguese: "homem" },
+  { english: "girl", portuguese: "garota" },
+];
 const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
   const { wordsPairs, handleWordPress, selectedMatchWord, detectIfMatched } =
     useMatchWordPair();
+
+  const [selected, setSelected] = useState([]);
+  const [matches, setMatches] = useState([]);
+
+  const handlePress = (word, type) => {
+    if (selected.length === 1 && selected[0].type === type) {
+      setSelected([]);
+      return;
+    }
+
+    if (selected.length === 1 && selected[0].type !== type) {
+      if (
+        (type === "english" && selected[0].word === word.portuguese) ||
+        (type === "portuguese" && selected[0].word === word.english)
+      ) {
+        setMatches([...matches, selected[0].word, word[type]]);
+      }
+      setSelected([]);
+    } else {
+      setSelected([{ word: word[type], type }]);
+    }
+  };
+
+  const isMatched = word => matches.includes(word);
+
+  const isSelected = (word, type) =>
+    selected.some(item => item.word === word[type] && item.type === type);
 
   return (
     <ExercicesLayout
@@ -21,39 +53,30 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
       pageTitle="Select the correct matches">
       <View style={styles.container}>
         <View style={styles.column}>
-          {wordsPairs.map(word => (
+          {words.map((word, index) => (
             <TouchableOpacity
-              key={word.word}
+              key={index}
               style={[
-                styles.word,
-                word.matched ? styles.matched : null,
-                {
-                  backgroundColor: detectIfMatched(word)
-                    ? theme.colors.primary200
-                    : "white",
-                },
+                styles.card,
+                isSelected(word, "english") && styles.selectedCard,
+                isMatched(word.english) && styles.matchedCard,
               ]}
-              onPress={() => handleWordPress(word.word, "word")}>
-              <TextComponent style={styles.text}>{word.word}</TextComponent>
+              onPress={() => handlePress(word, "english")}>
+              <Text>{word.english}</Text>
             </TouchableOpacity>
           ))}
         </View>
         <View style={styles.column}>
-          {wordsPairs.map(word => (
+          {words.map((word, index) => (
             <TouchableOpacity
-              key={word.word}
+              key={index}
               style={[
-                styles.word,
-                {
-                  backgroundColor: detectIfMatched(word)
-                    ? theme.colors.primary200
-                    : "white",
-                },
+                styles.card,
+                isSelected(word, "portuguese") && styles.selectedCard,
+                isMatched(word.portuguese) && styles.matchedCard,
               ]}
-              onPress={() => handleWordPress(word.translation, "translation")}>
-              <TextComponent style={styles.text}>
-                {word.translation}
-              </TextComponent>
+              onPress={() => handlePress(word, "portuguese")}>
+              <Text>{word.portuguese}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -77,31 +100,22 @@ export default MatchWordPairScreen;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
+    padding: 20,
   },
   column: {
-    padding: 10,
-    width: "50%",
+    flex: 1,
   },
-  word: {
+  card: {
+    padding: 20,
+    margin: 5,
     backgroundColor: "#f0f0f0",
-    marginBottom: 10,
-    padding: 10,
-    width: "100%",
-    justifyContent: "center",
+    borderRadius: 5,
     alignItems: "center",
-    borderWidth: 1,
-    borderRadius: 12,
-    borderColor: theme.colors.greyScale300
   },
-  matched: {
-    backgroundColor: "lightgreen",
-    borderColor: "green",
-    borderWidth: 1,
+  selectedCard: {
+    backgroundColor: "#ffeb3b",
   },
-  text: {
-    fontSize: 16,
+  matchedCard: {
+    backgroundColor: "#4caf50",
   },
 });

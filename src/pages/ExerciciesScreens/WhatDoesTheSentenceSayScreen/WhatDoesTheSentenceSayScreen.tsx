@@ -31,8 +31,8 @@ const WhatDoesTheSentenceSayScreen = () => {
           borderRadius: 24,
           padding: 8,
         }}>
-        <TouchableOpacity onPress={() =>{}} style={{ height: 120, marginTop:-10  }}>
-          <TapAudioCircle />
+        <TouchableOpacity onPress={() =>{}} style={{ height: 100, marginTop:-10  }}>
+          <TapAudioCircle height={120} />
         </TouchableOpacity>
         <TextComponent>Tap to play audio</TextComponent>
       </View>

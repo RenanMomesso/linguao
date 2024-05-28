@@ -1,24 +1,17 @@
-import { View, TouchableOpacity, StatusBar } from "react-native";
+import { TouchableOpacity, StatusBar } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { BottomContainer, Container, HR, Row } from "@/theme/GlobalComponents";
-import BarProgress from "@/components/BarProgress/BarProgress";
+import { BottomContainer, Row } from "@/theme/GlobalComponents";
 import TextComponent from "@/components/Text";
 import { theme } from "@/theme/theme";
 import Button from "@/components/Button/Button";
-
 import AnimatedBottom from "@/components/AnimatedBottom/AnimatedBottom";
-
 import WordsSelectors from "@/pages/TranslateSentenceScreen/components/WordsSelectors";
 import { DuoDragDropRef } from "@/components/DuoDragAndDrop";
-
 import jsonLottie from "@/assets/json/Lc8090d9Br.json";
 import LottieView from "lottie-react-native";
 import ExercicesLayout from "../../layouts/ExercicesLayout";
 import { useNavigation } from "@react-navigation/native";
-import {
-  ExercisesStack,
-  ExercisesStackProps,
-} from "@/interface/navigation.interface";
+import { ExercisesStack } from "@/interface/navigation.interface";
 import { useQuery } from "@apollo/client";
 import { englishSentenceQuery } from "./translateSentenceQuery";
 import LoadingIcon from "@/components/Loading/Loading";
@@ -32,22 +25,13 @@ const TranslateSentenceScreen = () => {
   const { data, loading } = useQuery(englishSentenceQuery);
 
   const sentence = data?.listEnglishSentences?.items[0]?.sentence;
-  useEffect(() => {
-    StatusBar.setBarStyle("dark-content");
-  }, []);
 
-  console.log(
-    "🚀 ~ TranslateSentenceScreen ~ data:",
-    JSON.stringify(data?.listEnglishSentences?.items[0], undefined, 3),
-  );
-
-  const translation = "O homem esta chateado com a mulher";
-  const splitWordsTranslation = translation.split(" ");
+  const translation = data?.listEnglishSentences?.items[0]?.translation;
+  const splitWordsTranslation = translation?.split(" ")?.sort(() => Math.random() - 0.5);
 
   const navigation = useNavigation<ExercisesStack>();
 
   const handleShowAnswer = () => {
-    console.log(wordsRef.current?.getAnsweredWords());
     setShowAnswer(true);
     navigation.navigate("SpeakTheSentenceScreen");
   };
@@ -101,7 +85,9 @@ const TranslateSentenceScreen = () => {
       </Row>
 
       <WordsSelectors
-        wordsExample={data?.listEnglishSentences?.items[0]?.fakeWords.concat(splitWordsTranslation)}
+        wordsExample={data?.listEnglishSentences?.items[0]?.fakeWords.concat(
+          splitWordsTranslation,
+        )}
         disableGesture={showAnswer}
         ref={wordsRef}
         buttonDisable={handleChangeButtonDisable}
