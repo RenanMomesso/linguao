@@ -1,45 +1,27 @@
-import { TouchableOpacity, StatusBar } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { BottomContainer, Row } from "@/theme/GlobalComponents";
 import TextComponent from "@/components/Text";
-import { theme } from "@/theme/theme";
 import Button from "@/components/Button/Button";
 import AnimatedBottom from "@/components/AnimatedBottom/AnimatedBottom";
 import WordsSelectors from "@/pages/TranslateSentenceScreen/components/WordsSelectors";
-import { DuoDragDropRef } from "@/components/DuoDragAndDrop";
-import jsonLottie from "@/assets/json/Lc8090d9Br.json";
-import LottieView from "lottie-react-native";
 import ExercicesLayout from "../../layouts/ExercicesLayout";
-import { useNavigation } from "@react-navigation/native";
-import { ExercisesStack } from "@/interface/navigation.interface";
-import { useQuery } from "@apollo/client";
-import { englishSentenceQuery } from "./translateSentenceQuery";
-import LoadingIcon from "@/components/Loading/Loading";
+import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
+import useTranslationSentence from "./useTranslationSentence";
 
 const TranslateSentenceScreen = () => {
-  const wordsRef = useRef<DuoDragDropRef>(null);
-  const [showAnswer, setShowAnswer] = useState(false);
-  const [soundPlaying, setSoundPlaying] = useState(false);
-  const [buttonIsDisabled, setButtonIsDisabled] = useState(true);
+  const {
+    buttonIsDisabled,
+    handleChangeButtonDisable,
+    handleShowAnswer,
+    handleSpeak,
+    sentence,
+    showAnswer,
+    soundPlaying,
+    wordsExample,
+    wordsRef,
+  } = useTranslationSentence();
 
-  const { data, loading } = useQuery(englishSentenceQuery);
-
-  const sentence = data?.listEnglishSentences?.items[0]?.sentence;
-
-  const translation = data?.listEnglishSentences?.items[0]?.translation;
-  const splitWordsTranslation = translation?.split(" ")?.sort(() => Math.random() - 0.5);
-
-  const navigation = useNavigation<ExercisesStack>();
-
-  const handleShowAnswer = () => {
-    setShowAnswer(true);
-    navigation.navigate("SpeakTheSentenceScreen");
-  };
-
-  const handleChangeButtonDisable = (changeValue: boolean) => {
-    setButtonIsDisabled(changeValue);
-  };
-  if (loading) return <LoadingIcon />;
+  // if (loading) return <LoadingIcon />;
   return (
     <ExercicesLayout
       barProgressPercentage={40}
@@ -49,27 +31,7 @@ const TranslateSentenceScreen = () => {
           gap: 10,
           marginBottom: 50,
         }}>
-        {/* <AudioPlayer /> */}
-        <TouchableOpacity
-          style={{
-            padding: 10,
-            // height: 50,
-            // width: 50,
-            borderRadius: 50,
-            backgroundColor: theme.colors.primary,
-          }}
-          onPress={() => setSoundPlaying(prev => !prev)}>
-          <LottieView
-            progress={100}
-            source={jsonLottie}
-            autoPlay={soundPlaying}
-            loop={false}
-            style={{
-              height: 30,
-              width: 30,
-            }}
-          />
-        </TouchableOpacity>
+        <SpeakerButton soundPlaying={soundPlaying} handleSpeak={handleSpeak} />
         <TextComponent
           size="heading5"
           align="left"
@@ -85,9 +47,7 @@ const TranslateSentenceScreen = () => {
       </Row>
 
       <WordsSelectors
-        wordsExample={data?.listEnglishSentences?.items[0]?.fakeWords.concat(
-          splitWordsTranslation,
-        )}
+        wordsExample={wordsExample}
         disableGesture={showAnswer}
         ref={wordsRef}
         buttonDisable={handleChangeButtonDisable}

@@ -1,6 +1,6 @@
 import DuoDragDrop, { DuoDragDropRef, Word } from "@/components/DuoDragAndDrop";
 import { theme } from "@/theme/theme";
-import { forwardRef, useRef } from "react";
+import { forwardRef, memo, useRef } from "react";
 
 interface WordsSelectorsProps {
   buttonDisable: (disable: boolean) => void;
@@ -52,4 +52,4 @@ const WordsSelectors = forwardRef<DuoDragDropRef, WordsSelectorsProps>((props, r
   );
 });
 
-export default WordsSelectors;
+export default WordsSelectors

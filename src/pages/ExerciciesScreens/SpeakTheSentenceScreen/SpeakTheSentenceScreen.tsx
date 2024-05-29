@@ -15,10 +15,20 @@ import MicrophoneIcon from "@/assets/images/MicrophoneIcon.svg";
 import Button from "@/components/Button/Button";
 import { useNavigation } from "@react-navigation/native";
 import { ExercisesStack } from "@/interface/navigation.interface";
+import useVoiceRecognition from "@/hooks/useVoiceRecognition";
+import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
+import { speakerVoiceMessage } from "@/utils/speakerVoice";
 
 const SpeakTheSentenceScreen = () => {
+  const { cancelRecognizing, startRecognizing, stopRecognizing, voiceResult } =
+    useVoiceRecognition();
   const [buttonIsDisabled, setButtonIsDisabled] = useState(false);
   const navigation = useNavigation<ExercisesStack>();
+  const [soundPlaying, setSoundPlaying] = useState(false);
+  const handleSpeak = () => {
+    speakerVoiceMessage("The call is from your mother");
+    setSoundPlaying(playingSound => !playingSound);
+  }
 
   return (
     <ExercicesLayout barProgressPercentage={60} pageTitle="Speak the sentence">
@@ -33,7 +43,7 @@ const SpeakTheSentenceScreen = () => {
                 left: 40,
                 alignItems: "center",
               }}>
-              <PlaySound color={theme.colors.primary} />
+              <SpeakerButton soundPlaying={soundPlaying} handleSpeak={handleSpeak}  />
               <TextComponent size="heading6" weight="bold" align="justify">
                 The call is from {"\n"}your mother
               </TextComponent>
@@ -48,6 +58,8 @@ const SpeakTheSentenceScreen = () => {
         }}
       />
       <Selectable
+        onPressIn={startRecognizing}
+        onPressOut={stopRecognizing}
         style={{
           borderColor: theme.colors.greyScale300,
           justifyContent: "center",
@@ -65,6 +77,7 @@ const SpeakTheSentenceScreen = () => {
           </TextComponent>
         </Row>
       </Selectable>
+      <TextComponent>{JSON.stringify(voiceResult)}</TextComponent>
       <ExercicesLayout.Footer>
         <Button
           backgroundColor={!buttonIsDisabled ? "primary" : "greyScale300"}
@@ -72,7 +85,7 @@ const SpeakTheSentenceScreen = () => {
           textColor="white"
           disabled={false}
           onPressButton={() => {
-            navigation.navigate("WhatDoesTheAudioSayScreen")
+            navigation.navigate("WhatDoesTheAudioSayScreen");
           }}
         />
       </ExercicesLayout.Footer>
