@@ -205,7 +205,7 @@ const DuoDragDrop = React.forwardRef<DuoDragDropRef, DuoDragDropProps>((props, r
   const { numLines, wordStyles } = layout;
 
   // Add an extra line to account for certain word combinations that can wrap over to a new line
-  const idealNumLines = numLines < 2 ? numLines + 1 : numLines;
+  const idealNumLines = numLines < 3 ? numLines + 1 : numLines;
   const linesContainerHeight = idealNumLines * lineHeight || lineHeight;
   /** Since word bank is absolutely positioned, estimate the total height of container with offsets */
   const wordBankHeight = numLines * (wordHeight + wordGap * 2) + wordBankOffsetY * 2;
@@ -293,7 +293,7 @@ function ComputeWordLayout({
                   const { y } = calculatedOffsets.current[index];
                   numLines.add(y);
                 }
-                const numLinesSize = numLines.size < 2 ? numLines.size + 1 : numLines.size;
+                const numLinesSize = numLines.size < 3 ? numLines.size + 1 : numLines.size;
                 console.log("🚀 ~ {children.map ~ numLinesSize:", numLinesSize)
                 const linesHeight = numLinesSize * lineHeight;
                 for (const index in calculatedOffsets.current) {
