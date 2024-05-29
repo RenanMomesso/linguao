@@ -7,6 +7,7 @@ import WordsSelectors from "@/pages/TranslateSentenceScreen/components/WordsSele
 import ExercicesLayout from "../../layouts/ExercicesLayout";
 import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
 import useTranslationSentence from "./useTranslationSentence";
+import LoadingIcon from "@/components/Loading/Loading";
 
 const TranslateSentenceScreen = () => {
   const {
@@ -19,9 +20,10 @@ const TranslateSentenceScreen = () => {
     soundPlaying,
     wordsExample,
     wordsRef,
+    loadingQuery,
   } = useTranslationSentence();
 
-  // if (loading) return <LoadingIcon />;
+  if (loadingQuery) return <LoadingIcon />;
   return (
     <ExercicesLayout
       barProgressPercentage={40}

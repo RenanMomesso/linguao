@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { DuoDragDropRef } from "@/components/DuoDragAndDrop";
 import { useQuery } from "@apollo/client";
 import { englishSentenceQuery } from "./translateSentenceQuery";
@@ -22,24 +22,27 @@ const useTranslationSentence = () => {
     return translation?.split(" ")?.sort(() => Math.random() - 0.5);
   }, [translation]);
 
-  const wordsExample = data?.listEnglishSentences?.items[0]?.fakeWords.concat(
-    splitWordsTranslation,
-  );
+  const wordsExample = useMemo(() => {
+    return data?.listEnglishSentences?.items[0]?.fakeWords.concat(
+      splitWordsTranslation,
+    );
+  }, []);
   const navigation = useNavigation<ExercisesStack>();
 
-  const handleShowAnswer = () => {
+  const handleShowAnswer = useCallback(() => {
     setShowAnswer(true);
     navigation.navigate("SpeakTheSentenceScreen");
-  };
+  }, [navigation]);
 
-  const handleSpeak = () => {
+  const handleSpeak = useCallback(() => {
     speakerVoiceMessage(sentence);
     setSoundPlaying(playingSound => !playingSound);
-  };
+  }, [sentence]);
 
-  const handleChangeButtonDisable = (changeValue: boolean) => {
+  const handleChangeButtonDisable = useCallback((changeValue: boolean) => {
+    setButtonIsDisabled(false);
     setButtonIsDisabled(changeValue);
-  };
+  }, []);
 
   return {
     wordsRef,
@@ -51,6 +54,7 @@ const useTranslationSentence = () => {
     handleShowAnswer,
     handleSpeak,
     handleChangeButtonDisable,
+    loadingQuery: loading,
   };
 };
 
