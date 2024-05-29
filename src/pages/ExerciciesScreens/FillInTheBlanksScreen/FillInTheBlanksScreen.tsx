@@ -20,15 +20,14 @@ interface FillInTheBlanksScreenProps {
 
 const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
   const [filledInSentences, setFilledInSentences] = useState(
-    sentences.map(sentence => ({
+    sentences.map((sentence) => ({
       ...sentence,
       userInput: "",
-    })),
+    }))
   );
   const [index, setIndex] = useState(0);
 
   const handleFill = (word) => {
-    setIndex(index + 1);
     const newSentences = filledInSentences.map((item, idx) => {
       if (idx === index) {
         return { ...item, userInput: word };
@@ -36,27 +35,43 @@ const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
       return item;
     });
     setFilledInSentences(newSentences);
+    setIndex(index + 1);
+  };
+
+  const handleClear = (idx) => {
+    const newSentences = filledInSentences.map((item, i) => {
+      if (i === idx) {
+        return { ...item, userInput: "" };
+      }
+      return item;
+    });
+    setFilledInSentences(newSentences);
+    setIndex(idx); // Reset index to allow re-filling the cleared sentence
   };
 
   return (
     <ExercicesLayout barProgressPercentage={80} pageTitle="Fill in the blanks">
       <View style={styles.container}>
-        {filledInSentences.map((sentence, index) => (
-          <View key={sentence.id} style={styles.sentenceContainer}>
+        {filledInSentences.map((sentence, idx) => (
+          <TouchableOpacity
+            key={sentence.id}
+            style={styles.sentenceContainer}
+            onPress={() => handleClear(idx)}
+          >
             <Text style={styles.sentence}>
-              {sentence.text.replace(
-                "__",
-                sentence.userInput || <Text style={styles.blank}>_____</Text>,
-              )}
+              {sentence.text.split("__")[0]}
+              <Text style={styles.blank}>{sentence.userInput || "_____"}</Text>
+              {sentence.text.split("__")[1]}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
         <View style={styles.wordsContainer}>
-          {words.map(word => (
+          {words.map((word) => (
             <TouchableOpacity
               key={word}
               style={styles.button}
-              onPress={() => handleFill(word, 1)}>
+              onPress={() => handleFill(word)}
+            >
               <Text style={styles.buttonText}>{word}</Text>
             </TouchableOpacity>
           ))}
@@ -79,7 +94,6 @@ const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: "#fff",
   },
   sentenceContainer: {
@@ -95,12 +109,12 @@ const styles = StyleSheet.create({
   wordsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+    gap: 10,
   },
   button: {
-    backgroundColor: "skyblue",
-    padding: 8,
-    margin: 4,
+    padding: 10,
     borderRadius: 5,
+    backgroundColor: "#f0f0f0",
   },
   buttonText: {
     fontSize: 16,

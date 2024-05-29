@@ -1,44 +1,7 @@
 import { Word } from "@/components/DuoDragAndDrop";
+import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
-
-interface WordPair {
-  word: string;
-  translation: string;
-  matched: boolean;
-}
-
-const wordsPairs = [
-  {
-    word: "Hello",
-    translation: "Ola",
-    matched: false,
-  },
-  {
-    word: "Good morning",
-    translation: "Bom dia",
-    matched: false,
-  },
-  {
-    word: "Nice",
-    translation: "Legal",
-    matched: false,
-  },
-  {
-    word: "Man",
-    translation: "Homem",
-    matched: false,
-  },
-  {
-    word: "Woman",
-    translation: "Mulher",
-    matched: false,
-  },
-  {
-    word: "Happyness",
-    translation: "Felicidade",
-    matched: false,
-  },
-];
+import { wordListsQuery } from "./matchWordPairQuery";
 
 interface SelectedMatchWord {
   word: string;
@@ -46,92 +9,43 @@ interface SelectedMatchWord {
 }
 
 const useMatchWordPair = () => {
-  const [selectedWord, setSelectedWord] = useState<WordPair | null>(null);
-  const [selectedMatchWord, setSelectedMatchWord] = useState<
-    SelectedMatchWord[] | null
-  >(null);
-  console.log("🚀 ~ useMatchWordPair ~ selectedMatchWord:", selectedMatchWord);
-  const [matchedWords, setMatchedWords] = useState<WordPair[]>([]);
-  console.log("🚀 ~ useMatchWordPair ~ matchedWords:", matchedWords);
+  const { data, loading } = useQuery(wordListsQuery);
+  const list = data?.listWordLists?.items || [];
+  const [selected, setSelected] = useState([]);
+  const [matches, setMatches] = useState([]);
 
-  useEffect(() => {
-    if (selectedMatchWord?.length === 2) {
-      const [firstWord, secondWord] = selectedMatchWord;
-
-      // if same type, reset
-      if (firstWord.type === secondWord.type) {
-        setTimeout(() => {
-          setSelectedMatchWord([]);
-        }, 1000);
-        return;
-      }
-
-      // if diffenrt type but din't match
-
-      const firstWordPair = () => {
-        if (firstWord.type === "word") {
-          return wordsPairs.find(wordPair => wordPair.word === firstWord.word);
-        }
-        return wordsPairs.find(
-          wordPair => wordPair.translation === firstWord.word,
-        );
-      };
-
-      const secondWordPair = () => {
-        if (secondWord.type === "word") {
-          return wordsPairs.find(wordPair => wordPair.word === secondWord.word);
-        }
-        return wordsPairs.find(
-          wordPair => wordPair.translation === secondWord.word,
-        );
-      };
-
-      if (!firstWordPair() || !secondWordPair()) {
-        setSelectedMatchWord([]);
-        return;
-      }
-    }
-  }, [selectedMatchWord, wordsPairs]);
-
-  const handleWordPress = (text: string, isWord: "word" | "translation") => {
-    if (!selectedMatchWord?.length) {
-      setSelectedMatchWord([{ word: text, type: isWord }]);
+  const handlePress = (word, type) => {
+    if (selected.length === 1 && selected[0].type === type) {
+      setSelected([]);
       return;
     }
 
-    if (!!selectedMatchWord?.length) {
-      setSelectedMatchWord(previousData => {
-        if (!previousData) return null;
-        return [...previousData, { word: text, type: isWord }];
-      });
-    }
-
-    if (!!selectedMatchWord.length && selectedMatchWord.length >= 2) {
-      setSelectedMatchWord([]);
+    if (selected.length === 1 && selected[0].type !== type) {
+      if (
+        (type === "languange" && selected[0].word === word.portuguese) ||
+        (type === "portuguese" && selected[0].word === word.languange)
+      ) {
+        setMatches([...matches, selected[0].word, word[type]]);
+      }
+      setSelected([]);
+    } else {
+      setSelected([{ word: word[type], type }]);
     }
   };
 
-  const detectIfMatched = (word: WordPair) => {
-    const isSelectedWord = selectedMatchWord?.some(
-      selectedWord => selectedWord.word === word.translation,
-    );
-    if (!isSelectedWord) return false;
+  const isMatched = word => matches.includes(word);
 
-    const matchedWordsContain = matchedWords.some(
-      matchedWord =>
-        matchedWord.word === word.word &&
-        matchedWord.translation === word.translation,
-    );
-
-    return matchedWordsContain;
-  };
+  const isSelected = (word, type) =>
+    selected.some(item => item.word === word[type] && item.type === type);
 
   return {
-    wordsPairs,
-    handleWordPress,
-    selectedWord,
-    selectedMatchWord,
-    detectIfMatched,
+    wordsPairs: list?.listWordLists?.items[0]?.Words?.items,
+    handlePress,
+    selected,
+    isMatched,
+    list,
+    isSelected,
+    matches
   };
 };
 

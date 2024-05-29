@@ -10,42 +10,29 @@ import { theme } from "@/theme/theme";
 interface MatchWordPairScreenProps {
   navigation: ExercisesStack;
 }
-const words = [
-  { english: "hello", portuguese: "ola" },
-  { english: "bye", portuguese: "tchau" },
-  { english: "man", portuguese: "homem" },
-  { english: "girl", portuguese: "garota" },
-];
+
 const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
-  const { wordsPairs, handleWordPress, selectedMatchWord, detectIfMatched } =
-    useMatchWordPair();
+  const {
+    handlePress,
+    isMatched,
+    isSelected,
+    list,
+    selected,
+    wordsPairs,
+    matches,
+  } = useMatchWordPair();
+    console.log("🚀 ~ MatchWordPairScreen ~ matches:", matches.length < 8)
 
-  const [selected, setSelected] = useState([]);
-  const [matches, setMatches] = useState([]);
+  const buttonDisabled = matches.length < 8;
 
-  const handlePress = (word, type) => {
-    if (selected.length === 1 && selected[0].type === type) {
-      setSelected([]);
-      return;
-    }
+  const words = list?.[0].Words?.items || [];
 
-    if (selected.length === 1 && selected[0].type !== type) {
-      if (
-        (type === "english" && selected[0].word === word.portuguese) ||
-        (type === "portuguese" && selected[0].word === word.english)
-      ) {
-        setMatches([...matches, selected[0].word, word[type]]);
-      }
-      setSelected([]);
-    } else {
-      setSelected([{ word: word[type], type }]);
-    }
-  };
-
-  const isMatched = word => matches.includes(word);
-
-  const isSelected = (word, type) =>
-    selected.some(item => item.word === word[type] && item.type === type);
+  const sortedWordsEnglish = [...words].sort((a, b) =>
+    a?.english?.localeCompare(b.english),
+  );
+  const sortedWordsPortuguese = [...words].sort((a, b) =>
+    a?.portuguese?.localeCompare(b.portuguese),
+  );
 
   return (
     <ExercicesLayout
@@ -53,21 +40,28 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
       pageTitle="Select the correct matches">
       <View style={styles.container}>
         <View style={styles.column}>
-          {words.map((word, index) => (
+          {sortedWordsEnglish.map((word, index) => (
             <TouchableOpacity
               key={index}
               style={[
                 styles.card,
-                isSelected(word, "english") && styles.selectedCard,
-                isMatched(word.english) && styles.matchedCard,
+                isSelected(word, "languange") && styles.selectedCard,
+                isMatched(word.languange) && styles.matchedCard,
               ]}
-              onPress={() => handlePress(word, "english")}>
-              <Text>{word.english}</Text>
+              onPress={() => handlePress(word, "languange")}>
+              <TextComponent
+                color={
+                  isSelected(word, "languange") || isMatched(word.languange)
+                    ? "white"
+                    : "greyScale900"
+                }>
+                {word.languange}
+              </TextComponent>
             </TouchableOpacity>
           ))}
         </View>
         <View style={styles.column}>
-          {words.map((word, index) => (
+          {sortedWordsPortuguese.map((word, index) => (
             <TouchableOpacity
               key={index}
               style={[
@@ -76,14 +70,21 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
                 isMatched(word.portuguese) && styles.matchedCard,
               ]}
               onPress={() => handlePress(word, "portuguese")}>
-              <Text>{word.portuguese}</Text>
+              <TextComponent
+                color={
+                  isSelected(word, "portuguese") || isMatched(word.portuguese)
+                    ? "white"
+                    : "greyScale900"
+                }>
+                {word.portuguese}
+              </TextComponent>
             </TouchableOpacity>
           ))}
         </View>
       </View>
       <ExercicesLayout.Footer>
         <Button
-          disabled={false}
+          disabled={buttonDisabled}
           backgroundColor="Blue"
           buttonText="Next"
           onPressButton={() => navigation.navigate("FillInTheBlanksScreen")}
@@ -100,22 +101,23 @@ export default MatchWordPairScreen;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    padding: 20,
+    gap: 10,
+    marginTop: 20,
   },
   column: {
     flex: 1,
+    gap: 20,
   },
   card: {
-    padding: 20,
-    margin: 5,
+    padding: 10,
     backgroundColor: "#f0f0f0",
-    borderRadius: 5,
+    borderRadius: 12,
     alignItems: "center",
   },
   selectedCard: {
-    backgroundColor: "#ffeb3b",
+    backgroundColor: theme.colors.success,
   },
   matchedCard: {
-    backgroundColor: "#4caf50",
+    backgroundColor: theme.colors.primary,
   },
 });
