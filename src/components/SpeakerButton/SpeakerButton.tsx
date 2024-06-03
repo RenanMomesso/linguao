@@ -23,8 +23,8 @@ const SpeakerButton = ({ soundPlaying, handleSpeak }: SpeakerButtonProps) => {
         autoPlay={soundPlaying}
         loop={false}
         style={{
-          height: 30,
-          width: 30,
+          height: 28,
+          width: 28,
         }}
       />
     </TouchableOpacity>

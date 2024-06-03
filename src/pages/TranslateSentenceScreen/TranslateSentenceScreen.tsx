@@ -8,6 +8,7 @@ import ExercicesLayout from "../../layouts/ExercicesLayout";
 import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
 import useTranslationSentence from "./useTranslationSentence";
 import LoadingIcon from "@/components/Loading/Loading";
+import { load } from "react-native-track-player/lib/src/trackPlayer";
 
 const TranslateSentenceScreen = () => {
   const {
@@ -23,7 +24,7 @@ const TranslateSentenceScreen = () => {
     loadingQuery,
   } = useTranslationSentence();
 
-  if (loadingQuery) return <LoadingIcon />;
+  if (loadingQuery || !wordsExample) return <LoadingIcon />;
   return (
     <ExercicesLayout
       barProgressPercentage={40}

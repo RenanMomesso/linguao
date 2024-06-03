@@ -4,7 +4,7 @@ import Voice, {
 } from "@react-native-voice/voice";
 import { useEffect, useState } from "react";
 
-interface IVoiceResult {
+export interface IVoiceResult {
   regognized: string;
   pitch: string;
   error: string;

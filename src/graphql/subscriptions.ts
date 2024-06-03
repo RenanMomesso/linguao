@@ -8,6 +8,54 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateSentence = /* GraphQL */ `subscription OnCreateSentence($filter: ModelSubscriptionSentenceFilterInput) {
+  onCreateSentence(filter: $filter) {
+    id
+    phrase
+    language
+    level
+    fakeSentence
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateSentenceSubscriptionVariables,
+  APITypes.OnCreateSentenceSubscription
+>;
+export const onUpdateSentence = /* GraphQL */ `subscription OnUpdateSentence($filter: ModelSubscriptionSentenceFilterInput) {
+  onUpdateSentence(filter: $filter) {
+    id
+    phrase
+    language
+    level
+    fakeSentence
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateSentenceSubscriptionVariables,
+  APITypes.OnUpdateSentenceSubscription
+>;
+export const onDeleteSentence = /* GraphQL */ `subscription OnDeleteSentence($filter: ModelSubscriptionSentenceFilterInput) {
+  onDeleteSentence(filter: $filter) {
+    id
+    phrase
+    language
+    level
+    fakeSentence
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteSentenceSubscriptionVariables,
+  APITypes.OnDeleteSentenceSubscription
+>;
 export const onCreateWord = /* GraphQL */ `subscription OnCreateWord($filter: ModelSubscriptionWordFilterInput) {
   onCreateWord(filter: $filter) {
     id
@@ -114,6 +162,7 @@ export const onCreateEnglishSentence = /* GraphQL */ `subscription OnCreateEngli
     translation
     fakeWords
     level
+    fakeSentences
     createdAt
     updatedAt
     __typename
@@ -133,6 +182,7 @@ export const onUpdateEnglishSentence = /* GraphQL */ `subscription OnUpdateEngli
     translation
     fakeWords
     level
+    fakeSentences
     createdAt
     updatedAt
     __typename
@@ -152,6 +202,7 @@ export const onDeleteEnglishSentence = /* GraphQL */ `subscription OnDeleteEngli
     translation
     fakeWords
     level
+    fakeSentences
     createdAt
     updatedAt
     __typename

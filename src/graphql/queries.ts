@@ -8,6 +8,46 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getSentence = /* GraphQL */ `query GetSentence($id: ID!) {
+  getSentence(id: $id) {
+    id
+    phrase
+    language
+    level
+    fakeSentence
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetSentenceQueryVariables,
+  APITypes.GetSentenceQuery
+>;
+export const listSentences = /* GraphQL */ `query ListSentences(
+  $filter: ModelSentenceFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listSentences(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      phrase
+      language
+      level
+      fakeSentence
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListSentencesQueryVariables,
+  APITypes.ListSentencesQuery
+>;
 export const getWord = /* GraphQL */ `query GetWord($id: ID!) {
   getWord(id: $id) {
     id
@@ -117,6 +157,7 @@ export const getEnglishSentence = /* GraphQL */ `query GetEnglishSentence($id: I
     translation
     fakeWords
     level
+    fakeSentences
     createdAt
     updatedAt
     __typename
@@ -139,6 +180,7 @@ export const listEnglishSentences = /* GraphQL */ `query ListEnglishSentences(
       translation
       fakeWords
       level
+      fakeSentences
       createdAt
       updatedAt
       __typename

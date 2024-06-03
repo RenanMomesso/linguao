@@ -8,6 +8,63 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createSentence = /* GraphQL */ `mutation CreateSentence(
+  $input: CreateSentenceInput!
+  $condition: ModelSentenceConditionInput
+) {
+  createSentence(input: $input, condition: $condition) {
+    id
+    phrase
+    language
+    level
+    fakeSentence
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateSentenceMutationVariables,
+  APITypes.CreateSentenceMutation
+>;
+export const updateSentence = /* GraphQL */ `mutation UpdateSentence(
+  $input: UpdateSentenceInput!
+  $condition: ModelSentenceConditionInput
+) {
+  updateSentence(input: $input, condition: $condition) {
+    id
+    phrase
+    language
+    level
+    fakeSentence
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateSentenceMutationVariables,
+  APITypes.UpdateSentenceMutation
+>;
+export const deleteSentence = /* GraphQL */ `mutation DeleteSentence(
+  $input: DeleteSentenceInput!
+  $condition: ModelSentenceConditionInput
+) {
+  deleteSentence(input: $input, condition: $condition) {
+    id
+    phrase
+    language
+    level
+    fakeSentence
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteSentenceMutationVariables,
+  APITypes.DeleteSentenceMutation
+>;
 export const createWord = /* GraphQL */ `mutation CreateWord(
   $input: CreateWordInput!
   $condition: ModelWordConditionInput
@@ -133,6 +190,7 @@ export const createEnglishSentence = /* GraphQL */ `mutation CreateEnglishSenten
     translation
     fakeWords
     level
+    fakeSentences
     createdAt
     updatedAt
     __typename
@@ -153,6 +211,7 @@ export const updateEnglishSentence = /* GraphQL */ `mutation UpdateEnglishSenten
     translation
     fakeWords
     level
+    fakeSentences
     createdAt
     updatedAt
     __typename
@@ -173,6 +232,7 @@ export const deleteEnglishSentence = /* GraphQL */ `mutation DeleteEnglishSenten
     translation
     fakeWords
     level
+    fakeSentences
     createdAt
     updatedAt
     __typename

@@ -1,10 +1,22 @@
-import React from "react";
+import React, { memo } from "react";
 import ArrowLeftIcon from "@/assets/images/ArrowLeft.svg";
 import { useNavigation } from "@react-navigation/native";
+import { NavigationProps } from "@/interface/navigation.interface";
 
-const GoBack = () => {
-  const navigation = useNavigation();
-  return <ArrowLeftIcon onPress={() => navigation.goBack()} />;
+interface GoBackProps {
+  lastRoute?: string | null | any;
+}
+const GoBack = ({ lastRoute = null }: GoBackProps) => {
+  const navigation = useNavigation<NavigationProps>();
+  return (
+    <ArrowLeftIcon
+      onPress={
+        lastRoute && lastRoute !== null
+          ? () => navigation.navigate(lastRoute)
+          : () => navigation.goBack()
+      }
+    />
+  );
 };
 
-export default GoBack;
+export default memo(GoBack);

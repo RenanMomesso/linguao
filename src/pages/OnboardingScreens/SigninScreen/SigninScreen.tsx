@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { BottomContainer, Container } from "@/theme/GlobalComponents";
 import GoBack from "@/components/GoBack/GoBack";
 import TextComponent from "@/components/Text";
-import { Alert, TextInput } from "react-native";
+import { Alert, Keyboard, TextInput } from "react-native";
 import Button from "@/components/Button/Button";
-import { signIn, signOut, getCurrentUser, AuthUser } from "aws-amplify/auth";
-import { useAppDispatch } from "@/store";
-import { setLoading } from "@/store/reducer/uiReducer";
+import { signIn } from "aws-amplify/auth";
 
 const SigninScreen = () => {
-  const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const passwordRef = useRef<TextInput>(null);
 
   const handleSignin = async () => {
     try {
@@ -19,6 +17,7 @@ const SigninScreen = () => {
         username: email,
         password,
       });
+      Keyboard.dismiss();
     } catch (error) {
       Alert.alert("Error", (error as Error).message);
       console.log("error signing in", error);
@@ -27,17 +26,18 @@ const SigninScreen = () => {
 
   return (
     <Container backgroundColor="white" style={{ padding: 20 }}>
-      <GoBack />
+      <GoBack lastRoute={"WelcomeScreen"} />
       <TextComponent size="heading4" weight="bold" align="left">
         Sign In
       </TextComponent>
-
       <TextComponent size="text" align="left">
         Email
       </TextComponent>
       <TextInput
-        value={email}
-        onChangeText={text => setEmail(text)}
+        autoComplete="email"
+        onEndEditing={() => passwordRef.current?.focus()}
+        onChangeText={setEmail}
+        returnKeyLabel="next"
         style={{
           borderWidth: 1,
           borderColor: "black",
@@ -52,8 +52,8 @@ const SigninScreen = () => {
       </TextComponent>
 
       <TextInput
-        value={password}
-        onChangeText={text => setPassword(text)}
+        ref={passwordRef}
+        onChangeText={setPassword}
         style={{
           borderWidth: 1,
           borderColor: "black",

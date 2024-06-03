@@ -11,12 +11,13 @@ import ElpiseOrange from "@/assets/images/elipseOrange.svg";
 import Union from "@/assets/images/Union.svg";
 import StartIcon from "@/assets/images/StartIcon.svg";
 
+type ButtonStatus = "todo" | "done" | "blocked";
 interface Button3DProps {
   bgColor?: string;
   bgShadowColor?: string;
   onPress?: () => void;
   rest?: any;
-  disabled?: boolean;
+  status?: ButtonStatus;
   children?: React.ReactNode;
   showStart?: boolean;
 }
@@ -25,7 +26,7 @@ const Button3D: React.FC<Button3DProps> = ({
   bgColor = "#FFC107",
   bgShadowColor = "#FF981F",
   onPress = () => {},
-  disabled,
+  status = "blocked",
   showStart = false,
   children,
   ...rest
@@ -52,8 +53,8 @@ const Button3D: React.FC<Button3DProps> = ({
   });
 
   useEffect(() => {
-    let interval:any = null;
-    let interval2:any = null;
+    let interval: any = null;
+    let interval2: any = null;
     if (showStart) {
       interval = setInterval(() => {
         translateY.value = withSpring(15);
@@ -76,29 +77,62 @@ const Button3D: React.FC<Button3DProps> = ({
     <>
       <Container {...rest}>
         <AnimatedPressable
-          disabled={disabled}
+          disabled={status === "blocked"}
           onPressIn={onPressIn}
           onPressOut={onPressOut}
           style={[
-            { backgroundColor: disabled ? theme.colors.greyScale300 : bgColor },
+            {
+              backgroundColor:
+                status === "blocked"
+                  ? theme.colors.greyScale300
+                  : status === "todo"
+                  ? theme.colors.primary
+                  : bgColor,
+            },
             animatedStyle,
           ]}
           onPress={onPress}
-          bgColor={disabled ? theme.colors.greyScale300 : bgColor}>
+          bgColor={
+            status === "blocked"
+              ? theme.colors.greyScale300
+              : status === "todo"
+              ? theme.colors.primary
+              : bgColor
+          }>
           {showStart && (
             <StartIcon
               style={{ position: "absolute", top: -60, zIndex: 9999 }}
             />
           )}
           <ElpiseOrange
-            color={disabled ? theme.colors.greyScale200 : "#FFDA6A"}
+            color={
+              status === "blocked"
+                ? theme.colors.greyScale400
+                : status === "todo"
+                ? theme.colors.primary400
+                : theme.colors.secondary300
+            }
             style={{ position: "absolute", left: 10, top: 10 }}
           />
-          <Union color={disabled ? theme.colors.greyScale400 : "white"} />
+          <Union
+            color={
+              status === "blocked"
+                ? theme.colors.greyScale400
+                : status === "todo"
+                ? "white"
+                : "white"
+            }
+          />
         </AnimatedPressable>
 
         <ShadowView
-          bgShadowColor={disabled ? theme.colors.greyScale400 : bgShadowColor}
+          bgShadowColor={
+            status === "blocked"
+              ? theme.colors.greyScale400
+              : status === "todo"
+              ? "#543ACC"
+              : bgShadowColor
+          }
         />
       </Container>
     </>

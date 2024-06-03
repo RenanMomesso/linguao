@@ -18,20 +18,20 @@ const homePlaysData = [
         id: 1,
         title: "The Lion King",
         location: "Lyceum Theatre",
-        disabled: false,
+        status: "done",
       },
       {
         id: 2,
         title: "Wicked",
         location: "Apollo Victoria Theatre",
 
-        disabled: true,
+        status: "todo",
       },
       {
         id: 3,
         title: "The Phantom of the Opera",
         location: "Her Majesty's Theatre",
-        disabled: true,
+        status: "blocked",
       },
     ],
   },
@@ -45,20 +45,20 @@ const homePlaysData = [
         title: "Hamilton",
         location: "Victoria Palace Theatre",
 
-        disabled: true,
+        status: "blocked",
       },
       {
         id: 5,
         title: "Six",
         location: "Vaudeville Theatre",
 
-        disabled: true,
+        status: "blocked",
       },
       {
         id: 6,
         title: "Mamma Mia!",
         location: "Novello Theatre",
-        disabled: true,
+        status: "blocked",
       },
     ],
   },
@@ -70,37 +70,37 @@ const homePlaysData = [
         id: 7,
         title: "Les Misérables",
         location: "Sondheim Theatre",
-        disabled: true,
+        status: "blocked",
       },
       {
         id: 8,
         title: "The Book of Mormon",
         location: "Prince of Wales Theatre",
-        disabled: true,
+        status: "blocked",
       },
       {
         id: 9,
         title: "Mary Poppins",
         location: "Prince Edward Theatre",
-        disabled: true,
+        status: "blocked",
       },
       {
         id: 10,
         title: "Matilda",
         location: "Cambridge Theatre",
-        disabled: true,
+        status: "blocked",
       },
       {
         id: 11,
         title: "The Play That Goes Wrong",
-        disabled: true,
+        status: "blocked",
         location: "Duchess Theatre",
       },
       {
         id: 12,
         title: "The king",
         location: "Lyceum Theatre",
-        disabled: true,
+        status: "blocked",
       },
     ],
   },
@@ -119,6 +119,7 @@ const HomePlays = () => {
 
   return (
     <SectionList
+      showsVerticalScrollIndicator={false}
       sections={homePlaysData}
       ListFooterComponent={() => <View style={{ height: 100 }} />}
       renderSectionHeader={({ section }) => (
@@ -176,9 +177,9 @@ const HomePlays = () => {
               flexDirection: "row",
             }}>
             <AnimatedButton
-              disabled={item.disabled}
+              status={item.status as any}
               showStart={
-                index === 0 && section.title === "Lesson 2 - Initial Training"
+                index === 1 && section.title === "Lesson 2 - Initial Training"
               }
               onPress={() => {
                 navigation.navigate("ExercicesLoading");
