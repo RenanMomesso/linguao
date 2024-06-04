@@ -17,6 +17,12 @@
       },
       "api": {
         "linguao": {}
+      },
+      "function": {
+        "registeruser": {
+          "deploymentBucketName": "amplify-linguao-dev-13eb4-deployment",
+          "s3Key": "amplify-builds/registeruser-2f616454776f444f6178-build.zip"
+        }
       }
     }
   },
@@ -38,6 +44,9 @@
       },
       "api": {
         "linguao": {}
+      },
+      "function": {
+        "registeruser": {}
       }
     }
   }

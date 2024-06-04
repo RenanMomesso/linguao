@@ -51,5 +51,41 @@
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
     }
+  },
+  "function": {
+    "registeruser": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "linguao"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_registeruser_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registeruser"
+        }
+      ]
+    },
+    "AMPLIFY_function_registeruser_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "registeruser"
+        }
+      ]
+    }
   }
 }

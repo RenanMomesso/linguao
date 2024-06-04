@@ -4,6 +4,7 @@ import {
   Platform,
   ScrollView,
   Keyboard,
+  Alert,
 } from "react-native";
 import Button from "@/components/Button/Button";
 import TextComponent from "@/components/Text";
@@ -13,6 +14,8 @@ import AccountLayout from "@/layouts/AccountLayout";
 import styled from "styled-components/native";
 import useKeyboard from "@/hooks/useKeyboard";
 import { signUp } from "aws-amplify/auth";
+import { useAppDispatch } from "@/store";
+import { setLoading } from "@/store/reducer/uiReducer";
 
 export const TextInputS = styled.TextInput`
   border: 1px solid ${({ theme }) => theme.colors.greyScale300};
@@ -29,6 +32,7 @@ const FormInput = ({ label, value, onChangeText }) => (
 );
 
 const CreateProfileScreen = () => {
+  const dispatch = useAppDispatch();
   const isOpenKeyboard = useKeyboard();
   const [formData, setFormData] = useState({
     fullName: "",
@@ -42,22 +46,32 @@ const CreateProfileScreen = () => {
   }, []);
 
   const handleCreateAccount = async () => {
+    dispatch(setLoading(true));
     Keyboard.dismiss();
     // Call API to create account
-    signUp({
-      username: formData.email,
-      password: formData.password,
-      options: {
-        userAttributes: {
-          email: formData.email,
-          name: formData.fullName,
-          birthdate: "1990-01-01",
-          phone_number: "+1234567890",
-          email_verified: "CONFIRMED",
-          phone_number_verified: "CONFIRMED",
+    try {
+      const { isSignUpComplete, nextStep, userId } = await signUp({
+        username: formData.email,
+        password: formData.password,
+
+        options: {
+          userAttributes: {
+            email: formData.email,
+            name: formData.fullName,
+            birthdate: "1990-01-01",
+            phone_number: "+1234567890",
+            language: "English",
+            languageLevel: "A1",
+          },
         },
-      },
-    });
+      });
+
+      console.log({ isSignUpComplete, nextStep, userId });
+    } catch (error) {
+      console.log({ error });
+      Alert.alert("Error", (error as Error).message);
+    }
+    dispatch(setLoading(false));
   };
 
   return (
