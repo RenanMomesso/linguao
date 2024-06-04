@@ -11,6 +11,8 @@ import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
 import useWhatDoesTheAudioSay from "./useWhatDoesTheAudioSay";
 import { theme } from "@/theme/theme";
 import { speakerVoiceMessage } from "@/utils/speakerVoice";
+import LoadingIcon from "@/components/Loading/Loading";
+import ErrorComponent from "@/components/ErrorComponent/ErrorComponent";
 
 const WhatDoesTheAudioSayScreen = () => {
   const navigation = useNavigation<ExercisesStack>();
@@ -19,12 +21,18 @@ const WhatDoesTheAudioSayScreen = () => {
     handleSelectSentence,
     selectedSentence,
     sentence,
+    error,
+    loading,
   } = useWhatDoesTheAudioSay();
+
+  console.log({ error, loading, sentence, fakeTranslatedSentence });
+  if (loading) return <LoadingIcon />;
+  if (error || !sentence) return <ErrorComponent />;
 
   return (
     <ExercicesLayout
       barProgressPercentage={80}
-      pageTitle="What does the sentence mean ?">
+      pageTitle="What does the sentence mean?">
       <Row
         style={{
           gap: 10,
@@ -33,7 +41,7 @@ const WhatDoesTheAudioSayScreen = () => {
         <SpeakerButton
           soundPlaying={true}
           handleSpeak={() => {
-            speakerVoiceMessage(sentence);
+            speakerVoiceMessage(sentence || "");
           }}
         />
 
@@ -55,30 +63,31 @@ const WhatDoesTheAudioSayScreen = () => {
         style={{
           gap: 16,
         }}>
-        {fakeTranslatedSentence.map((sentence, index) => {
-          return (
-            <Selectable
-              style={{
-                borderColor:
-                  selectedSentence === sentence
-                    ? theme.colors.primary
-                    : theme.colors.greyScale300,
-                borderWidth: 3,
-                backgroundColor:
-                  selectedSentence === sentence
-                    ? theme.colors.primary100
-                    : theme.colors.greyScale100,
-                    justifyContent: "center",
-                    alignItems: "center",
-              }}
-              key={index}
-              onPress={() => handleSelectSentence(sentence)}>
-              <TextComponent size="heading6" weight="bold" align="center">
-                {sentence}
-              </TextComponent>
-            </Selectable>
-          );
-        })}
+        {!!fakeTranslatedSentence?.length &&
+          fakeTranslatedSentence.map((sentence, index) => {
+            return (
+              <Selectable
+                style={{
+                  borderColor:
+                    selectedSentence === sentence
+                      ? theme.colors.primary
+                      : theme.colors.greyScale300,
+                  borderWidth: 3,
+                  backgroundColor:
+                    selectedSentence === sentence
+                      ? theme.colors.primary100
+                      : theme.colors.greyScale100,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                key={index}
+                onPress={() => sentence && handleSelectSentence(sentence)}>
+                <TextComponent size="heading6" weight="bold" align="center">
+                  {sentence}
+                </TextComponent>
+              </Selectable>
+            );
+          })}
       </View>
 
       <ExercicesLayout.Footer>

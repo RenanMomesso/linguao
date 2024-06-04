@@ -12,7 +12,7 @@ const LoadingExercisesScreen = () => {
   useFocusEffect(
     useCallback(() => {
       setTimeout(() => {
-        navigation.navigate("TranslateSentenceScreen");
+        navigation.navigate("WhatDoesTheAudioSayScreen");
       }, 2000);
     }, []),
   );

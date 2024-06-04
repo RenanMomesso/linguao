@@ -1,3 +1,23 @@
+enum Language {
+  ENGLISH
+  PORTUGUESE
+  CHINESE
+  GERMANY
+  FRENCH
+  ARABIAN
+  RUSSIAN
+  SWEDESH
+  SPANISH
+}
+
+type Sentence @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  phrase: String!
+  language: Language!
+  level: EnglishLevel
+  fakeSentence: String
+}
+
 type Word @model @auth(rules: [{allow: public}]) {
   id: ID!
   languange: String
@@ -27,5 +47,6 @@ type EnglishSentence @model @auth(rules: [{allow: public}]) {
   translation: String
   fakeWords: [String]
   level: EnglishLevel
+  fakeSentences: [String]
 }
  

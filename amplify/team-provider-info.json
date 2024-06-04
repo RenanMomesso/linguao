@@ -19,5 +19,23 @@
         "linguao": {}
       }
     }
+  },
+  "stagging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-linguao-stagging-131ad-authRole",
+      "UnauthRoleArn": "arn:aws:iam::533267247252:role/amplify-linguao-stagging-131ad-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::533267247252:role/amplify-linguao-stagging-131ad-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-linguao-stagging-131ad-deployment",
+      "UnauthRoleName": "amplify-linguao-stagging-131ad-unauthRole",
+      "StackName": "amplify-linguao-stagging-131ad",
+      "StackId": "arn:aws:cloudformation:us-east-1:533267247252:stack/amplify-linguao-stagging-131ad/963020f0-21f7-11ef-b2b1-12e66e0961fb",
+      "AmplifyAppId": "d3k3rw0iqbs6ie"
+    },
+    "categories": {
+      "auth": {
+        "linguao": {}
+      }
+    }
   }
 }

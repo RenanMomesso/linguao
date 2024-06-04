@@ -11,11 +11,15 @@ import { useNavigation } from "@react-navigation/native";
 import { ExercisesStack } from "@/interface/navigation.interface";
 import TapAudioCircle from "@/assets/images/TapAudioCircle.svg";
 import WordsSelectors from "../../TranslateSentenceScreen/components/WordsSelectors";
+import useWhatDoesTheSentenceSay from "./useWhatDoesTheSentenceSay";
 
-const wordsExample = "This is a small text with limited words to show in the screen.";
+const wordsExample =
+  "This is a small text with limited words to show in the screen.";
 const splitWords = wordsExample.split(" ");
 const WhatDoesTheSentenceSayScreen = () => {
   const navigation = useNavigation<ExercisesStack>();
+  const { speakSentence, sentence, sortWords } = useWhatDoesTheSentenceSay();
+  console.log("🚀 ~ WhatDoesTheSentenceSayScreen ~ sortWords:", sortWords)
 
   return (
     <ExercicesLayout
@@ -31,14 +35,19 @@ const WhatDoesTheSentenceSayScreen = () => {
           borderRadius: 24,
           padding: 8,
         }}>
-        <TouchableOpacity onPress={() =>{}} style={{ height: 100, marginTop:-10  }}>
+        <TouchableOpacity
+          onPress={speakSentence}
+          style={{ height: 100, marginTop: -10 }}>
           <TapAudioCircle height={120} />
         </TouchableOpacity>
         <TextComponent>Tap to play audio</TextComponent>
       </View>
 
       <View style={{ height: 20 }} />
-      <WordsSelectors buttonDisable={() => {}} wordsExample={splitWords} />
+      <WordsSelectors
+        buttonDisable={() => {}}
+        wordsExample={!!sortWords?.length ? sortWords : ["No words"]}
+      />
 
       <ExercicesLayout.Footer>
         <Button

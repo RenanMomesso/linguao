@@ -2,20 +2,45 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateWordInput = {
+export type CreateSentenceInput = {
   id?: string | null,
-  languange?: string | null,
-  portuguese?: string | null,
-  wordlistID: string,
+  phrase: string,
+  language: Language,
+  level?: EnglishLevel | null,
+  fakeSentence?: string | null,
 };
 
-export type ModelWordConditionInput = {
-  languange?: ModelStringInput | null,
-  portuguese?: ModelStringInput | null,
-  wordlistID?: ModelIDInput | null,
-  and?: Array< ModelWordConditionInput | null > | null,
-  or?: Array< ModelWordConditionInput | null > | null,
-  not?: ModelWordConditionInput | null,
+export enum Language {
+  ENGLISH = "ENGLISH",
+  PORTUGUESE = "PORTUGUESE",
+  CHINESE = "CHINESE",
+  GERMANY = "GERMANY",
+  FRENCH = "FRENCH",
+  ARABIAN = "ARABIAN",
+  RUSSIAN = "RUSSIAN",
+  SWEDESH = "SWEDESH",
+  SPANISH = "SPANISH",
+}
+
+
+export enum EnglishLevel {
+  C1 = "C1",
+  C2 = "C2",
+  A1 = "A1",
+  A2 = "A2",
+  B1 = "B1",
+  B2 = "B2",
+}
+
+
+export type ModelSentenceConditionInput = {
+  phrase?: ModelStringInput | null,
+  language?: ModelLanguageInput | null,
+  level?: ModelEnglishLevelInput | null,
+  fakeSentence?: ModelStringInput | null,
+  and?: Array< ModelSentenceConditionInput | null > | null,
+  or?: Array< ModelSentenceConditionInput | null > | null,
+  not?: ModelSentenceConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
@@ -60,6 +85,57 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
+export type ModelLanguageInput = {
+  eq?: Language | null,
+  ne?: Language | null,
+};
+
+export type ModelEnglishLevelInput = {
+  eq?: EnglishLevel | null,
+  ne?: EnglishLevel | null,
+};
+
+export type Sentence = {
+  __typename: "Sentence",
+  id: string,
+  phrase: string,
+  language: Language,
+  level?: EnglishLevel | null,
+  fakeSentence?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateSentenceInput = {
+  id: string,
+  phrase?: string | null,
+  language?: Language | null,
+  level?: EnglishLevel | null,
+  fakeSentence?: string | null,
+};
+
+export type DeleteSentenceInput = {
+  id: string,
+};
+
+export type CreateWordInput = {
+  id?: string | null,
+  languange?: string | null,
+  portuguese?: string | null,
+  wordlistID: string,
+};
+
+export type ModelWordConditionInput = {
+  languange?: ModelStringInput | null,
+  portuguese?: ModelStringInput | null,
+  wordlistID?: ModelIDInput | null,
+  and?: Array< ModelWordConditionInput | null > | null,
+  or?: Array< ModelWordConditionInput | null > | null,
+  not?: ModelWordConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
 export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
@@ -102,16 +178,6 @@ export type CreateWordListInput = {
   level?: EnglishLevel | null,
 };
 
-export enum EnglishLevel {
-  C1 = "C1",
-  C2 = "C2",
-  A1 = "A1",
-  A2 = "A2",
-  B1 = "B1",
-  B2 = "B2",
-}
-
-
 export type ModelWordListConditionInput = {
   level?: ModelEnglishLevelInput | null,
   and?: Array< ModelWordListConditionInput | null > | null,
@@ -119,11 +185,6 @@ export type ModelWordListConditionInput = {
   not?: ModelWordListConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-};
-
-export type ModelEnglishLevelInput = {
-  eq?: EnglishLevel | null,
-  ne?: EnglishLevel | null,
 };
 
 export type WordList = {
@@ -157,6 +218,7 @@ export type CreateEnglishSentenceInput = {
   translation?: string | null,
   fakeWords?: Array< string | null > | null,
   level?: EnglishLevel | null,
+  fakeSentences?: Array< string | null > | null,
 };
 
 export type ModelEnglishSentenceConditionInput = {
@@ -165,6 +227,7 @@ export type ModelEnglishSentenceConditionInput = {
   translation?: ModelStringInput | null,
   fakeWords?: ModelStringInput | null,
   level?: ModelEnglishLevelInput | null,
+  fakeSentences?: ModelStringInput | null,
   and?: Array< ModelEnglishSentenceConditionInput | null > | null,
   or?: Array< ModelEnglishSentenceConditionInput | null > | null,
   not?: ModelEnglishSentenceConditionInput | null,
@@ -180,6 +243,7 @@ export type EnglishSentence = {
   translation?: string | null,
   fakeWords?: Array< string | null > | null,
   level?: EnglishLevel | null,
+  fakeSentences?: Array< string | null > | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -191,10 +255,30 @@ export type UpdateEnglishSentenceInput = {
   translation?: string | null,
   fakeWords?: Array< string | null > | null,
   level?: EnglishLevel | null,
+  fakeSentences?: Array< string | null > | null,
 };
 
 export type DeleteEnglishSentenceInput = {
   id: string,
+};
+
+export type ModelSentenceFilterInput = {
+  id?: ModelIDInput | null,
+  phrase?: ModelStringInput | null,
+  language?: ModelLanguageInput | null,
+  level?: ModelEnglishLevelInput | null,
+  fakeSentence?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelSentenceFilterInput | null > | null,
+  or?: Array< ModelSentenceFilterInput | null > | null,
+  not?: ModelSentenceFilterInput | null,
+};
+
+export type ModelSentenceConnection = {
+  __typename: "ModelSentenceConnection",
+  items:  Array<Sentence | null >,
+  nextToken?: string | null,
 };
 
 export type ModelWordFilterInput = {
@@ -238,6 +322,7 @@ export type ModelEnglishSentenceFilterInput = {
   translation?: ModelStringInput | null,
   fakeWords?: ModelStringInput | null,
   level?: ModelEnglishLevelInput | null,
+  fakeSentences?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelEnglishSentenceFilterInput | null > | null,
@@ -251,15 +336,16 @@ export type ModelEnglishSentenceConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionWordFilterInput = {
+export type ModelSubscriptionSentenceFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  languange?: ModelSubscriptionStringInput | null,
-  portuguese?: ModelSubscriptionStringInput | null,
-  wordlistID?: ModelSubscriptionIDInput | null,
+  phrase?: ModelSubscriptionStringInput | null,
+  language?: ModelSubscriptionStringInput | null,
+  level?: ModelSubscriptionStringInput | null,
+  fakeSentence?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionWordFilterInput | null > | null,
-  or?: Array< ModelSubscriptionWordFilterInput | null > | null,
+  and?: Array< ModelSubscriptionSentenceFilterInput | null > | null,
+  or?: Array< ModelSubscriptionSentenceFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -292,6 +378,17 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
+export type ModelSubscriptionWordFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  languange?: ModelSubscriptionStringInput | null,
+  portuguese?: ModelSubscriptionStringInput | null,
+  wordlistID?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionWordFilterInput | null > | null,
+  or?: Array< ModelSubscriptionWordFilterInput | null > | null,
+};
+
 export type ModelSubscriptionWordListFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   level?: ModelSubscriptionStringInput | null,
@@ -308,10 +405,65 @@ export type ModelSubscriptionEnglishSentenceFilterInput = {
   translation?: ModelSubscriptionStringInput | null,
   fakeWords?: ModelSubscriptionStringInput | null,
   level?: ModelSubscriptionStringInput | null,
+  fakeSentences?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionEnglishSentenceFilterInput | null > | null,
   or?: Array< ModelSubscriptionEnglishSentenceFilterInput | null > | null,
+};
+
+export type CreateSentenceMutationVariables = {
+  input: CreateSentenceInput,
+  condition?: ModelSentenceConditionInput | null,
+};
+
+export type CreateSentenceMutation = {
+  createSentence?:  {
+    __typename: "Sentence",
+    id: string,
+    phrase: string,
+    language: Language,
+    level?: EnglishLevel | null,
+    fakeSentence?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateSentenceMutationVariables = {
+  input: UpdateSentenceInput,
+  condition?: ModelSentenceConditionInput | null,
+};
+
+export type UpdateSentenceMutation = {
+  updateSentence?:  {
+    __typename: "Sentence",
+    id: string,
+    phrase: string,
+    language: Language,
+    level?: EnglishLevel | null,
+    fakeSentence?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteSentenceMutationVariables = {
+  input: DeleteSentenceInput,
+  condition?: ModelSentenceConditionInput | null,
+};
+
+export type DeleteSentenceMutation = {
+  deleteSentence?:  {
+    __typename: "Sentence",
+    id: string,
+    phrase: string,
+    language: Language,
+    level?: EnglishLevel | null,
+    fakeSentence?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateWordMutationVariables = {
@@ -436,6 +588,7 @@ export type CreateEnglishSentenceMutation = {
     translation?: string | null,
     fakeWords?: Array< string | null > | null,
     level?: EnglishLevel | null,
+    fakeSentences?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -455,6 +608,7 @@ export type UpdateEnglishSentenceMutation = {
     translation?: string | null,
     fakeWords?: Array< string | null > | null,
     level?: EnglishLevel | null,
+    fakeSentences?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -474,8 +628,49 @@ export type DeleteEnglishSentenceMutation = {
     translation?: string | null,
     fakeWords?: Array< string | null > | null,
     level?: EnglishLevel | null,
+    fakeSentences?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetSentenceQueryVariables = {
+  id: string,
+};
+
+export type GetSentenceQuery = {
+  getSentence?:  {
+    __typename: "Sentence",
+    id: string,
+    phrase: string,
+    language: Language,
+    level?: EnglishLevel | null,
+    fakeSentence?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListSentencesQueryVariables = {
+  filter?: ModelSentenceFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListSentencesQuery = {
+  listSentences?:  {
+    __typename: "ModelSentenceConnection",
+    items:  Array< {
+      __typename: "Sentence",
+      id: string,
+      phrase: string,
+      language: Language,
+      level?: EnglishLevel | null,
+      fakeSentence?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -592,6 +787,7 @@ export type GetEnglishSentenceQuery = {
     translation?: string | null,
     fakeWords?: Array< string | null > | null,
     level?: EnglishLevel | null,
+    fakeSentences?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -614,10 +810,62 @@ export type ListEnglishSentencesQuery = {
       translation?: string | null,
       fakeWords?: Array< string | null > | null,
       level?: EnglishLevel | null,
+      fakeSentences?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateSentenceSubscriptionVariables = {
+  filter?: ModelSubscriptionSentenceFilterInput | null,
+};
+
+export type OnCreateSentenceSubscription = {
+  onCreateSentence?:  {
+    __typename: "Sentence",
+    id: string,
+    phrase: string,
+    language: Language,
+    level?: EnglishLevel | null,
+    fakeSentence?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateSentenceSubscriptionVariables = {
+  filter?: ModelSubscriptionSentenceFilterInput | null,
+};
+
+export type OnUpdateSentenceSubscription = {
+  onUpdateSentence?:  {
+    __typename: "Sentence",
+    id: string,
+    phrase: string,
+    language: Language,
+    level?: EnglishLevel | null,
+    fakeSentence?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteSentenceSubscriptionVariables = {
+  filter?: ModelSubscriptionSentenceFilterInput | null,
+};
+
+export type OnDeleteSentenceSubscription = {
+  onDeleteSentence?:  {
+    __typename: "Sentence",
+    id: string,
+    phrase: string,
+    language: Language,
+    level?: EnglishLevel | null,
+    fakeSentence?: string | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -736,6 +984,7 @@ export type OnCreateEnglishSentenceSubscription = {
     translation?: string | null,
     fakeWords?: Array< string | null > | null,
     level?: EnglishLevel | null,
+    fakeSentences?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -754,6 +1003,7 @@ export type OnUpdateEnglishSentenceSubscription = {
     translation?: string | null,
     fakeWords?: Array< string | null > | null,
     level?: EnglishLevel | null,
+    fakeSentences?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -772,6 +1022,7 @@ export type OnDeleteEnglishSentenceSubscription = {
     translation?: string | null,
     fakeWords?: Array< string | null > | null,
     level?: EnglishLevel | null,
+    fakeSentences?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
