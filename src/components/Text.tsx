@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components/native";
 import { theme } from "@/theme/theme";
 import { TextProps, TextStyle } from "react-native";
@@ -35,6 +35,7 @@ const TextComponent = ({
   weight = "semibold",
   ...rest
 }: TextComponentProps) => {
+  console.log('TextComponent rendered');
   return (
     <TextContainer
       weight={weight}
@@ -47,4 +48,4 @@ const TextComponent = ({
   );
 };
 
-export default TextComponent;
+export default memo(TextComponent);

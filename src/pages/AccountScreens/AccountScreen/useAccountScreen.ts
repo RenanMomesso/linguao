@@ -17,7 +17,7 @@ const useAccountScreen = () => {
     },
   );
 
-  console.log({ data });
+  console.log({ chamouData: data });
   return {
     data,
     id,

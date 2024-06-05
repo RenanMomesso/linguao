@@ -1,5 +1,5 @@
 import { Image, Pressable, View } from "react-native";
-import React from "react";
+import React, { useCallback } from "react";
 import AccountLayout from "@/layouts/AccountLayout";
 import { HR, Row } from "@/theme/GlobalComponents";
 import LinguaoIconSvg from "@/assets/images/LinguaoIconSmall.svg";
@@ -10,8 +10,8 @@ import ShareIcon from "@/assets/images/ShareIcon.svg";
 import SettingsIcon from "@/assets/images/SettingsIcon.svg";
 import { useAppSelector } from "@/store";
 import useAccountScreen from "./useAccountScreen";
+import Avatar from "@/components/Avatar/Avatar";
 
-const imgPlaceholder = "https://via.placeholder.com/150";
 const AccountScreen = () => {
   const { user } = useAppSelector(state => state.user);
   const { data, id } = useAccountScreen();
@@ -20,6 +20,12 @@ const AccountScreen = () => {
   const handlePressSettings = () => {
     navigation.navigate("AccountSettings");
   };
+
+  const [changeState, setChangeState] = React.useState(false);
+
+  const changeStatFunction = useCallback(() => {
+    setChangeState(t => !t);
+  }, []);
 
   return (
     <AccountLayout>
@@ -33,26 +39,10 @@ const AccountScreen = () => {
           <SettingsIcon onPress={handlePressSettings} />
         </Row>
       </Row>
-      <View
-        style={{
-          backgroundColor: "red",
-          width: 120,
-          height: 120,
-          borderRadius: 75,
-          alignSelf: "center",
-          marginTop: 30,
-        }}>
-        <Image
-          source={{ uri: imgPlaceholder }}
-          style={{
-            width: 120,
-            height: 120,
-            borderRadius: 75,
-            alignSelf: "center",
-          }}
-        />
-        <EditIconSvg style={{ position: "absolute", bottom: 0, right: 10 }} />
-      </View>
+      <Pressable onPress={changeStatFunction}>
+        <TextComponent>Change</TextComponent>
+      </Pressable>
+      <Avatar />
 
       <TextComponent size="heading3" weight="bold" style={{ marginTop: 20 }}>
         {user.name}
