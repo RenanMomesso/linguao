@@ -2,45 +2,30 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateSentenceInput = {
+export type CreateUserInput = {
   id?: string | null,
-  phrase: string,
-  language: Language,
-  level?: EnglishLevel | null,
-  fakeSentence?: string | null,
+  name: string,
+  languageLevel?: string | null,
+  language?: string | null,
+  nativeLanguage?: string | null,
+  age?: string | null,
+  email?: string | null,
+  languagePurpose?: string | null,
+  timePerDay?: string | null,
 };
 
-export enum Language {
-  ENGLISH = "ENGLISH",
-  PORTUGUESE = "PORTUGUESE",
-  CHINESE = "CHINESE",
-  GERMANY = "GERMANY",
-  FRENCH = "FRENCH",
-  ARABIAN = "ARABIAN",
-  RUSSIAN = "RUSSIAN",
-  SWEDESH = "SWEDESH",
-  SPANISH = "SPANISH",
-}
-
-
-export enum EnglishLevel {
-  C1 = "C1",
-  C2 = "C2",
-  A1 = "A1",
-  A2 = "A2",
-  B1 = "B1",
-  B2 = "B2",
-}
-
-
-export type ModelSentenceConditionInput = {
-  phrase?: ModelStringInput | null,
-  language?: ModelLanguageInput | null,
-  level?: ModelEnglishLevelInput | null,
-  fakeSentence?: ModelStringInput | null,
-  and?: Array< ModelSentenceConditionInput | null > | null,
-  or?: Array< ModelSentenceConditionInput | null > | null,
-  not?: ModelSentenceConditionInput | null,
+export type ModelUserConditionInput = {
+  name?: ModelStringInput | null,
+  languageLevel?: ModelStringInput | null,
+  language?: ModelStringInput | null,
+  nativeLanguage?: ModelStringInput | null,
+  age?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  languagePurpose?: ModelStringInput | null,
+  timePerDay?: ModelStringInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
@@ -83,6 +68,80 @@ export type ModelSizeInput = {
   ge?: number | null,
   gt?: number | null,
   between?: Array< number | null > | null,
+};
+
+export type User = {
+  __typename: "User",
+  id: string,
+  name: string,
+  languageLevel?: string | null,
+  language?: string | null,
+  nativeLanguage?: string | null,
+  age?: string | null,
+  email?: string | null,
+  languagePurpose?: string | null,
+  timePerDay?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateUserInput = {
+  id: string,
+  name?: string | null,
+  languageLevel?: string | null,
+  language?: string | null,
+  nativeLanguage?: string | null,
+  age?: string | null,
+  email?: string | null,
+  languagePurpose?: string | null,
+  timePerDay?: string | null,
+};
+
+export type DeleteUserInput = {
+  id: string,
+};
+
+export type CreateSentenceInput = {
+  id?: string | null,
+  phrase: string,
+  language: Language,
+  level?: EnglishLevel | null,
+  fakeSentence?: string | null,
+};
+
+export enum Language {
+  ENGLISH = "ENGLISH",
+  PORTUGUESE = "PORTUGUESE",
+  CHINESE = "CHINESE",
+  GERMANY = "GERMANY",
+  FRENCH = "FRENCH",
+  ARABIAN = "ARABIAN",
+  RUSSIAN = "RUSSIAN",
+  SWEDESH = "SWEDESH",
+  SPANISH = "SPANISH",
+}
+
+
+export enum EnglishLevel {
+  C1 = "C1",
+  C2 = "C2",
+  A1 = "A1",
+  A2 = "A2",
+  B1 = "B1",
+  B2 = "B2",
+}
+
+
+export type ModelSentenceConditionInput = {
+  phrase?: ModelStringInput | null,
+  language?: ModelLanguageInput | null,
+  level?: ModelEnglishLevelInput | null,
+  fakeSentence?: ModelStringInput | null,
+  and?: Array< ModelSentenceConditionInput | null > | null,
+  or?: Array< ModelSentenceConditionInput | null > | null,
+  not?: ModelSentenceConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelLanguageInput = {
@@ -262,6 +321,29 @@ export type DeleteEnglishSentenceInput = {
   id: string,
 };
 
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  languageLevel?: ModelStringInput | null,
+  language?: ModelStringInput | null,
+  nativeLanguage?: ModelStringInput | null,
+  age?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  languagePurpose?: ModelStringInput | null,
+  timePerDay?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+};
+
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection",
+  items:  Array<User | null >,
+  nextToken?: string | null,
+};
+
 export type ModelSentenceFilterInput = {
   id?: ModelIDInput | null,
   phrase?: ModelStringInput | null,
@@ -336,16 +418,20 @@ export type ModelEnglishSentenceConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionSentenceFilterInput = {
+export type ModelSubscriptionUserFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  phrase?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  languageLevel?: ModelSubscriptionStringInput | null,
   language?: ModelSubscriptionStringInput | null,
-  level?: ModelSubscriptionStringInput | null,
-  fakeSentence?: ModelSubscriptionStringInput | null,
+  nativeLanguage?: ModelSubscriptionStringInput | null,
+  age?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
+  languagePurpose?: ModelSubscriptionStringInput | null,
+  timePerDay?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionSentenceFilterInput | null > | null,
-  or?: Array< ModelSubscriptionSentenceFilterInput | null > | null,
+  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -376,6 +462,18 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionSentenceFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  phrase?: ModelSubscriptionStringInput | null,
+  language?: ModelSubscriptionStringInput | null,
+  level?: ModelSubscriptionStringInput | null,
+  fakeSentence?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionSentenceFilterInput | null > | null,
+  or?: Array< ModelSubscriptionSentenceFilterInput | null > | null,
 };
 
 export type ModelSubscriptionWordFilterInput = {
@@ -410,6 +508,72 @@ export type ModelSubscriptionEnglishSentenceFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionEnglishSentenceFilterInput | null > | null,
   or?: Array< ModelSubscriptionEnglishSentenceFilterInput | null > | null,
+};
+
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type CreateUserMutation = {
+  createUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    languageLevel?: string | null,
+    language?: string | null,
+    nativeLanguage?: string | null,
+    age?: string | null,
+    email?: string | null,
+    languagePurpose?: string | null,
+    timePerDay?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type UpdateUserMutation = {
+  updateUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    languageLevel?: string | null,
+    language?: string | null,
+    nativeLanguage?: string | null,
+    age?: string | null,
+    email?: string | null,
+    languagePurpose?: string | null,
+    timePerDay?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    languageLevel?: string | null,
+    language?: string | null,
+    nativeLanguage?: string | null,
+    age?: string | null,
+    email?: string | null,
+    languagePurpose?: string | null,
+    timePerDay?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateSentenceMutationVariables = {
@@ -634,6 +798,54 @@ export type DeleteEnglishSentenceMutation = {
   } | null,
 };
 
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    languageLevel?: string | null,
+    language?: string | null,
+    nativeLanguage?: string | null,
+    age?: string | null,
+    email?: string | null,
+    languagePurpose?: string | null,
+    timePerDay?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      name: string,
+      languageLevel?: string | null,
+      language?: string | null,
+      nativeLanguage?: string | null,
+      age?: string | null,
+      email?: string | null,
+      languagePurpose?: string | null,
+      timePerDay?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetSentenceQueryVariables = {
   id: string,
 };
@@ -815,6 +1027,69 @@ export type ListEnglishSentencesQuery = {
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    languageLevel?: string | null,
+    language?: string | null,
+    nativeLanguage?: string | null,
+    age?: string | null,
+    email?: string | null,
+    languagePurpose?: string | null,
+    timePerDay?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    languageLevel?: string | null,
+    language?: string | null,
+    nativeLanguage?: string | null,
+    age?: string | null,
+    email?: string | null,
+    languagePurpose?: string | null,
+    timePerDay?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    id: string,
+    name: string,
+    languageLevel?: string | null,
+    language?: string | null,
+    nativeLanguage?: string | null,
+    age?: string | null,
+    email?: string | null,
+    languagePurpose?: string | null,
+    timePerDay?: string | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 

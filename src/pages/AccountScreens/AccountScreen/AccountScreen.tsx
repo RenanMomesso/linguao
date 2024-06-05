@@ -8,9 +8,14 @@ import EditIconSvg from "@/assets/images/EditIcon.svg";
 import { useNavigation } from "@react-navigation/native";
 import ShareIcon from "@/assets/images/ShareIcon.svg";
 import SettingsIcon from "@/assets/images/SettingsIcon.svg";
+import { useAppSelector } from "@/store";
+import useAccountScreen from "./useAccountScreen";
 
 const imgPlaceholder = "https://via.placeholder.com/150";
 const AccountScreen = () => {
+  const { user } = useAppSelector(state => state.user);
+  const { data, id } = useAccountScreen();
+  console.log("🚀 ~ AccountScreen ~ data:", data, id);
   const navigation = useNavigation();
   const handlePressSettings = () => {
     navigation.navigate("AccountSettings");
@@ -50,12 +55,12 @@ const AccountScreen = () => {
       </View>
 
       <TextComponent size="heading3" weight="bold" style={{ marginTop: 20 }}>
-        Renan Momesso
+        {user.name}
       </TextComponent>
       <TextComponent size="text" weight="regular" style={{ marginTop: 10 }}>
         Joined since 20 june 2020
       </TextComponent>
-      <HR style={{marginTop:20}}/>
+      <HR style={{ marginTop: 20 }} />
     </AccountLayout>
   );
 };

@@ -21,7 +21,7 @@
       "function": {
         "registeruser": {
           "deploymentBucketName": "amplify-linguao-dev-13eb4-deployment",
-          "s3Key": "amplify-builds/registeruser-2f616454776f444f6178-build.zip"
+          "s3Key": "amplify-builds/registeruser-3842315162754a446e2b-build.zip"
         }
       }
     }

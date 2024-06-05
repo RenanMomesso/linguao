@@ -11,3 +11,17 @@ export const englishSentences = gql`
     }
   }
 `;
+
+export const GET_USER_QUERY = gql`
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      email
+      name
+      age
+      nativeLanguage
+      
+      createdAt
+    }
+  }
+`;

@@ -46,6 +46,10 @@ const saveUser = async user => {
     _version: 1,
   };
 
+  const params = {
+    TableName,
+    Item,
+  };
   try {
     await ddb.put(params).promise();
     return user;
@@ -61,14 +65,22 @@ exports.handler = async (event, context, callback) => {
     return;
   }
 
+  console.log(event.request.userAttributes);
   const { sub, name, email } = event.request.userAttributes; // {sub, email, name}
+  const userAttributes = event.request.userAttributes;
+  const customAge = userAttributes["custom:age"];
+  const customLanguageLevel = userAttributes["custom:languageLevel"];
+  const customNativeLanguage = userAttributes["custom:nativeLanguage"];
+  const languange = userAttributes["custom:language"];
 
   const newUser = {
     id: sub,
     email,
     name,
-    age: 20,
-    languageLevel: 0
+    age: customAge,
+    languageLevel: customLanguageLevel || "A1",
+    nativeLanguage: customNativeLanguage || "en",
+    language: languange || "en",
   };
 
   const id = event.request.userAttributes.sub;
@@ -76,5 +88,12 @@ exports.handler = async (event, context, callback) => {
     id,
   };
   console.log("User", user, await userExists(user.id));
+  if (!(await userExists(newUser.id))) {
+    // if not, save the user to database.
+    await saveUser(newUser);
+    console.log(`User ${newUser.id} has been saved to the database`);
+  } else {
+    console.log(`User ${newUser.id} already exists`);
+  }
   return event;
 };

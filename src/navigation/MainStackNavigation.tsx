@@ -4,7 +4,6 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import SplashScreen from "@/pages/OnboardingScreens/SplashScreen/SplashScreen";
 import WelcomeScreen from "@/pages/OnboardingScreens/WelcomeScreen/WelcomeScreen";
 import SelectLanguageScreen from "@/pages/OnboardingScreens/SelectLanguageScreen/SelectLanguageScreen";
 import ChooseLanguageScreen from "@/pages/OnboardingScreens/ChooseLanguageScreen/ChooseLanguageScreen";
@@ -21,10 +20,19 @@ import { Hub } from "aws-amplify/utils";
 import { HubCallback } from "@aws-amplify/core";
 import { useAppDispatch } from "@/store";
 import { setLoading } from "@/store/reducer/uiReducer";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { GET_USER_QUERY } from "../Apollo/queries";
+import { GetUserQuery, GetUserQueryVariables } from "@/API";
+import { load } from "react-native-track-player/lib/src/trackPlayer";
+import { setGlobalUser } from "@/store/reducer/userReducer";
+
 const mainStackNavigationOptions: StackNavigationOptions = {
   headerShown: false,
 };
 const MainStackNavigation = () => {
+  const [getUserLazyQuery] = useLazyQuery<GetUserQuery, GetUserQueryVariables>(
+    GET_USER_QUERY,
+  );
   const [user, setUser] = useState<any>({});
   const dispatch = useAppDispatch();
   const Stack = createStackNavigator<NavigationStackProps>();
@@ -115,6 +123,7 @@ const MainStackNavigation = () => {
   useEffect(() => {
     const listener: HubCallback = data => {
       const { payload, channel, patternInfo, source } = data;
+      console.log({ payload, channel, patternInfo, source });
       if (payload.event === "signOut") {
         getUser();
       }
@@ -129,7 +138,16 @@ const MainStackNavigation = () => {
     dispatch(setLoading(true));
     try {
       const userResponse = await getCurrentUser();
+      const userId = userResponse?.userId;
+
       setUser(userResponse);
+      if (!userId) return;
+      const { data, error, loading } = await getUserLazyQuery({
+        variables: { id: userId },
+      });
+      console.log("Data", data);
+      if (!data?.getUser?.email) return;
+      dispatch(setGlobalUser(data?.getUser as any));
     } catch (error) {
       setUser({});
       console.log("error getting user", error);

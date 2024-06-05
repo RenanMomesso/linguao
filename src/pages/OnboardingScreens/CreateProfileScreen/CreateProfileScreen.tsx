@@ -60,8 +60,8 @@ const CreateProfileScreen = () => {
             name: formData.fullName,
             birthdate: "1990-01-01",
             phone_number: "+1234567890",
-            language: "English",
-            languageLevel: "A1",
+            "custom:age": "30",
+            "custom:language": "en",
           },
         },
       });
@@ -79,11 +79,10 @@ const CreateProfileScreen = () => {
       <GoBack />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={100}
-        style={{ flex: 1 }}>
+        style={{ flex: 1, flexGrow:1 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flexGrow: 1, gap: 10, padding: 16 }}>
+          contentContainerStyle={{ flexGrow: 1, gap: 10, paddingTop:20 }}>
           <TextComponent size="heading3" align="left" weight="bold">
             Let's create your profile
           </TextComponent>

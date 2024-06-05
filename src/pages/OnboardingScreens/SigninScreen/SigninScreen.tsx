@@ -7,8 +7,8 @@ import Button from "@/components/Button/Button";
 import { signIn } from "aws-amplify/auth";
 
 const SigninScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("renanzin@gmail.com");
+  const [password, setPassword] = useState("renan123");
   const passwordRef = useRef<TextInput>(null);
 
   const handleSignin = async () => {

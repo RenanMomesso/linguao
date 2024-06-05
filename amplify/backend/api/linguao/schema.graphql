@@ -5,6 +5,9 @@ type User @model @auth(rules: [{allow: public}]) {
   language: String
   nativeLanguage: String
   age: String
+  email: String
+  languagePurpose: String
+  timePerDay: String
 }
 
 enum Language {

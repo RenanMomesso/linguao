@@ -43,6 +43,9 @@ const userSlice = createSlice({
     updateUser(state, action: PayloadAction<User>) {
       state.user = action.payload;
     },
+    setGlobalUser(state, action: PayloadAction<User>) {
+      state.user = action.payload;
+    },
     setUserNativeLanguage(
       state,
       action: PayloadAction<{
@@ -59,6 +62,9 @@ const userSlice = createSlice({
     setUserLevel(state, action: PayloadAction<string>) {
       state.user.level = action.payload;
     },
+    clearUser(state) {
+      state.user = initialState.user;
+    },
   },
 });
 
@@ -67,6 +73,8 @@ export const {
   setUserNativeLanguage,
   setTargetLanguage,
   setUserLevel,
+  clearUser,
+  setGlobalUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;
