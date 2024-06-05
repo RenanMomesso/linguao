@@ -17,9 +17,8 @@ const useAccountScreen = () => {
     },
   );
 
-  console.log({ chamouData: data });
   return {
-    data,
+    userData: data?.getUser,
     id,
   };
 };

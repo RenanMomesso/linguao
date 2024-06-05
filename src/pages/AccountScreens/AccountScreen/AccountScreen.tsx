@@ -1,4 +1,4 @@
-import { Image, Pressable, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import React, { useCallback } from "react";
 import AccountLayout from "@/layouts/AccountLayout";
 import { HR, Row } from "@/theme/GlobalComponents";
@@ -14,8 +14,8 @@ import Avatar from "@/components/Avatar/Avatar";
 
 const AccountScreen = () => {
   const { user } = useAppSelector(state => state.user);
-  const { data, id } = useAccountScreen();
-  console.log("🚀 ~ AccountScreen ~ data:", data, id);
+  const { userData, id } = useAccountScreen();
+  console.log("🚀 ~ AccountScreen ~ data:", userData);
   const navigation = useNavigation();
   const handlePressSettings = () => {
     navigation.navigate("AccountSettings");
@@ -42,7 +42,7 @@ const AccountScreen = () => {
       <Pressable onPress={changeStatFunction}>
         <TextComponent>Change</TextComponent>
       </Pressable>
-      <Avatar />
+      <Avatar avatarUrl={user.avatar} />
 
       <TextComponent size="heading3" weight="bold" style={{ marginTop: 20 }}>
         {user.name}

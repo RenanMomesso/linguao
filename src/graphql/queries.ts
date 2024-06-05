@@ -19,6 +19,12 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
     email
     languagePurpose
     timePerDay
+    avatar
+    challenges
+    diamonds
+    followers
+    following
+    lifetimeexp
     createdAt
     updatedAt
     __typename
@@ -41,6 +47,12 @@ export const listUsers = /* GraphQL */ `query ListUsers(
       email
       languagePurpose
       timePerDay
+      avatar
+      challenges
+      diamonds
+      followers
+      following
+      lifetimeexp
       createdAt
       updatedAt
       __typename

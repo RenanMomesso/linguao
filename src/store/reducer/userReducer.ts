@@ -17,6 +17,7 @@ interface User {
   level: string;
   reason: string;
   target: string;
+  avatar?: string | null;
 }
 
 const initialState: UserState = {

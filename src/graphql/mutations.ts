@@ -22,6 +22,12 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     email
     languagePurpose
     timePerDay
+    avatar
+    challenges
+    diamonds
+    followers
+    following
+    lifetimeexp
     createdAt
     updatedAt
     __typename
@@ -45,6 +51,12 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     email
     languagePurpose
     timePerDay
+    avatar
+    challenges
+    diamonds
+    followers
+    following
+    lifetimeexp
     createdAt
     updatedAt
     __typename
@@ -68,6 +80,12 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     email
     languagePurpose
     timePerDay
+    avatar
+    challenges
+    diamonds
+    followers
+    following
+    lifetimeexp
     createdAt
     updatedAt
     __typename

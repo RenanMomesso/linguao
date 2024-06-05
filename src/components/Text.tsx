@@ -48,4 +48,4 @@ const TextComponent = ({
   );
 };
 
-export default memo(TextComponent);
+export default (TextComponent);
