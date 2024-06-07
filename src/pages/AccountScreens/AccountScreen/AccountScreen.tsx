@@ -1,13 +1,9 @@
-import { Image, Pressable, Text, View } from "react-native";
 import React, { useCallback } from "react";
 import AccountLayout from "@/layouts/AccountLayout";
 import { HR, Row } from "@/theme/GlobalComponents";
-import LinguaoIconSvg from "@/assets/images/LinguaoIconSmall.svg";
 import TextComponent from "@/components/Text";
-import EditIconSvg from "@/assets/images/EditIcon.svg";
 import { useNavigation } from "@react-navigation/native";
-import ShareIcon from "@/assets/images/ShareIcon.svg";
-import SettingsIcon from "@/assets/images/SettingsIcon.svg";
+import { ShareIcon, SettingsIcon, LinguaoIconSmall } from "@/assets/images";
 import { useAppSelector } from "@/store";
 import useAccountScreen from "./useAccountScreen";
 import Avatar from "@/components/Avatar/Avatar";
@@ -15,22 +11,17 @@ import Avatar from "@/components/Avatar/Avatar";
 const AccountScreen = () => {
   const { user } = useAppSelector(state => state.user);
   const { userData, id } = useAccountScreen();
-  console.log("🚀 ~ AccountScreen ~ data:", userData);
+
   const navigation = useNavigation();
+
   const handlePressSettings = () => {
     navigation.navigate("AccountSettings");
   };
 
-  const [changeState, setChangeState] = React.useState(false);
-
-  const changeStatFunction = useCallback(() => {
-    setChangeState(t => !t);
-  }, []);
-
   return (
     <AccountLayout>
       <Row>
-        <LinguaoIconSvg />
+        <LinguaoIconSmall />
         <TextComponent size="heading5" weight="bold">
           Account
         </TextComponent>
@@ -39,9 +30,7 @@ const AccountScreen = () => {
           <SettingsIcon onPress={handlePressSettings} />
         </Row>
       </Row>
-      <Pressable onPress={changeStatFunction}>
-        <TextComponent>Change</TextComponent>
-      </Pressable>
+
       <Avatar avatarUrl={user.avatar} />
 
       <TextComponent size="heading3" weight="bold" style={{ marginTop: 20 }}>
@@ -56,3 +45,4 @@ const AccountScreen = () => {
 };
 
 export default AccountScreen;
+

@@ -35,7 +35,7 @@ const TextComponent = ({
   weight = "semibold",
   ...rest
 }: TextComponentProps) => {
-  console.log('TextComponent rendered');
+  console.log("TextComponent rendered");
   return (
     <TextContainer
       weight={weight}
@@ -48,4 +48,19 @@ const TextComponent = ({
   );
 };
 
-export default (TextComponent);
+const areEqual = (
+  prevProps: TextComponentProps,
+  nextProps: TextComponentProps,
+) => {
+  console.log("TextComponent areEqual")
+  console.log(prevProps.size, nextProps.size)
+  return (
+    prevProps.size === nextProps.size &&
+    prevProps.color === nextProps.color &&
+    prevProps.align === nextProps.align &&
+    prevProps.weight === nextProps.weight &&
+    prevProps.children === nextProps.children
+  );
+};
+
+export default memo(TextComponent, areEqual);

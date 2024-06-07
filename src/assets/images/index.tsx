@@ -9,6 +9,14 @@ import Svg, {
   ClipPath,
 } from "react-native-svg";
 import LoadingIconSvg from "./LoadingIcon.svg";
+import SettingsIcon from "./SettingsIcon.svg";
+import ShareIcon from "./ShareIcon.svg";
+import LinguaoIconSmall from "./LinguaoIconSmall.svg";
+import FireIcon from "./FireIcon.svg";
+import USAIcon from "./USAIcon.svg";
+import DiamondIcon from "./DiamondIcon.svg";
+import StarIcon from "./StarIcon.svg";
+
 
 export const SvgComponent = (props: SvgProps) => (
   <Svg width={60} height={60} fill="none" {...props}>
@@ -44,3 +52,15 @@ export const ForwardedLoadingIcon = React.forwardRef(
     return <LoadingIconSvg {...props} ref={ref} />;
   },
 );
+
+
+export {
+  ForwardedLoadingIcon as LoadingIcon,
+  SettingsIcon,
+  ShareIcon,
+  LinguaoIconSmall,
+  USAIcon,
+  FireIcon,
+  DiamondIcon,
+  StarIcon,
+};
