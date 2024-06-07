@@ -117,6 +117,8 @@ const HomePlays = () => {
     }, []),
   );
 
+  
+
   return (
     <SectionList
       showsVerticalScrollIndicator={false}

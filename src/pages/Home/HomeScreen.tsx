@@ -7,6 +7,7 @@ import { theme } from "@/theme/theme";
 import { useAppSelector } from "@/store";
 import HomeMenuItem from "./components/HomeMenuItem/HomeMenuItem";
 
+
 const Home = () => {
   const { homeMenuItem } = useAppSelector(state => state.ui);
   const homeItemOptions = {

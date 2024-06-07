@@ -22,7 +22,7 @@ const TranslateSentenceScreen = () => {
     wordsRef,
     loadingQuery,
   } = useTranslationSentence();
-Lo
+
   return (
     <ExercicesLayout
       barProgressPercentage={40}

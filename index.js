@@ -5,6 +5,7 @@ import {AppRegistry, Alert} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import TrackPlayer from 'react-native-track-player';
+import RNR from 'react-native-restart';
 
 
 const myErrorHandler = (error, isFatal) => {
@@ -23,8 +24,7 @@ const myErrorHandler = (error, isFatal) => {
       [{
         text: 'Restart',
         onPress: () => {
-          // Restart the app or handle the error appropriately
-          // You may also force close the app
+          RNR?.restart();
         }
       }]
     );
