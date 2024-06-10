@@ -25,7 +25,7 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
 
   const buttonDisabled = matches.length < 8;
 
-  const words = list?.[0].Words?.items || [];
+  const words = list?.[0]?.Words?.items || [];
 
   const sortedWordsEnglish = [...words].sort((a, b) =>
     a?.english?.localeCompare(b.english),

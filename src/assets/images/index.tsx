@@ -16,6 +16,9 @@ import FireIcon from "./FireIcon.svg";
 import USAIcon from "./USAIcon.svg";
 import DiamondIcon from "./DiamondIcon.svg";
 import StarIcon from "./StarIcon.svg";
+import NotificationIcon from "./NotificationIcon.svg";
+import ChatIcon from "./ChatIcon.svg";
+import ChatAiIcon from "./ChatAiIcon.svg";
 
 
 export const SvgComponent = (props: SvgProps) => (
@@ -63,4 +66,7 @@ export {
   FireIcon,
   DiamondIcon,
   StarIcon,
+  NotificationIcon,
+  ChatIcon,
+  ChatAiIcon
 };

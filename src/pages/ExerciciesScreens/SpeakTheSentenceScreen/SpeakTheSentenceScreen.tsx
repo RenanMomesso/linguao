@@ -30,19 +30,18 @@ const SpeakTheSentenceScreen = () => {
   const [soundPlaying, setSoundPlaying] = useState(false);
 
   const handleSpeak = () => {
-    speakerVoiceMessage(sentence);
+    speakerVoiceMessage(sentence + ".");
     setSoundPlaying(playingSound => !playingSound);
   };
 
   useEffect(() => {
+    console.log("🚀 ~ SpeakTheSentenceScreen ~ sentence:", sentence);
     if (voiceResult.end) {
       setButtonIsDisabled(false);
     }
   }, [voiceResult]);
 
   const { result, similarity } = checkAnswersMatches();
-
-    
 
   return (
     <ExercicesLayout barProgressPercentage={60} pageTitle="Speak the sentence">

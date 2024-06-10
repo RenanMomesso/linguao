@@ -22,11 +22,9 @@ const useTranslationSentence = () => {
     return translation?.split(" ")?.sort(() => Math.random() - 0.5);
   }, [translation]);
 
-  const wordsExample = useMemo(() => {
-    return data?.listEnglishSentences?.items[0]?.fakeWords.concat(
-      splitWordsTranslation,
-    );
-  }, []);
+  const wordsExample = data?.listEnglishSentences?.items[0]?.fakeWords.concat(
+    splitWordsTranslation,
+  );
   const navigation = useNavigation<ExercisesStack>();
 
   const handleShowAnswer = useCallback(() => {

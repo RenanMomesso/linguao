@@ -18,6 +18,7 @@ interface User {
   reason: string;
   target: string;
   avatar?: string | null;
+  isPremium?: boolean;
 }
 
 const initialState: UserState = {

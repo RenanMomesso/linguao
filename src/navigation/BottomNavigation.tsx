@@ -17,6 +17,7 @@ import TextComponent from "@/components/Text";
 import TrainingStackNavigation from "./TrainingStackNavigation";
 import AccountNavigation from "./AccountNavigation";
 import { getCurrentUser } from "aws-amplify/auth";
+import PremmiumNavigation from "./PremmiumNavigation";
 
 const bottomTabNavigationOptions: BottomTabNavigationOptions = {
   headerShown: false,
@@ -109,7 +110,7 @@ const BottomNavigation = () => {
       />
       <BottomTabNavigation.Screen
         name="Premium"
-        component={View}
+        component={PremmiumNavigation}
         options={{
           tabBarIcon: ({ focused }) => {
             return !focused ? <StarIcon /> : <StarIcon />;

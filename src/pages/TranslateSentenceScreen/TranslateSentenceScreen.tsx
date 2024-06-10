@@ -22,6 +22,7 @@ const TranslateSentenceScreen = () => {
     wordsRef,
     loadingQuery,
   } = useTranslationSentence();
+  console.log("🚀 ~ TranslateSentenceScreen ~ wordsExample:", wordsExample);
 
   return (
     <ExercicesLayout

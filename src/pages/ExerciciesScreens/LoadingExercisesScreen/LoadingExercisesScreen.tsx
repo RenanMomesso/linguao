@@ -26,7 +26,7 @@ const LoadingExercisesScreen = () => {
   useFocusEffect(
     useCallback(() => {
       setTimeout(() => {
-        navigation.navigate(getRandomScreen());
+        navigation.navigate("TranslateSentenceScreen");
       }, 2000);
     }, []),
   );
