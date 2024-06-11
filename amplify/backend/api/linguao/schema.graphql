@@ -38,8 +38,9 @@ type Sentence @model @auth(rules: [{allow: public}]) {
 
 type Word @model @auth(rules: [{allow: public}]) {
   id: ID!
-  languange: String
-  portuguese: String
+  languange: Language
+  word: String
+  translatedWord: String
   wordlistID: ID! @index(name: "byWordList")
 }
 

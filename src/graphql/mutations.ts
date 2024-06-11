@@ -159,7 +159,8 @@ export const createWord = /* GraphQL */ `mutation CreateWord(
   createWord(input: $input, condition: $condition) {
     id
     languange
-    portuguese
+    word
+    translatedWord
     wordlistID
     createdAt
     updatedAt
@@ -177,7 +178,8 @@ export const updateWord = /* GraphQL */ `mutation UpdateWord(
   updateWord(input: $input, condition: $condition) {
     id
     languange
-    portuguese
+    word
+    translatedWord
     wordlistID
     createdAt
     updatedAt
@@ -195,7 +197,8 @@ export const deleteWord = /* GraphQL */ `mutation DeleteWord(
   deleteWord(input: $input, condition: $condition) {
     id
     languange
-    portuguese
+    word
+    translatedWord
     wordlistID
     createdAt
     updatedAt
@@ -214,6 +217,16 @@ export const createWordList = /* GraphQL */ `mutation CreateWordList(
     id
     level
     Words {
+      items {
+        id
+        languange
+        word
+        translatedWord
+        wordlistID
+        createdAt
+        updatedAt
+        __typename
+      }
       nextToken
       __typename
     }
@@ -234,6 +247,16 @@ export const updateWordList = /* GraphQL */ `mutation UpdateWordList(
     id
     level
     Words {
+      items {
+        id
+        languange
+        word
+        translatedWord
+        wordlistID
+        createdAt
+        updatedAt
+        __typename
+      }
       nextToken
       __typename
     }
@@ -254,6 +277,16 @@ export const deleteWordList = /* GraphQL */ `mutation DeleteWordList(
     id
     level
     Words {
+      items {
+        id
+        languange
+        word
+        translatedWord
+        wordlistID
+        createdAt
+        updatedAt
+        __typename
+      }
       nextToken
       __typename
     }

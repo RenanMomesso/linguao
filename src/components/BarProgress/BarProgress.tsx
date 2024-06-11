@@ -25,9 +25,11 @@ const ProgressStatus = styled.View<{ percentageStatus: number }>`
 const BarProgress = ({
   percentageStatus,
   icon,
+  showSkip = false
 }: {
   percentageStatus: number;
   icon?: any;
+  showSkip?: boolean;
 }) => {
   const navigation = useNavigation<NavigationProps>();
   const handleSkipInformation = () => {
@@ -40,7 +42,7 @@ const BarProgress = ({
       <ProgressContainer>
         <ProgressStatus percentageStatus={percentageStatus} />
       </ProgressContainer>
-      <TextComponent onPress={handleSkipInformation}>Skip</TextComponent>
+      {showSkip && <TextComponent onPress={handleSkipInformation}>Skip</TextComponent>}
     </Row>
   );
 };

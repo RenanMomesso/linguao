@@ -1,17 +1,14 @@
 import { gql } from "@apollo/client";
 
-export const wordListsQuery = gql`
-  query getWordsList {
-    listWordLists(limit: 1, filter: { level: { eq: B1 } }) {
+export const LIST_WORDS_QUERY = gql`
+  query listWordLists {
+    listWordLists {
       items {
-        id
-        level
         Words {
           items {
-            id
+            word
             languange
-            portuguese
-            wordlistID
+            translatedWord
           }
         }
       }

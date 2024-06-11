@@ -34,7 +34,20 @@ const link = ApolloLink.from([
 
 const client = new ApolloClient({
   link,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          listEnglishSentences: {
+            keyArgs: false,
+            merge(existing = [], incoming: any) {
+              return incoming;
+            },
+          },
+        },
+      },
+    },
+  }),
 });
 
 const Client = ({ children }: IClientProps) => {

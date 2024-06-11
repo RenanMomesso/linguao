@@ -28,10 +28,10 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
   const words = list?.[0]?.Words?.items || [];
 
   const sortedWordsEnglish = [...words].sort((a, b) =>
-    a?.english?.localeCompare(b.english),
+    a?.word?.localeCompare(b.word),
   );
   const sortedWordsPortuguese = [...words].sort((a, b) =>
-    a?.portuguese?.localeCompare(b.portuguese),
+    a?.translatedWord?.localeCompare(b.translatedWord),
   );
 
   return (
@@ -45,17 +45,17 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
               key={index}
               style={[
                 styles.card,
-                isSelected(word, "languange") && styles.selectedCard,
-                isMatched(word.languange) && styles.matchedCard,
+                isSelected(word, "word") && styles.selectedCard,
+                isMatched(word.word) && styles.matchedCard,
               ]}
-              onPress={() => handlePress(word, "languange")}>
+              onPress={() => handlePress(word, "word")}>
               <TextComponent
                 color={
-                  isSelected(word, "languange") || isMatched(word.languange)
+                  isSelected(word, "word") || isMatched(word.word)
                     ? "white"
                     : "greyScale900"
                 }>
-                {word.languange}
+                {word.word}
               </TextComponent>
             </TouchableOpacity>
           ))}
@@ -66,17 +66,17 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
               key={index}
               style={[
                 styles.card,
-                isSelected(word, "portuguese") && styles.selectedCard,
-                isMatched(word.portuguese) && styles.matchedCard,
+                isSelected(word, "translatedWord") && styles.selectedCard,
+                isMatched(word.translatedWord) && styles.matchedCard,
               ]}
-              onPress={() => handlePress(word, "portuguese")}>
+              onPress={() => handlePress(word, "translatedWord")}>
               <TextComponent
                 color={
-                  isSelected(word, "portuguese") || isMatched(word.portuguese)
+                  isSelected(word, "translatedWord") || isMatched(word.translatedWord)
                     ? "white"
                     : "greyScale900"
                 }>
-                {word.portuguese}
+                {word.translatedWord}
               </TextComponent>
             </TouchableOpacity>
           ))}

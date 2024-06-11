@@ -117,8 +117,6 @@ const HomePlays = () => {
     }, []),
   );
 
-  
-
   return (
     <SectionList
       showsVerticalScrollIndicator={false}
@@ -185,11 +183,6 @@ const HomePlays = () => {
               }
               onPress={() => {
                 navigation.navigate("ExercicesLoading");
-                navigation.getParent()?.setOptions({
-                  tabBarStyle: {
-                    display: "none",
-                  },
-                });
               }}
             />
             {/* {index === 1 && (

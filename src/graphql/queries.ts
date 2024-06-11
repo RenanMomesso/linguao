@@ -106,7 +106,8 @@ export const getWord = /* GraphQL */ `query GetWord($id: ID!) {
   getWord(id: $id) {
     id
     languange
-    portuguese
+    word
+    translatedWord
     wordlistID
     createdAt
     updatedAt
@@ -123,7 +124,8 @@ export const listWords = /* GraphQL */ `query ListWords(
     items {
       id
       languange
-      portuguese
+      word
+      translatedWord
       wordlistID
       createdAt
       updatedAt
@@ -151,7 +153,8 @@ export const wordsByWordlistID = /* GraphQL */ `query WordsByWordlistID(
     items {
       id
       languange
-      portuguese
+      word
+      translatedWord
       wordlistID
       createdAt
       updatedAt
@@ -170,6 +173,16 @@ export const getWordList = /* GraphQL */ `query GetWordList($id: ID!) {
     id
     level
     Words {
+      items {
+        id
+        languange
+        word
+        translatedWord
+        wordlistID
+        createdAt
+        updatedAt
+        __typename
+      }
       nextToken
       __typename
     }
@@ -191,6 +204,20 @@ export const listWordLists = /* GraphQL */ `query ListWordLists(
     items {
       id
       level
+      Words {
+        items {
+          id
+          languange
+          word
+          translatedWord
+          wordlistID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename

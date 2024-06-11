@@ -20,14 +20,14 @@ interface FillInTheBlanksScreenProps {
 
 const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
   const [filledInSentences, setFilledInSentences] = useState(
-    sentences.map((sentence) => ({
+    sentences.map(sentence => ({
       ...sentence,
       userInput: "",
-    }))
+    })),
   );
   const [index, setIndex] = useState(0);
 
-  const handleFill = (word) => {
+  const handleFill = word => {
     const newSentences = filledInSentences.map((item, idx) => {
       if (idx === index) {
         return { ...item, userInput: word };
@@ -38,7 +38,7 @@ const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
     setIndex(index + 1);
   };
 
-  const handleClear = (idx) => {
+  const handleClear = idx => {
     const newSentences = filledInSentences.map((item, i) => {
       if (i === idx) {
         return { ...item, userInput: "" };
@@ -56,8 +56,7 @@ const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
           <TouchableOpacity
             key={sentence.id}
             style={styles.sentenceContainer}
-            onPress={() => handleClear(idx)}
-          >
+            onPress={() => handleClear(idx)}>
             <Text style={styles.sentence}>
               {sentence.text.split("__")[0]}
               <Text style={styles.blank}>{sentence.userInput || "_____"}</Text>
@@ -66,12 +65,11 @@ const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
           </TouchableOpacity>
         ))}
         <View style={styles.wordsContainer}>
-          {words.map((word) => (
+          {words.map(word => (
             <TouchableOpacity
               key={word}
               style={styles.button}
-              onPress={() => handleFill(word)}
-            >
+              onPress={() => handleFill(word)}>
               <Text style={styles.buttonText}>{word}</Text>
             </TouchableOpacity>
           ))}
@@ -82,7 +80,9 @@ const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
           disabled={false}
           backgroundColor="primary"
           buttonText="Next"
-          onPressButton={() => navigation.navigate("SelectCorrectImgTextScreen")}
+          onPressButton={() =>
+            navigation.navigate("SelectCorrectImgTextScreen")
+          }
           touchSoundDisabled={false}
           textColor="Red"
         />

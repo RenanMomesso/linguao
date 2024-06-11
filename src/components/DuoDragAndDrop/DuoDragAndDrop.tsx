@@ -283,6 +283,7 @@ function ComputeWordLayout({
         return (
           <View
             key={`compute.${index}`}
+            style={{backgroundColor:"red"}}
             onLayout={(e) => {
               const { x, y, width, height } = e.nativeEvent.layout;
               calculatedOffsets.current[index] = { width, height, x, y };

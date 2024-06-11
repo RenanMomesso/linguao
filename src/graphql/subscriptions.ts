@@ -138,7 +138,8 @@ export const onCreateWord = /* GraphQL */ `subscription OnCreateWord($filter: Mo
   onCreateWord(filter: $filter) {
     id
     languange
-    portuguese
+    word
+    translatedWord
     wordlistID
     createdAt
     updatedAt
@@ -153,7 +154,8 @@ export const onUpdateWord = /* GraphQL */ `subscription OnUpdateWord($filter: Mo
   onUpdateWord(filter: $filter) {
     id
     languange
-    portuguese
+    word
+    translatedWord
     wordlistID
     createdAt
     updatedAt
@@ -168,7 +170,8 @@ export const onDeleteWord = /* GraphQL */ `subscription OnDeleteWord($filter: Mo
   onDeleteWord(filter: $filter) {
     id
     languange
-    portuguese
+    word
+    translatedWord
     wordlistID
     createdAt
     updatedAt
@@ -184,6 +187,16 @@ export const onCreateWordList = /* GraphQL */ `subscription OnCreateWordList($fi
     id
     level
     Words {
+      items {
+        id
+        languange
+        word
+        translatedWord
+        wordlistID
+        createdAt
+        updatedAt
+        __typename
+      }
       nextToken
       __typename
     }
@@ -201,6 +214,16 @@ export const onUpdateWordList = /* GraphQL */ `subscription OnUpdateWordList($fi
     id
     level
     Words {
+      items {
+        id
+        languange
+        word
+        translatedWord
+        wordlistID
+        createdAt
+        updatedAt
+        __typename
+      }
       nextToken
       __typename
     }
@@ -218,6 +241,16 @@ export const onDeleteWordList = /* GraphQL */ `subscription OnDeleteWordList($fi
     id
     level
     Words {
+      items {
+        id
+        languange
+        word
+        translatedWord
+        wordlistID
+        createdAt
+        updatedAt
+        __typename
+      }
       nextToken
       __typename
     }

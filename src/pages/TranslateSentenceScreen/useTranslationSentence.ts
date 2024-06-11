@@ -13,8 +13,21 @@ const useTranslationSentence = () => {
   const [soundPlaying, setSoundPlaying] = useState(true);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(true);
 
-  const { data, loading } = useQuery(englishSentenceQuery);
+  const { data, loading } = useQuery(englishSentenceQuery, {
+    fetchPolicy: "cache-and-network",
+    onCompleted(data) {
+      const cachedData = this.client?.readQuery({
+        query: englishSentenceQuery,
+      });
+      if (cachedData) {
+        console.log("cachedData", cachedData);
+      } else {
+        console.log("No cached data", data);
+      }
+    },  
+  });
 
+  console.log("🚀 ~ useTranslationSentence ~ data:", data);
   const sentence = data?.listEnglishSentences?.items[0]?.sentence;
 
   const translation = data?.listEnglishSentences?.items[0]?.translation;

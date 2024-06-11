@@ -25,3 +25,20 @@ export const GET_USER_QUERY = gql`
     }
   }
 `;
+
+
+export const CREATE_WORDLIST = gql`
+  mutation CreateWordList($input: CreateWordListInput!) {
+    createWordList(input: $input) {
+      id
+      name
+      words {
+        items {
+          id
+          word
+          translation
+        }
+      }
+    }
+  }
+`;
