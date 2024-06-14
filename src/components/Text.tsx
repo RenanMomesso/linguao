@@ -35,7 +35,6 @@ const TextComponent = ({
   weight = "semibold",
   ...rest
 }: TextComponentProps) => {
-  console.log("TextComponent rendered");
   return (
     <TextContainer
       weight={weight}
@@ -52,8 +51,6 @@ const areEqual = (
   prevProps: TextComponentProps,
   nextProps: TextComponentProps,
 ) => {
-  console.log("TextComponent areEqual")
-  console.log(prevProps.size, nextProps.size)
   return (
     prevProps.size === nextProps.size &&
     prevProps.color === nextProps.color &&

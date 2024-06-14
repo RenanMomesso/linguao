@@ -19,6 +19,8 @@ import StarIcon from "./StarIcon.svg";
 import NotificationIcon from "./NotificationIcon.svg";
 import ChatIcon from "./ChatIcon.svg";
 import ChatAiIcon from "./ChatAiIcon.svg";
+import AlertIcon from "./AlertIcon.svg";
+import BaloonMsgIcon from "./BaloonMsgIcon.svg";
 
 
 export const SvgComponent = (props: SvgProps) => (
@@ -68,5 +70,7 @@ export {
   StarIcon,
   NotificationIcon,
   ChatIcon,
-  ChatAiIcon
+  ChatAiIcon,
+  AlertIcon,
+  BaloonMsgIcon,
 };

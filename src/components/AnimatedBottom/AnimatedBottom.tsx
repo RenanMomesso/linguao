@@ -1,26 +1,32 @@
-import { View, Text } from "react-native";
+import { theme } from "@/theme/theme";
 import React from "react";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
-const AnimatedBottom = () => {
-    // TODO
+type ColorKey = keyof typeof theme.colors;
 
-    // share answer with others
-    // save answer
-    // report bug
-
+const AnimatedBottom = ({
+  children,
+  bgColor = "Purple",
+  height = 190,
+}: {
+  children: React.ReactNode;
+  bgColor: ColorKey;
+  height?: number;
+}) => {
   return (
     <Animated.View
       entering={FadeInDown.duration(200)}
       style={{
-        height: 150,
-        backgroundColor: "red",
+        height: height,
+        backgroundColor: theme.colors[bgColor] as string,
         position: "absolute",
         bottom: 0,
         width: 400,
-        zIndex:10
+        zIndex: 100,
+        padding: 20,
+        gap:10
       }}>
-      <Text>Success</Text>
+      {children}
     </Animated.View>
   );
 };

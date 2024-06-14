@@ -20,7 +20,6 @@ export default function Lines(props: LinesProps) {
     lineStyle,
     renderTopLine = false,
   } = props;
-  console.log("🚀 ~ Lines ~ numLines:", numLines);
   const arr = new Array(numLines).fill(0);
 
   return (

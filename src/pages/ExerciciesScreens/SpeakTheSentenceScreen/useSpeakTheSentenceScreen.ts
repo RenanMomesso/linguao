@@ -1,7 +1,7 @@
 import { IVoiceResult } from "@/hooks/useVoiceRecognition";
 import { gql, useQuery } from "@apollo/client";
 import { generateRandomInt } from "@/utils/maths";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { englishSentenceQuery } from "@/pages/TranslateSentenceScreen/translateSentenceQuery";
 import {
   ListEnglishSentencesQuery,
@@ -24,14 +24,15 @@ const useSpeakTheSentenceScreen = ({
 }: {
   voiceResult: IVoiceResult;
 }) => {
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const { data, loading, error } = useQuery<
     ListEnglishSentencesQuery,
     ListEnglishSentencesQueryVariables
   >(englishSentenceQuery);
-  console.log("🚀 ~ data:", data);
 
   const sentence = useMemo(() => {
-    return data?.listEnglishSentences?.items[generateRandomInt()]?.sentence;
+    return data?.listEnglishSentences?.items[0]?.sentence;
   }, [data]);
 
   const checkAnswersMatches = () => {
@@ -55,6 +56,10 @@ const useSpeakTheSentenceScreen = ({
     loading,
     error,
     checkAnswersMatches,
+    showAnswer,
+    setShowAnswer,
+    setModalVisible,
+    modalVisible
   };
 };
 

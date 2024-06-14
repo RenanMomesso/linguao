@@ -3,6 +3,9 @@ import { Container } from "@/theme/GlobalComponents";
 import LinguaoMeditation from "@/assets/images/LinguaoMeditation.svg";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ExercisesStack } from "@/interface/navigation.interface";
+import { useAppDispatch } from "@/store";
+import { toggleBottomNavigation } from "@/store/reducer/uiReducer";
+import useTranslationSentence from "@/pages/TranslateSentenceScreen/useTranslationSentence";
 
 const screens = {
   TranslateSentenceScreen: undefined,
@@ -22,9 +25,13 @@ function getRandomScreen(): keyof typeof screens {
 
 const LoadingExercisesScreen = () => {
   const navigation = useNavigation<ExercisesStack>();
+  const dispatch = useAppDispatch();
+  const { sentence } = useTranslationSentence();
+  console.log("🚀 ~ LoadingExercisesScreen ~ sentence:", sentence)
 
   useFocusEffect(
     useCallback(() => {
+      dispatch(toggleBottomNavigation(false));
       setTimeout(() => {
         navigation.navigate("TranslateSentenceScreen");
       }, 2000);

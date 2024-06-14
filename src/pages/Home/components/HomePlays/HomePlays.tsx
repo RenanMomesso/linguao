@@ -7,6 +7,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { theme } from "@/theme/theme";
 import TextComponent from "@/components/Text";
 import LottieView from "lottie-react-native";
+import { useAppDispatch } from "@/store";
+import { toggleBottomNavigation } from "@/store/reducer/uiReducer";
 
 const homePlaysData = [
   {
@@ -109,11 +111,10 @@ const homePlaysData = [
 const HomePlays = () => {
   const navigation = useTypedNavigation();
 
+  const dispatch = useAppDispatch();
   useFocusEffect(
     useCallback(() => {
-      navigation.getParent()?.setOptions({
-        display: "flex",
-      });
+      dispatch(toggleBottomNavigation(true));
     }, []),
   );
 
@@ -123,35 +124,32 @@ const HomePlays = () => {
       sections={homePlaysData}
       ListFooterComponent={() => <View style={{ height: 100 }} />}
       renderSectionHeader={({ section }) => (
-        <>
-          <View
-            style={{
-              backgroundColor: "orange",
-              padding: 10,
-              borderBottomColor: "black",
-              marginVertical: 10,
-              height: 100,
-              marginBottom: 40,
-              display: "flex",
-              gap: 20,
-            }}>
-            <TextComponent
-              size="heading5"
-              align="left"
-              color="white"
-              weight="bold">
-              {section.title}
-            </TextComponent>
+        <View
+          style={{
+            backgroundColor: "orange",
+            padding: 10,
+            borderBottomColor: "black",
+            height: 100,
+            marginBottom: 40,
+            display: "flex",
+            gap: 20,
+          }}>
+          <TextComponent
+            size="heading5"
+            align="left"
+            color="white"
+            weight="bold">
+            {section.title}
+          </TextComponent>
+          <TextComponent size="heading6" align="left" color="white">
+            {section.description}
+          </TextComponent>
+          <Pressable style={{ position: "absolute", right: 20, top: 50 }}>
             <TextComponent size="heading6" align="left" color="white">
-              {section.description}
+              See all
             </TextComponent>
-            <Pressable style={{ position: "absolute", right: 20, top: 50 }}>
-              <TextComponent size="heading6" align="left" color="white">
-                See all
-              </TextComponent>
-            </Pressable>
-          </View>
-        </>
+          </Pressable>
+        </View>
       )}
       ItemSeparatorComponent={() => (
         <View

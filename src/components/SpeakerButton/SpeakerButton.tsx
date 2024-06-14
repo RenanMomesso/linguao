@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Pressable } from "react-native";
 import LottieView from "lottie-react-native";
 import { theme } from "@/theme/theme";
 import jsonLottie from "@/assets/json/Lc8090d9Br.json";
@@ -10,7 +10,7 @@ interface SpeakerButtonProps {
 }
 const SpeakerButton = ({ soundPlaying, handleSpeak }: SpeakerButtonProps) => {
   return (
-    <TouchableOpacity
+    <Pressable
       style={{
         padding: 10,
         borderRadius: 50,
@@ -27,7 +27,7 @@ const SpeakerButton = ({ soundPlaying, handleSpeak }: SpeakerButtonProps) => {
           width: 28,
         }}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

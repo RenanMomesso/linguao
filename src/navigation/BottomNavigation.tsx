@@ -18,6 +18,7 @@ import TrainingStackNavigation from "./TrainingStackNavigation";
 import AccountNavigation from "./AccountNavigation";
 import { getCurrentUser } from "aws-amplify/auth";
 import PremmiumNavigation from "./PremmiumNavigation";
+import { useAppSelector } from "@/store";
 
 const bottomTabNavigationOptions: BottomTabNavigationOptions = {
   headerShown: false,
@@ -49,15 +50,16 @@ const bottomTabNavigationOptions: BottomTabNavigationOptions = {
 
 const BottomNavigation = () => {
   const BottomTabNavigation = createBottomTabNavigator();
-
-  useEffect(() => {
-    getCurrentUser().then((user) => {
-      console.log("user", user);
-    });
-  }, []);
+  const { showBottomNavigation } = useAppSelector(state => state.ui);
 
   return (
-    <BottomTabNavigation.Navigator screenOptions={bottomTabNavigationOptions}>
+    <BottomTabNavigation.Navigator
+      screenOptions={{
+        ...bottomTabNavigationOptions,
+        tabBarStyle: showBottomNavigation
+          ? bottomTabNavigationOptions.tabBarStyle
+          : { display: "none" },
+      }}>
       <BottomTabNavigation.Screen
         name="Home"
         component={ExercisesNavigation}

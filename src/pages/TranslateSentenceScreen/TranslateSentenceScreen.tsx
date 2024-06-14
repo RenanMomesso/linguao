@@ -1,5 +1,5 @@
 import React from "react";
-import { BottomContainer, Row } from "@/theme/GlobalComponents";
+import { BottomContainer, Container, Row } from "@/theme/GlobalComponents";
 import TextComponent from "@/components/Text";
 import Button from "@/components/Button/Button";
 import AnimatedBottom from "@/components/AnimatedBottom/AnimatedBottom";
@@ -7,9 +7,16 @@ import WordsSelectors from "@/pages/TranslateSentenceScreen/components/WordsSele
 import ExercicesLayout from "../../layouts/ExercicesLayout";
 import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
 import useTranslationSentence from "./useTranslationSentence";
+import { ShareIcon } from "@/assets/images";
+import BottomSheetAnswer from "../ExerciciesScreens/components/BottomSheetAnswer/BottomSheetAnswer";
 import LoadingIcon from "@/components/Loading/Loading";
+import CustomModal from "@/components/Modal/Modal";
+import Text from "@/components/Text";
+import { Pressable } from "react-native";
+import BugProblemModal from "./components/BugProblemModal";
 
 const TranslateSentenceScreen = () => {
+  const [modalVisible, setModalVisible] = React.useState(false);
   const {
     buttonIsDisabled,
     handleChangeButtonDisable,
@@ -21,8 +28,13 @@ const TranslateSentenceScreen = () => {
     wordsExample,
     wordsRef,
     loadingQuery,
+    correctlyAnswered,
+    translation,
+    handleNavigation,
   } = useTranslationSentence();
-  console.log("🚀 ~ TranslateSentenceScreen ~ wordsExample:", wordsExample);
+
+  if (loadingQuery || !wordsExample?.length || !wordsExample)
+    return <LoadingIcon />;
 
   return (
     <ExercicesLayout
@@ -33,7 +45,10 @@ const TranslateSentenceScreen = () => {
           gap: 10,
           marginBottom: 50,
         }}>
-        <SpeakerButton soundPlaying={soundPlaying} handleSpeak={handleSpeak} />
+        <SpeakerButton
+          soundPlaying={soundPlaying}
+          handleSpeak={showAnswer ? () => {} : handleSpeak}
+        />
         <TextComponent
           size="heading5"
           align="left"
@@ -63,7 +78,18 @@ const TranslateSentenceScreen = () => {
           onPressButton={handleShowAnswer}
         />
       </BottomContainer>
-      {showAnswer && <AnimatedBottom />}
+      {showAnswer && (
+        <BottomSheetAnswer
+          correctlyAnswered={correctlyAnswered}
+          translation={translation}
+          handleAlert={() => setModalVisible(true)}
+          handleClickContinue={handleNavigation}
+        />
+      )}
+      <BugProblemModal
+        modalVisible={modalVisible}
+        onCloseModal={() => setModalVisible(false)}
+      />
     </ExercicesLayout>
   );
 };

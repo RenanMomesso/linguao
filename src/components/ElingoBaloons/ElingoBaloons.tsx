@@ -9,8 +9,8 @@ const ElingoBaloons = ({ BaloonImg }: any) => {
       style={{
         gap: 0,
       }}>
-      <ElingoSmallImg scaleX={0.9} scaleY={0.9} />
-      <BaloonImg scaleX={0.9} scaleY={0.9} />
+      <ElingoSmallImg height={100} width={100} />
+      {/* <BaloonImg height={100} width={100} /> */}
     </Row>
   );
 };

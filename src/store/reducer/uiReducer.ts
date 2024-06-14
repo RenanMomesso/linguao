@@ -4,6 +4,7 @@ const initialState = {
   isDarkTheme: false,
   loading: false,
   homeMenuItem: null,
+  showBottomNavigation: true,
 };
 
 const uiSlice = createSlice({
@@ -19,8 +20,21 @@ const uiSlice = createSlice({
     selectHomeItem(state, action) {
       state.homeMenuItem = action.payload;
     },
+    toggleBottomNavigation(
+      state,
+      action: {
+        payload: boolean;
+      },
+    ) {
+      state.showBottomNavigation = action.payload;
+    },
   },
 });
 
-export const { toggleTheme, setLoading, selectHomeItem } = uiSlice.actions;
+export const {
+  toggleTheme,
+  setLoading,
+  selectHomeItem,
+  toggleBottomNavigation,
+} = uiSlice.actions;
 export default uiSlice.reducer;

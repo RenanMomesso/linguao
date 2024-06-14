@@ -1,5 +1,4 @@
-import { View, Text } from "react-native";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DuoDragDropRef } from "@/components/DuoDragAndDrop";
 import { useQuery } from "@apollo/client";
 import { englishSentenceQuery } from "./translateSentenceQuery";
@@ -12,22 +11,26 @@ const useTranslationSentence = () => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [soundPlaying, setSoundPlaying] = useState(true);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(true);
+  const [correctlyAnswered, setCorrectlyAnswered] = useState(false);
 
   const { data, loading } = useQuery(englishSentenceQuery, {
     fetchPolicy: "cache-and-network",
     onCompleted(data) {
-      const cachedData = this.client?.readQuery({
-        query: englishSentenceQuery,
-      });
-      if (cachedData) {
-        console.log("cachedData", cachedData);
-      } else {
-        console.log("No cached data", data);
+      try {
+        const cachedData = this.client?.readQuery({
+          query: englishSentenceQuery,
+        });
+        if (cachedData) {
+          console.log("cachedData", cachedData);
+        } else {
+          console.log("No cached data", data);
+        }
+      } catch (error) {
+        console.log("Error", error);
       }
-    },  
+    },
   });
 
-  console.log("🚀 ~ useTranslationSentence ~ data:", data);
   const sentence = data?.listEnglishSentences?.items[0]?.sentence;
 
   const translation = data?.listEnglishSentences?.items[0]?.translation;
@@ -40,10 +43,20 @@ const useTranslationSentence = () => {
   );
   const navigation = useNavigation<ExercisesStack>();
 
-  const handleShowAnswer = useCallback(() => {
-    setShowAnswer(true);
+  const handleNavigation = useCallback(() => {
     navigation.navigate("SpeakTheSentenceScreen");
-  }, [navigation]);
+    setSoundPlaying(false);
+    setShowAnswer(false);
+    setButtonIsDisabled(true);
+  }, []);
+
+  const handleShowAnswer = () => {
+    const answeredWords = wordsRef.current?.getAnsweredWords();
+    const joinedAnsweredWords = answeredWords?.join(" ");
+    const checkAnswer = joinedAnsweredWords === translation;
+    setShowAnswer(true);
+    setCorrectlyAnswered(checkAnswer);
+  };
 
   const handleSpeak = useCallback(() => {
     speakerVoiceMessage(sentence);
@@ -66,6 +79,9 @@ const useTranslationSentence = () => {
     handleSpeak,
     handleChangeButtonDisable,
     loadingQuery: loading,
+    correctlyAnswered,
+    translation,
+    handleNavigation,
   };
 };
 

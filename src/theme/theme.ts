@@ -72,5 +72,7 @@ export const theme = {
   },
 };
 
+export const windowWidth = width;
+
 
 export type Theme = typeof theme;

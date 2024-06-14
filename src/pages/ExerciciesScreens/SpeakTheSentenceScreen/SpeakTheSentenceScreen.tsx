@@ -18,13 +18,22 @@ import useVoiceRecognition from "@/hooks/useVoiceRecognition";
 import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
 import { speakerVoiceMessage } from "@/utils/speakerVoice";
 import useSpeakTheSentenceScreen from "./useSpeakTheSentenceScreen";
+import BottomSheetAnswer from "../components/BottomSheetAnswer/BottomSheetAnswer";
 
 const SpeakTheSentenceScreen = () => {
   const { cancelRecognizing, startRecognizing, stopRecognizing, voiceResult } =
     useVoiceRecognition();
-  const { sentence, checkAnswersMatches } = useSpeakTheSentenceScreen({
+  const {
+    sentence,
+    checkAnswersMatches,
+    showAnswer,
+    setShowAnswer,
+    modalVisible,
+    setModalVisible,
+  } = useSpeakTheSentenceScreen({
     voiceResult,
   });
+  console.log("🚀 ~ SpeakTheSentenceScreen ~ sentence:", sentence);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(false);
   const navigation = useNavigation<ExercisesStack>();
   const [soundPlaying, setSoundPlaying] = useState(false);
@@ -35,7 +44,6 @@ const SpeakTheSentenceScreen = () => {
   };
 
   useEffect(() => {
-    console.log("🚀 ~ SpeakTheSentenceScreen ~ sentence:", sentence);
     if (voiceResult.end) {
       setButtonIsDisabled(false);
     }
@@ -47,13 +55,13 @@ const SpeakTheSentenceScreen = () => {
     <ExercicesLayout barProgressPercentage={60} pageTitle="Speak the sentence">
       <ElingoBaloons
         BaloonImg={() => (
-          <View style={{ marginLeft: -15 }}>
-            <EmptyBaloon />
+          <View style={{ marginLeft: -30 }}>
+            <EmptyBaloon width={330} />
             <Row
               style={{
-                marginTop: 10,
+                marginTop: 20,
                 position: "absolute",
-                left: 40,
+                left: 60,
                 alignItems: "center",
               }}>
               <SpeakerButton
@@ -61,12 +69,12 @@ const SpeakTheSentenceScreen = () => {
                 handleSpeak={handleSpeak}
               />
               <TextComponent
-                size="text"
+                size="heading6"
                 weight="bold"
                 align="left"
-                numberOfLines={3}
+                numberOfLines={2}
                 style={{
-                  maxWidth: 100,
+                  maxWidth: 160,
                 }}>
                 {sentence}
               </TextComponent>
@@ -102,17 +110,22 @@ const SpeakTheSentenceScreen = () => {
           </TextComponent>
         </Row>
       </Selectable>
-      <TextComponent>{JSON.stringify(voiceResult)}</TextComponent>
       <ExercicesLayout.Footer>
         <Button
           backgroundColor={!buttonIsDisabled ? "primary" : "greyScale300"}
           buttonText="Check Answers"
           textColor="white"
           disabled={false}
-          onPressButton={() => {
-            navigation.navigate("WhatDoesTheAudioSayScreen");
-          }}
+          onPressButton={() => setModalVisible(true)}
         />
+        {showAnswer && (
+          <BottomSheetAnswer
+            correctlyAnswered={false}
+            translation={sentence!}
+            handleAlert={() => setModalVisible(true)}
+            handleClickContinue={() => {}}
+          />
+        )}
       </ExercicesLayout.Footer>
     </ExercicesLayout>
   );
