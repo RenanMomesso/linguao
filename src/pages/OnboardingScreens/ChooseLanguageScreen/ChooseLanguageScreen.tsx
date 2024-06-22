@@ -12,7 +12,6 @@ import { useAppDispatch } from "@/store";
 import { setTargetLanguage, updateUser } from "@/store/reducer/userReducer";
 
 const ChooseLanguageScreen = () => {
-  
   const dispatch = useAppDispatch();
   const navigation = useTypedNavigation();
   const handleContinue = () => {
@@ -74,7 +73,7 @@ const ChooseLanguageScreen = () => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <ElingoBaloons BaloonImg={WhatLearn} />
+          <ElingoBaloons baloonText="Which languange you want to learn ?" />
         </Animated.View>
         <LanguageList
           selectedLanguage={selectedLanguage}
@@ -86,9 +85,7 @@ const ChooseLanguageScreen = () => {
         <Button
           buttonText="Continue"
           onPressButton={handleContinue}
-          backgroundColor={
-            disabledContinue ? "greyScale400" : "primary"
-          } 
+          backgroundColor={disabledContinue ? "greyScale400" : "primary"}
           disabled={disabledContinue}
           textColor="white"
         />

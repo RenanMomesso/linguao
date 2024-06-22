@@ -269,11 +269,13 @@ export const onCreateEnglishSentence = /* GraphQL */ `subscription OnCreateEngli
   onCreateEnglishSentence(filter: $filter) {
     id
     sentence
-    audioUrl
+    imageUrl
     translation
     fakeWords
     level
     fakeSentences
+    language
+    category
     createdAt
     updatedAt
     __typename
@@ -289,11 +291,13 @@ export const onUpdateEnglishSentence = /* GraphQL */ `subscription OnUpdateEngli
   onUpdateEnglishSentence(filter: $filter) {
     id
     sentence
-    audioUrl
+    imageUrl
     translation
     fakeWords
     level
     fakeSentences
+    language
+    category
     createdAt
     updatedAt
     __typename
@@ -309,11 +313,13 @@ export const onDeleteEnglishSentence = /* GraphQL */ `subscription OnDeleteEngli
   onDeleteEnglishSentence(filter: $filter) {
     id
     sentence
-    audioUrl
+    imageUrl
     translation
     fakeWords
     level
     fakeSentences
+    language
+    category
     createdAt
     updatedAt
     __typename

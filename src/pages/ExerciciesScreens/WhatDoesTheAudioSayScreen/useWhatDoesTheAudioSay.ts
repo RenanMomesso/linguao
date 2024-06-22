@@ -4,12 +4,11 @@ import {
 } from "@/API";
 import { generateRandomInt } from "@/utils/maths";
 import { gql, useQuery } from "@apollo/client";
-import { useState } from "react";
-import { load } from "react-native-track-player/lib/src/trackPlayer";
+import { useMemo, useState } from "react";
 
 const GET_SENTENCE = gql`
   query getSentence {
-    listEnglishSentences(limit: 2) {
+    listEnglishSentences(limit: 10) {
       items {
         sentence
         translation
@@ -20,12 +19,27 @@ const GET_SENTENCE = gql`
 `;
 
 const useWhatDoesTheAudioSay = () => {
-  const { data, loading, error } =
-    useQuery<ListEnglishSentencesQuery>(GET_SENTENCE);
-  const sentence =
-    data?.listEnglishSentences?.items[0]?.sentence;
-  const fakeTranslatedSentence =
-    data?.listEnglishSentences?.items[0]?.fakeSentences;
+  const { data, loading, error } = useQuery<
+    ListEnglishSentencesQuery,
+    ListEnglishSentencesQueryVariables
+  >(GET_SENTENCE);
+  const [showAnswer, setShowAnswer] = useState<boolean>(false);
+
+  const generateRandomIntNumber = useMemo(() => {
+    const length = data?.listEnglishSentences?.items.length;
+    return length ? generateRandomInt(length) : 0;
+  }, [data]);
+
+  const item = data?.listEnglishSentences?.items[generateRandomIntNumber];
+
+  const sentence = item?.sentence;
+  const fakeTranslatedSentence = item?.fakeSentences?.concat(
+    item.translation || [],
+  );
+
+  const sortedFakeTranslatedSentence =
+    !!fakeTranslatedSentence?.length &&
+    [...fakeTranslatedSentence].sort((a, b) => Math.random() - 0.5) || [];
   const [selectedSentence, setSelectedSentence] = useState<string>("");
 
   const handleSelectSentence = (sentence: string) => {
@@ -33,14 +47,25 @@ const useWhatDoesTheAudioSay = () => {
     setSelectedSentence(alreadySelectedSentence ? "" : sentence);
   };
 
+  const buttonEnabled = selectedSentence.length > 0;
+  const handleShowAnswer = () => {
+    setShowAnswer(true);
+  };
+  const isCorrectlyAnswer = selectedSentence === item?.translation;
+
   return {
     sentence,
-    fakeTranslatedSentence,
+    fakeTranslatedSentence: sortedFakeTranslatedSentence,
     selectedSentence,
     setSelectedSentence,
     handleSelectSentence,
     loading,
     error,
+    buttonEnabled,
+    showAnswer,
+    handleShowAnswer,
+    isCorrectlyAnswer,
+    translation: item?.translation,
   };
 };
 

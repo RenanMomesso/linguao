@@ -58,7 +58,7 @@ const BottomNavigation = () => {
         ...bottomTabNavigationOptions,
         tabBarStyle: showBottomNavigation
           ? bottomTabNavigationOptions.tabBarStyle
-          : { display: "none" },
+          : { position: "absolute", bottom: -1000},
       }}>
       <BottomTabNavigation.Screen
         name="Home"

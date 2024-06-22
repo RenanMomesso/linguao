@@ -306,11 +306,13 @@ export const createEnglishSentence = /* GraphQL */ `mutation CreateEnglishSenten
   createEnglishSentence(input: $input, condition: $condition) {
     id
     sentence
-    audioUrl
+    imageUrl
     translation
     fakeWords
     level
     fakeSentences
+    language
+    category
     createdAt
     updatedAt
     __typename
@@ -327,11 +329,13 @@ export const updateEnglishSentence = /* GraphQL */ `mutation UpdateEnglishSenten
   updateEnglishSentence(input: $input, condition: $condition) {
     id
     sentence
-    audioUrl
+    imageUrl
     translation
     fakeWords
     level
     fakeSentences
+    language
+    category
     createdAt
     updatedAt
     __typename
@@ -348,11 +352,13 @@ export const deleteEnglishSentence = /* GraphQL */ `mutation DeleteEnglishSenten
   deleteEnglishSentence(input: $input, condition: $condition) {
     id
     sentence
-    audioUrl
+    imageUrl
     translation
     fakeWords
     level
     fakeSentences
+    language
+    category
     createdAt
     updatedAt
     __typename

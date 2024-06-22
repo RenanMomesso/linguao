@@ -2,13 +2,13 @@ import { gql } from "@apollo/client";
 
 export const englishSentenceQuery = gql`
   query getEnglishSentences {
-    listEnglishSentences(limit: 1) {
+    listEnglishSentences(limit: 10) {
       items {
         level
         id
         fakeWords
         sentence
-        audioUrl
+        imageUrl
         createdAt
         translation
       }

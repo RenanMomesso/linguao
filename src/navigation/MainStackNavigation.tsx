@@ -160,7 +160,7 @@ const MainStackNavigation = () => {
   }, []);
 
   return (
-    <Stack.Navigator screenOptions={mainStackNavigationOptions}>
+    <Stack.Navigator initialRouteName="WelcomeScreen" screenOptions={mainStackNavigationOptions}>
       {loggedOutScreens}
     </Stack.Navigator>
   );

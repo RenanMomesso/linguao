@@ -5,7 +5,6 @@ import ThemeProviderComponent from "@/theme/StyledThemeProvider";
 import { Provider } from "react-redux";
 import store from "@/store";
 import Client from "./src/Apollo/Client";
-import LoadingIcon from "@/components/Loading/Loading";
 
 const App = () => {
   return (

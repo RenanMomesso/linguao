@@ -23,8 +23,8 @@ const SpeakerButton = ({ soundPlaying, handleSpeak }: SpeakerButtonProps) => {
         autoPlay={soundPlaying}
         loop={false}
         style={{
-          height: 28,
-          width: 28,
+          height: 25,
+          width: 25,
         }}
       />
     </Pressable>

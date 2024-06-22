@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Pressable } from "react-native";
 import React from "react";
 import ExercicesLayout from "@/layouts/ExercicesLayout";
 import { Row } from "@/theme/GlobalComponents";
@@ -13,6 +13,7 @@ import { theme } from "@/theme/theme";
 import { speakerVoiceMessage } from "@/utils/speakerVoice";
 import LoadingIcon from "@/components/Loading/Loading";
 import ErrorComponent from "@/components/ErrorComponent/ErrorComponent";
+import BottomSheetAnswer from "../components/BottomSheetAnswer/BottomSheetAnswer";
 
 const WhatDoesTheAudioSayScreen = () => {
   const navigation = useNavigation<ExercisesStack>();
@@ -23,11 +24,16 @@ const WhatDoesTheAudioSayScreen = () => {
     sentence,
     error,
     loading,
+    buttonEnabled,
+    showAnswer,
+    handleShowAnswer,
+    isCorrectlyAnswer,
+    translation
   } = useWhatDoesTheAudioSay();
 
   console.log({ error, loading, sentence, fakeTranslatedSentence });
-  if (loading) return <LoadingIcon />;
-  if (error || !sentence) return <ErrorComponent />;
+  // if (loading) return <LoadingIcon />;
+  // if (error || !sentence) return <ErrorComponent />;
 
   return (
     <ExercicesLayout
@@ -39,7 +45,7 @@ const WhatDoesTheAudioSayScreen = () => {
           marginBottom: 50,
         }}>
         <SpeakerButton
-          soundPlaying={true}
+          soundPlaying={false}
           handleSpeak={() => {
             speakerVoiceMessage(sentence || "");
           }}
@@ -58,7 +64,7 @@ const WhatDoesTheAudioSayScreen = () => {
           {sentence}
         </TextComponent>
       </Row>
-
+          <Text>{translation}</Text>
       <View
         style={{
           gap: 16,
@@ -92,16 +98,23 @@ const WhatDoesTheAudioSayScreen = () => {
 
       <ExercicesLayout.Footer>
         <Button
-          backgroundColor={true ? "primary" : "greyScale300"}
+          backgroundColor={buttonEnabled ? "primary" : "greyScale300"}
           buttonText="Check Answers"
           textColor="white"
           disabled={false}
-          onPressButton={() => {
-            navigation.navigate("WhatDoesTheSentenceSayScreen");
-          }}
+          onPressButton={handleShowAnswer}
         />
       </ExercicesLayout.Footer>
-      {/* {showAnswer && <AnimatedBottom />} */}
+      
+      {showAnswer && (
+        <BottomSheetAnswer
+          correctlyAnswered={isCorrectlyAnswer}
+          translation={translation!}
+          handleAlert={() => {}}
+          handleClickContinue={() => {}}
+          handleShare={() => {}}
+        />
+      )}
     </ExercicesLayout>
   );
 };

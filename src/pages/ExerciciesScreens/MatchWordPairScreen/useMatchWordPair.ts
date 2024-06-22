@@ -20,12 +20,12 @@ const useMatchWordPair = () => {
   const [selected, setSelected] = useState<SelectedMatchWord[]>([]);
   const [matches, setMatches] = useState<string[]>([]);
 
-  const handlePress = (word: string, type: WordType) => {
+  const handlePress = (word: { word: string; translatedWord: string }, type: WordType) => {
     if (selected.length === 1 && selected[0].type === type) {
       setSelected([]);
       return;
     }
-
+  
     if (selected.length === 1 && selected[0].type !== type) {
       if (
         (type === "word" && selected[0].word === word.translatedWord) ||

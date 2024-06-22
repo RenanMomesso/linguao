@@ -74,7 +74,9 @@ const SelectLanguageScreen = () => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <ElingoBaloons BaloonImg={BaloonTextOne} />
+          <ElingoBaloons 
+            baloonText="What is your native language?"
+          />
         </Animated.View>
         {user.user?.nativeLanguange && (
           <>

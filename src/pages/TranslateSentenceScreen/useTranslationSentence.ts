@@ -5,15 +5,22 @@ import { englishSentenceQuery } from "./translateSentenceQuery";
 import { useNavigation } from "@react-navigation/native";
 import { ExercisesStack } from "@/interface/navigation.interface";
 import { speakerVoiceMessage } from "@/utils/speakerVoice";
+import { imgToBase64 } from "@/utils/imgToBase64";
+import { generateRandomInt } from "@/utils/maths";
 
 const useTranslationSentence = () => {
   const wordsRef = useRef<DuoDragDropRef>(null);
+  console.log(
+    "🚀 ~ useTranslationSentence ~ wordsRef:",
+    wordsRef.current?.getAnsweredWords(),
+  );
   const [showAnswer, setShowAnswer] = useState(false);
   const [soundPlaying, setSoundPlaying] = useState(true);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(true);
   const [correctlyAnswered, setCorrectlyAnswered] = useState(false);
+  const [img, setImg] = useState("");
 
-  const { data, loading } = useQuery(englishSentenceQuery, {
+  const { data, loading, error } = useQuery(englishSentenceQuery, {
     fetchPolicy: "cache-and-network",
     onCompleted(data) {
       try {
@@ -31,9 +38,19 @@ const useTranslationSentence = () => {
     },
   });
 
-  const sentence = data?.listEnglishSentences?.items[0]?.sentence;
+  console.log("🚀 ~ useTranslationSentence ~ error:", error);
+  const generateRandomIntNumber = useMemo(() => {
+    return generateRandomInt(data?.listEnglishSentences?.items.length);
+  }, [data]);
 
-  const translation = data?.listEnglishSentences?.items[0]?.translation;
+  const sentence =
+    data?.listEnglishSentences?.items[generateRandomIntNumber]?.sentence;
+  const audioUrl =
+    data?.listEnglishSentences?.items[generateRandomIntNumber]?.audioUrl;
+  console.log("🚀 ~ useTranslationSentence ~ audioUrl:", audioUrl);
+
+  const translation =
+    data?.listEnglishSentences?.items[generateRandomIntNumber]?.translation;
   const splitWordsTranslation = useMemo(() => {
     return translation?.split(" ")?.sort(() => Math.random() - 0.5);
   }, [translation]);
@@ -63,10 +80,20 @@ const useTranslationSentence = () => {
     setSoundPlaying(playingSound => !playingSound);
   }, [sentence]);
 
-  const handleChangeButtonDisable = useCallback((changeValue: boolean) => {
-    setButtonIsDisabled(false);
-    setButtonIsDisabled(changeValue);
-  }, []);
+  const handleChangeButtonDisable = (value: boolean) => {
+    setButtonIsDisabled(value);
+  };
+
+  const getImgUrlToBase64 = async () => {
+    const response = await imgToBase64(audioUrl);
+    setImg(response);
+  };
+  useEffect(() => {
+    if (audioUrl) {
+      // getImgUrlToBase64();
+    }
+    setImg(audioUrl);
+  }, [audioUrl]);
 
   return {
     wordsRef,
@@ -82,6 +109,8 @@ const useTranslationSentence = () => {
     correctlyAnswered,
     translation,
     handleNavigation,
+    imgUrl: audioUrl,
+    img,
   };
 };
 

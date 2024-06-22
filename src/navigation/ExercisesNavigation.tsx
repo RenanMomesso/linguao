@@ -21,16 +21,8 @@ const ExercisesNavigation = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        ...TransitionPresets.ModalFadeTransition,
-        cardStyleInterpolator: ({ current: { progress } }) => {
-          return {
-            cardStyle: {
-              opacity: progress,
-            },
-          };
-        },
       }}>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="HomePlay" component={Home} />
       <Stack.Screen
         name="ExercicesLoading"
         component={LoadingExercisesScreen}

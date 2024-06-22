@@ -26,7 +26,7 @@ export type NavigationBottomProps = {
 };
 
 export type ExercisesStackProps = {
-  Home: undefined;
+  HomePlay: undefined;
   ExercicesLoading: undefined;
   TranslateSentenceScreen: undefined;
   SpeakTheSentenceScreen: undefined;

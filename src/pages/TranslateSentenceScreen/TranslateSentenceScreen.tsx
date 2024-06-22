@@ -1,19 +1,15 @@
-import React from "react";
-import { BottomContainer, Container, Row } from "@/theme/GlobalComponents";
+import React, { useCallback, useRef } from "react";
+import { BottomContainer, Row } from "@/theme/GlobalComponents";
 import TextComponent from "@/components/Text";
 import Button from "@/components/Button/Button";
-import AnimatedBottom from "@/components/AnimatedBottom/AnimatedBottom";
 import WordsSelectors from "@/pages/TranslateSentenceScreen/components/WordsSelectors";
 import ExercicesLayout from "../../layouts/ExercicesLayout";
 import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
 import useTranslationSentence from "./useTranslationSentence";
-import { ShareIcon } from "@/assets/images";
 import BottomSheetAnswer from "../ExerciciesScreens/components/BottomSheetAnswer/BottomSheetAnswer";
 import LoadingIcon from "@/components/Loading/Loading";
-import CustomModal from "@/components/Modal/Modal";
-import Text from "@/components/Text";
-import { Pressable } from "react-native";
 import BugProblemModal from "./components/BugProblemModal";
+import { share } from "@/utils/share";
 
 const TranslateSentenceScreen = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -31,7 +27,11 @@ const TranslateSentenceScreen = () => {
     correctlyAnswered,
     translation,
     handleNavigation,
+    imgUrl,
   } = useTranslationSentence();
+  console.log({ sentence, wordsExample, wordsRef });
+
+  console.log(wordsRef);
 
   if (loadingQuery || !wordsExample?.length || !wordsExample)
     return <LoadingIcon />;
@@ -49,6 +49,7 @@ const TranslateSentenceScreen = () => {
           soundPlaying={soundPlaying}
           handleSpeak={showAnswer ? () => {} : handleSpeak}
         />
+
         <TextComponent
           size="heading5"
           align="left"
@@ -84,6 +85,7 @@ const TranslateSentenceScreen = () => {
           translation={translation}
           handleAlert={() => setModalVisible(true)}
           handleClickContinue={handleNavigation}
+          handleShare={() => share("I just translated the sentence: ", imgUrl)}
         />
       )}
       <BugProblemModal

@@ -1,3 +1,11 @@
+enum Category {
+  VOCABULARY
+  GRAMMAR
+  SPEAKING
+  LISTENING
+  UNTITLEDVALUE
+}
+
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
@@ -61,11 +69,13 @@ enum EnglishLevel {
 
 type EnglishSentence @model @auth(rules: [{allow: public}]) {
   id: ID!
-  sentence: String
-  audioUrl: String
-  translation: String
-  fakeWords: [String]
-  level: EnglishLevel
-  fakeSentences: [String]
+  sentence: String!
+  imageUrl: String
+  translation: String!
+  fakeWords: [String!]!
+  level: EnglishLevel!
+  fakeSentences: [String!]
+  language: Language!
+  category: Category!
 }
  

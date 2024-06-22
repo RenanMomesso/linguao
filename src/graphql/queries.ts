@@ -234,11 +234,13 @@ export const getEnglishSentence = /* GraphQL */ `query GetEnglishSentence($id: I
   getEnglishSentence(id: $id) {
     id
     sentence
-    audioUrl
+    imageUrl
     translation
     fakeWords
     level
     fakeSentences
+    language
+    category
     createdAt
     updatedAt
     __typename
@@ -257,11 +259,13 @@ export const listEnglishSentences = /* GraphQL */ `query ListEnglishSentences(
     items {
       id
       sentence
-      audioUrl
+      imageUrl
       translation
       fakeWords
       level
       fakeSentences
+      language
+      category
       createdAt
       updatedAt
       __typename
