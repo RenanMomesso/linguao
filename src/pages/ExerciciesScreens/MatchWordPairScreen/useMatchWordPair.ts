@@ -2,6 +2,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { ListWordListsQuery, ListWordListsQueryVariables } from "@/API";
 import { LIST_WORDS_QUERY } from "./matchWordPairQuery";
+import { generateRandomInt } from "@/utils/maths";
 
 type WordType = "word" | "translatedWord";
 interface SelectedMatchWord {
@@ -10,22 +11,27 @@ interface SelectedMatchWord {
 }
 
 const useMatchWordPair = () => {
-  const { data, loading } = useQuery<
+  const { data, loading, error } = useQuery<
     ListWordListsQuery,
     ListWordListsQueryVariables
   >(LIST_WORDS_QUERY);
   const list = data?.listWordLists?.items || [];
   const wordsList = list?.map(item => item?.Words?.items) || [];
-  console.log("🚀 ~ useMatchWordPair ~ wordsList:", wordsList);
+
+  const pickOneItemList = generateRandomInt(wordsList.length);
+  const sortedList = list[pickOneItemList]?.Words?.items || [];
   const [selected, setSelected] = useState<SelectedMatchWord[]>([]);
   const [matches, setMatches] = useState<string[]>([]);
 
-  const handlePress = (word: { word: string; translatedWord: string }, type: WordType) => {
+  const handlePress = (
+    word: { word: string; translatedWord: string },
+    type: WordType,
+  ) => {
     if (selected.length === 1 && selected[0].type === type) {
       setSelected([]);
       return;
     }
-  
+
     if (selected.length === 1 && selected[0].type !== type) {
       if (
         (type === "word" && selected[0].word === word.translatedWord) ||
@@ -41,15 +47,15 @@ const useMatchWordPair = () => {
 
   const isMatched = (word: string) => matches.includes(word);
 
-  const isSelected = (word: string, type: WordType) =>
+  const isSelected = (word: string | any, type: WordType | any) =>
     selected.some(item => item.word === word[type] && item.type === type);
 
   return {
-    wordsPairs: list?.[0]?.Words?.items,
+    wordsPairs: list?.[pickOneItemList]?.Words?.items || [],
     handlePress,
     selected,
     isMatched,
-    list,
+    list: sortedList || [],
     isSelected,
     matches,
   };

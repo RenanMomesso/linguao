@@ -28,10 +28,10 @@ const WhatDoesTheAudioSayScreen = () => {
     showAnswer,
     handleShowAnswer,
     isCorrectlyAnswer,
-    translation
+    translation,
+    handleNavigationToNextScreen
   } = useWhatDoesTheAudioSay();
 
-  console.log({ error, loading, sentence, fakeTranslatedSentence });
   // if (loading) return <LoadingIcon />;
   // if (error || !sentence) return <ErrorComponent />;
 
@@ -64,7 +64,6 @@ const WhatDoesTheAudioSayScreen = () => {
           {sentence}
         </TextComponent>
       </Row>
-          <Text>{translation}</Text>
       <View
         style={{
           gap: 16,
@@ -73,6 +72,7 @@ const WhatDoesTheAudioSayScreen = () => {
           fakeTranslatedSentence.map((sentence, index) => {
             return (
               <Selectable
+              
                 style={{
                   borderColor:
                     selectedSentence === sentence
@@ -105,13 +105,13 @@ const WhatDoesTheAudioSayScreen = () => {
           onPressButton={handleShowAnswer}
         />
       </ExercicesLayout.Footer>
-      
+
       {showAnswer && (
         <BottomSheetAnswer
           correctlyAnswered={isCorrectlyAnswer}
           translation={translation!}
           handleAlert={() => {}}
-          handleClickContinue={() => {}}
+          handleClickContinue={handleNavigationToNextScreen}
           handleShare={() => {}}
         />
       )}

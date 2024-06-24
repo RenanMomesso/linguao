@@ -10,10 +10,7 @@ import { generateRandomInt } from "@/utils/maths";
 
 const useTranslationSentence = () => {
   const wordsRef = useRef<DuoDragDropRef>(null);
-  console.log(
-    "🚀 ~ useTranslationSentence ~ wordsRef:",
-    wordsRef.current?.getAnsweredWords(),
-  );
+
   const [showAnswer, setShowAnswer] = useState(false);
   const [soundPlaying, setSoundPlaying] = useState(true);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(true);
@@ -38,7 +35,6 @@ const useTranslationSentence = () => {
     },
   });
 
-  console.log("🚀 ~ useTranslationSentence ~ error:", error);
   const generateRandomIntNumber = useMemo(() => {
     return generateRandomInt(data?.listEnglishSentences?.items.length);
   }, [data]);
@@ -47,7 +43,6 @@ const useTranslationSentence = () => {
     data?.listEnglishSentences?.items[generateRandomIntNumber]?.sentence;
   const audioUrl =
     data?.listEnglishSentences?.items[generateRandomIntNumber]?.audioUrl;
-  console.log("🚀 ~ useTranslationSentence ~ audioUrl:", audioUrl);
 
   const translation =
     data?.listEnglishSentences?.items[generateRandomIntNumber]?.translation;
@@ -84,10 +79,6 @@ const useTranslationSentence = () => {
     setButtonIsDisabled(value);
   };
 
-  const getImgUrlToBase64 = async () => {
-    const response = await imgToBase64(audioUrl);
-    setImg(response);
-  };
   useEffect(() => {
     if (audioUrl) {
       // getImgUrlToBase64();

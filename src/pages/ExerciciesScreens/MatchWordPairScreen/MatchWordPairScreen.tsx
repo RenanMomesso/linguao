@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import ExercicesLayout from "@/layouts/ExercicesLayout";
 import Button from "@/components/Button/Button";
 import { ExercisesStack } from "@/interface/navigation.interface";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import useMatchWordPair from "./useMatchWordPair";
 import TextComponent from "@/components/Text";
 import { theme } from "@/theme/theme";
@@ -16,49 +16,61 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
     handlePress,
     isMatched,
     isSelected,
-    list,
+    list: words,
     selected,
     wordsPairs,
     matches,
   } = useMatchWordPair();
-    console.log("🚀 ~ MatchWordPairScreen ~ matches:", matches.length < 8)
+  console.log("🚀 ~ MatchWordPairScreen ~ matches:", matches.length < 8);
 
   const buttonDisabled = matches.length < 8;
+  console.log("🚀 ~ MatchWordPairScreen ~ buttonDisabled:", matches.length)
 
-  const words = list?.[0]?.Words?.items || [];
+  const sortedWordsEnglish = useMemo(() => {
+    return !!words?.length
+      ? [...words].sort((a, b) => (a?.word ?? "").localeCompare(b?.word ?? ""))
+      : [];
+  }, [words.length]);
 
-  const sortedWordsEnglish = [...words].sort((a, b) =>
-    a?.word?.localeCompare(b.word),
-  );
-  const sortedWordsPortuguese = [...words].sort((a, b) =>
-    a?.translatedWord?.localeCompare(b.translatedWord),
-  );
+  const sortedWordsPortuguese = useMemo(() => {
+    return [...words].sort((a, b) =>
+      (a?.translatedWord ?? "").localeCompare(b?.translatedWord ?? "")
+    );
+  }, [words.length]);
 
   return (
     <ExercicesLayout
       barProgressPercentage={80}
-      pageTitle="Select the correct matches">
+      pageTitle="Select the correct matches"
+    >
       <View style={styles.container}>
         <View style={styles.column}>
-          {sortedWordsEnglish.map((word, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.card,
-                isSelected(word, "word") && styles.selectedCard,
-                isMatched(word.word) && styles.matchedCard,
-              ]}
-              onPress={() => handlePress(word, "word")}>
-              <TextComponent
-                color={
-                  isSelected(word, "word") || isMatched(word.word)
-                    ? "white"
-                    : "greyScale900"
-                }>
-                {word.word}
-              </TextComponent>
-            </TouchableOpacity>
-          ))}
+          {sortedWordsEnglish.map(
+            (word: { word: any; translatedWord?: string }, index) => {
+              if (!word?.word) return null;
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.card,
+                    isSelected(word, "word") && styles.selectedCard,
+                    isMatched(word.word) && styles.matchedCard,
+                  ]}
+                  onPress={() => handlePress(word, "word")}
+                >
+                  <TextComponent
+                    color={
+                      isSelected(word, "word") || isMatched(word?.word)
+                        ? "white"
+                        : "greyScale900"
+                    }
+                  >
+                    {word?.word}
+                  </TextComponent>
+                </TouchableOpacity>
+              );
+            }
+          )}
         </View>
         <View style={styles.column}>
           {sortedWordsPortuguese.map((word, index) => (
@@ -69,13 +81,16 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
                 isSelected(word, "translatedWord") && styles.selectedCard,
                 isMatched(word.translatedWord) && styles.matchedCard,
               ]}
-              onPress={() => handlePress(word, "translatedWord")}>
+              onPress={() => handlePress(word, "translatedWord")}
+            >
               <TextComponent
                 color={
-                  isSelected(word, "translatedWord") || isMatched(word.translatedWord)
+                  isSelected(word, "translatedWord") ||
+                  isMatched(word.translatedWord)
                     ? "white"
                     : "greyScale900"
-                }>
+                }
+              >
                 {word.translatedWord}
               </TextComponent>
             </TouchableOpacity>
@@ -84,8 +99,8 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
       </View>
       <ExercicesLayout.Footer>
         <Button
-          disabled={buttonDisabled}
-          backgroundColor="Blue"
+          disabled={false}
+          backgroundColor={false ? "greyScale400" : "primary"}
           buttonText="Next"
           onPressButton={() => navigation.navigate("FillInTheBlanksScreen")}
           touchSoundDisabled={false}

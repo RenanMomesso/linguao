@@ -2,8 +2,10 @@ import {
   ListEnglishSentencesQuery,
   ListEnglishSentencesQueryVariables,
 } from "@/API";
+import { useTypedNavigation } from "@/hooks/useNavigationTyped";
 import { generateRandomInt } from "@/utils/maths";
 import { gql, useQuery } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
 import { useMemo, useState } from "react";
 
 const GET_SENTENCE = gql`
@@ -37,9 +39,14 @@ const useWhatDoesTheAudioSay = () => {
     item.translation || [],
   );
 
-  const sortedFakeTranslatedSentence =
-    !!fakeTranslatedSentence?.length &&
-    [...fakeTranslatedSentence].sort((a, b) => Math.random() - 0.5) || [];
+  const sortedFakeTranslatedSentence = useMemo(() => {
+    return (
+      (!!fakeTranslatedSentence?.length &&
+        [...fakeTranslatedSentence].sort((a, b) => Math.random() - 0.5)) ||
+      []
+    );
+  }, [item?.sentence]);
+
   const [selectedSentence, setSelectedSentence] = useState<string>("");
 
   const handleSelectSentence = (sentence: string) => {
@@ -52,6 +59,10 @@ const useWhatDoesTheAudioSay = () => {
     setShowAnswer(true);
   };
   const isCorrectlyAnswer = selectedSentence === item?.translation;
+  const handleNavigation = useTypedNavigation();
+  const handleNavigationToNextScreen = () => {
+    handleNavigation.navigate("WhatDoesTheSentenceSayScreen");
+  };
 
   return {
     sentence,
@@ -66,6 +77,7 @@ const useWhatDoesTheAudioSay = () => {
     handleShowAnswer,
     isCorrectlyAnswer,
     translation: item?.translation,
+    handleNavigationToNextScreen,
   };
 };
 

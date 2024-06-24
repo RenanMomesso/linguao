@@ -9,10 +9,19 @@ import { ExercisesStack } from "@/interface/navigation.interface";
 import TapAudioCircle from "@/assets/images/TapAudioCircle.svg";
 import WordsSelectors from "../../TranslateSentenceScreen/components/WordsSelectors";
 import useWhatDoesTheSentenceSay from "./useWhatDoesTheSentenceSay";
+import BottomSheetAnswer from "../components/BottomSheetAnswer/BottomSheetAnswer";
 
 const WhatDoesTheSentenceSayScreen = () => {
   const navigation = useNavigation<ExercisesStack>();
-  const { speakSentence, sentence, sortWords } = useWhatDoesTheSentenceSay();
+  const {
+    speakSentence,
+    handleCheckAnswers,
+    sortWords,
+    showAnswerBottom,
+    showAnswer,
+    translation,
+    handleNavigation,
+  } = useWhatDoesTheSentenceSay();
 
   return (
     <ExercicesLayout
@@ -45,12 +54,18 @@ const WhatDoesTheSentenceSayScreen = () => {
           buttonText="Check Answers"
           textColor="white"
           disabled={false}
-          onPressButton={() => {
-            navigation.navigate("MatchWordPairScreen");
-          }}
+          onPressButton={showAnswerBottom}
         />
       </ExercicesLayout.Footer>
-      {/* {showAnswer && <AnimatedBottom />} */}
+      {showAnswer && (
+        <BottomSheetAnswer
+          correctlyAnswered={handleCheckAnswers}
+          translation={translation!}
+          handleAlert={() => {}}
+          handleClickContinue={handleNavigation}
+          handleShare={() => {}}
+        />
+      )}
     </ExercicesLayout>
   );
 };
