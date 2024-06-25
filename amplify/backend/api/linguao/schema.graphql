@@ -6,7 +6,7 @@ enum Category {
   UNTITLEDVALUE
 }
 
-type User @model @auth(rules: [{allow: public}]) {
+type User @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   languageLevel: String
@@ -36,7 +36,7 @@ enum Language {
   SPANISH
 }
 
-type Sentence @model @auth(rules: [{allow: public}]) {
+type Sentence @model @auth(rules: [{ allow: public }]) {
   id: ID!
   phrase: String!
   language: Language!
@@ -44,7 +44,7 @@ type Sentence @model @auth(rules: [{allow: public}]) {
   fakeSentence: String
 }
 
-type Word @model @auth(rules: [{allow: public}]) {
+type Word @model @auth(rules: [{ allow: public }]) {
   id: ID!
   languange: Language
   word: String
@@ -52,9 +52,10 @@ type Word @model @auth(rules: [{allow: public}]) {
   wordlistID: ID! @index(name: "byWordList")
 }
 
-type WordList @model @auth(rules: [{allow: public}]) {
+type WordList @model @auth(rules: [{ allow: public }]) {
   id: ID!
   level: EnglishLevel
+  name: String
   Words: [Word] @hasMany(indexName: "byWordList", fields: ["id"])
 }
 
@@ -67,9 +68,16 @@ enum EnglishLevel {
   B2
 }
 
-type EnglishSentence @model @auth(rules: [{allow: public}]) {
+type EnglishSentence @model @auth(rules: [{ allow: public }]) {
   id: ID!
   sentence: String!
+
+  type: String!
+    @index(
+      name: "sentencesByCreatedAt"
+      queryField: "sentencesByCreatedAt"
+      sortKeyFields: ["createdAt"]
+    )
   imageUrl: String
   translation: String!
   fakeWords: [String!]!
@@ -77,5 +85,34 @@ type EnglishSentence @model @auth(rules: [{allow: public}]) {
   fakeSentences: [String!]
   language: Language!
   category: Category!
+
+  createdAt: String!
 }
- 
+
+
+type ImageMapModal @model @auth(rules: [{ allow: public }]){
+  id: ID!
+  imageUrl: String!
+  items: [ImageMapItem] @hasMany(indexName: "byImageMapModal", fields: ["id"])
+}
+
+enum Shape {
+  RECTANGLE
+  CIRCLE
+}
+
+type ImageMapItem @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  shape: Shape!
+  x1: Float!
+  y1: Float!
+  x2: Float
+  y2: Float
+  width: Float
+  height: Float
+  radius: Float
+  fill: String
+  prefill: String
+  name: String
+  imageMapModalID: ID! @index(name: "byImageMapModal")
+}

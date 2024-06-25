@@ -102,7 +102,7 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
           disabled={false}
           backgroundColor={false ? "greyScale400" : "primary"}
           buttonText="Next"
-          onPressButton={() => navigation.navigate("FillInTheBlanksScreen")}
+          onPressButton={() => navigation.navigate("SelectCorrectlyAudioScreen")}
           touchSoundDisabled={false}
           textColor="white"
         />

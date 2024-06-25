@@ -1,80 +1,89 @@
 import Button from "@/components/Button/Button";
+import ImageMapper, {
+  ImageMapItem,
+} from "@/components/ImageSelector/ImageSelector";
 import { ExercisesStack } from "@/interface/navigation.interface";
 import ExercicesLayout from "@/layouts/ExercicesLayout";
+import { Column, Row } from "@/theme/GlobalComponents";
+import { windowHeight, windowWidth } from "@/theme/theme";
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-
-const sentences = [
-  { id: 1, text: "The __ is green.", blank: "color" },
-  { id: 2, text: "A cat is a __ animal.", blank: "pet" },
-  { id: 3, text: "We live on the planet __.", blank: "Earth" },
-  { id: 4, text: "I have a red __.", blank: "car" },
-  { id: 5, text: "I like to read __.", blank: "book" },
-];
-
-const words = ["color", "pet", "Earth", "car", "book"];
+import DragAndDropList from "./DragAndDropList";
+import { gql, useQuery } from "@apollo/client";
+import {
+  ListImageMapModalsQuery,
+  ListImageMapModalsQueryVariables,
+} from "@/API";
+import { listImageMapModals } from "../../../graphql/queries";
 
 interface FillInTheBlanksScreenProps {
   navigation: ExercisesStack;
 }
 
 const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
-  const [filledInSentences, setFilledInSentences] = useState(
-    sentences.map(sentence => ({
-      ...sentence,
-      userInput: "",
-    })),
-  );
-  const [index, setIndex] = useState(0);
+  const { data } = useQuery<
+    ListImageMapModalsQuery,
+    ListImageMapModalsQueryVariables
+  >(gql(listImageMapModals));
+  const [selectedAreaId, setSelectedAreaId] = useState([]);
+  const items = data?.listImageMapModals?.items[0]?.items;
+  const image = data?.listImageMapModals?.items[0]?.imageUrl;
 
-  const handleFill = word => {
-    const newSentences = filledInSentences.map((item, idx) => {
-      if (idx === index) {
-        return { ...item, userInput: word };
-      }
-      return item;
-    });
-    setFilledInSentences(newSentences);
-    setIndex(index + 1);
-  };
+  const modifyItems = items?.items.map(item => {
+    return {
+      ...item,
+      prefill: overlayColor,
+      radius: 25,
+      shape: "circle",
+    };
+  });
 
-  const handleClear = idx => {
-    const newSentences = filledInSentences.map((item, i) => {
-      if (i === idx) {
-        return { ...item, userInput: "" };
+
+  const mapperAreaClickHandler = async (item, idx, event) => {
+    const currentSelectedAreaId = selectedAreaId;
+    if (Array.isArray(currentSelectedAreaId)) {
+      const indexInState = currentSelectedAreaId.indexOf(item.id);
+      if (indexInState !== -1) {
+        setSelectedAreaId([
+          ...currentSelectedAreaId.slice(0, indexInState),
+          ...currentSelectedAreaId.slice(indexInState + 1),
+        ]);
+      } else {
+        // alert(`Clicked Item Id: ${item.id}`);
+
+        console.log("Setting Id", item.id);
+        setSelectedAreaId([...currentSelectedAreaId, item.id]);
       }
-      return item;
-    });
-    setFilledInSentences(newSentences);
-    setIndex(idx); // Reset index to allow re-filling the cleared sentence
+    } else {
+      if (item.id === currentSelectedAreaId) {
+        setSelectedAreaId(null);
+      } else {
+        setSelectedAreaId(item.id);
+      }
+    }
   };
 
   return (
-    <ExercicesLayout barProgressPercentage={80} pageTitle="Fill in the blanks">
-      <View style={styles.container}>
-        {filledInSentences.map((sentence, idx) => (
-          <TouchableOpacity
-            key={sentence.id}
-            style={styles.sentenceContainer}
-            onPress={() => handleClear(idx)}>
-            <Text style={styles.sentence}>
-              {sentence.text.split("__")[0]}
-              <Text style={styles.blank}>{sentence.userInput || "_____"}</Text>
-              {sentence.text.split("__")[1]}
-            </Text>
-          </TouchableOpacity>
-        ))}
-        <View style={styles.wordsContainer}>
-          {words.map(word => (
-            <TouchableOpacity
-              key={word}
-              style={styles.button}
-              onPress={() => handleFill(word)}>
-              <Text style={styles.buttonText}>{word}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+    <ExercicesLayout
+      barProgressPercentage={80}
+      pageTitle="Align the items with the numbers">
+      <DragAndDropList />
+      <Row style={{ position: "relative", alignItems: "flex-start" }}>
+        <ImageMapper
+          imgHeight={windowHeight / 1.34}
+          imgWidth={windowWidth - 40}
+          imgSource={{
+            uri: image,
+          }}
+          imgMap={modifyItems as unknown as ImageMapItem[]}
+          onPress={(item, idx, event) =>
+            mapperAreaClickHandler(item, idx, event)
+          }
+          containerStyle={{ top: 0 }}
+          selectedAreaId={selectedAreaId}
+          multiselect
+        />
+      </Row>
+
       <ExercicesLayout.Footer>
         <Button
           disabled={false}
@@ -91,34 +100,45 @@ const FillInTheBlanksScreen = ({ navigation }: FillInTheBlanksScreenProps) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  sentenceContainer: {
-    marginBottom: 20,
-  },
-  sentence: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  blank: {
-    fontWeight: "bold",
-  },
-  wordsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
-  },
-  button: {
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#f0f0f0",
-  },
-  buttonText: {
-    fontSize: 16,
-  },
-});
-
 export default FillInTheBlanksScreen;
+
+const overlayColor = "rgba(255, 0, 0, 0.5)";
+const RECTANGLE_MAP: ImageMapItem[] = [
+  {
+    id: "1",
+    name: "2",
+    shape: "circle",
+    x2: 155,
+    y2: windowHeight / 1.3 - 10,
+    x1: 125,
+    y1: 125,
+    prefill: overlayColor,
+    fill: overlayColor,
+    radius: 25,
+  },
+  {
+    id: "2",
+    name: "2",
+    shape: "circle",
+    x2: 120,
+    y2: 400,
+    x1: 90,
+    y1: 370,
+    prefill: overlayColor,
+    fill: overlayColor,
+    radius: 25,
+  },
+
+  {
+    id: "8",
+    name: "4",
+    shape: "circle",
+    x2: 240,
+    y2: 140,
+    x1: 210,
+    y1: 120,
+    prefill: overlayColor,
+    fill: overlayColor,
+    radius: 25,
+  },
+];

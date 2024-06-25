@@ -1,0 +1,18 @@
+{
+  "resourceName": "linguaoimage",
+  "policyUUID": "a9a01d0e",
+  "bucketName": "linguaoimagebucket",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "S3Trigger4ed17bbe",
+  "groupAccess": {}
+}

@@ -37,6 +37,7 @@ export type ExercisesStackProps = {
   SelectTheCorrectImageScreen: undefined;
   LessonCompletedScreen: undefined;
   SelectCorrectImgTextScreen: undefined;
+  SelectCorrectlyAudioScreen: undefined;
 };
 
 export type TrainingStackProps = {

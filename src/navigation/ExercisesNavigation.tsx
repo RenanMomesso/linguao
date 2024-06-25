@@ -13,6 +13,7 @@ import MatchWordPairScreen from "@/pages/ExerciciesScreens/MatchWordPairScreen/M
 import FillInTheBlanksScreen from "@/pages/ExerciciesScreens/FillInTheBlanksScreen/FillInTheBlanksScreen";
 import LessonCompletedScreen from "@/pages/LessonCompletedScreen/LessonCompletedScreen";
 import SelectCorrectImgTextScreen from "@/pages/ExerciciesScreens/SelectCorrectImgTextScreen/SelectCorrectImgTextScreen";
+import SelectCorrectlyAudioScreen from "@/pages/ExerciciesScreens/SelectCorrectlyAudioScreen/SelectCorrectlyAudioScreen";
 
 const Stack = createStackNavigator<ExercisesStackProps>();
 
@@ -46,6 +47,10 @@ const ExercisesNavigation = () => {
       <Stack.Screen
         name="MatchWordPairScreen"
         component={MatchWordPairScreen}
+      />
+      <Stack.Screen
+        name="SelectCorrectlyAudioScreen"
+        component={SelectCorrectlyAudioScreen}
       />
       <Stack.Screen
         name="FillInTheBlanksScreen"

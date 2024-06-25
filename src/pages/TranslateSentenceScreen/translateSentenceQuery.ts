@@ -11,6 +11,7 @@ export const englishSentenceQuery = gql`
         imageUrl
         createdAt
         translation
+        fakeSentences
       }
     }
   }

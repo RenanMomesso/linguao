@@ -53,6 +53,11 @@
     }
   },
   "function": {
+    "S3Trigger4ed17bbe": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "registeruser": {
       "build": true,
       "dependsOn": [
@@ -71,6 +76,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_S3Trigger4ed17bbe_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "S3Trigger4ed17bbe"
+        }
+      ]
+    },
+    "AMPLIFY_function_S3Trigger4ed17bbe_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "S3Trigger4ed17bbe"
+        }
+      ]
+    },
     "AMPLIFY_function_registeruser_deploymentBucketName": {
       "usedBy": [
         {
@@ -86,6 +107,23 @@
           "resourceName": "registeruser"
         }
       ]
+    }
+  },
+  "storage": {
+    "linguaoimage": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ],
+          "category": "function",
+          "resourceName": "S3Trigger4ed17bbe"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
     }
   }
 }

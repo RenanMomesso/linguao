@@ -172,6 +172,7 @@ export const getWordList = /* GraphQL */ `query GetWordList($id: ID!) {
   getWordList(id: $id) {
     id
     level
+    name
     Words {
       items {
         id
@@ -204,6 +205,7 @@ export const listWordLists = /* GraphQL */ `query ListWordLists(
     items {
       id
       level
+      name
       Words {
         items {
           id
@@ -234,6 +236,7 @@ export const getEnglishSentence = /* GraphQL */ `query GetEnglishSentence($id: I
   getEnglishSentence(id: $id) {
     id
     sentence
+    type
     imageUrl
     translation
     fakeWords
@@ -259,6 +262,7 @@ export const listEnglishSentences = /* GraphQL */ `query ListEnglishSentences(
     items {
       id
       sentence
+      type
       imageUrl
       translation
       fakeWords
@@ -277,4 +281,217 @@ export const listEnglishSentences = /* GraphQL */ `query ListEnglishSentences(
 ` as GeneratedQuery<
   APITypes.ListEnglishSentencesQueryVariables,
   APITypes.ListEnglishSentencesQuery
+>;
+export const sentencesByCreatedAt = /* GraphQL */ `query SentencesByCreatedAt(
+  $type: String!
+  $createdAt: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelEnglishSentenceFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  sentencesByCreatedAt(
+    type: $type
+    createdAt: $createdAt
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      sentence
+      type
+      imageUrl
+      translation
+      fakeWords
+      level
+      fakeSentences
+      language
+      category
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SentencesByCreatedAtQueryVariables,
+  APITypes.SentencesByCreatedAtQuery
+>;
+export const getImageMapModal = /* GraphQL */ `query GetImageMapModal($id: ID!) {
+  getImageMapModal(id: $id) {
+    id
+    imageUrl
+    items {
+      items {
+        id
+        shape
+        x1
+        y1
+        x2
+        y2
+        width
+        height
+        radius
+        fill
+        prefill
+        name
+        imageMapModalID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetImageMapModalQueryVariables,
+  APITypes.GetImageMapModalQuery
+>;
+export const listImageMapModals = /* GraphQL */ `query ListImageMapModals(
+  $filter: ModelImageMapModalFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listImageMapModals(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      imageUrl
+      items {
+        items {
+          id
+          shape
+          x1
+          y1
+          x2
+          y2
+          width
+          height
+          radius
+          fill
+          prefill
+          name
+          imageMapModalID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListImageMapModalsQueryVariables,
+  APITypes.ListImageMapModalsQuery
+>;
+export const getImageMapItem = /* GraphQL */ `query GetImageMapItem($id: ID!) {
+  getImageMapItem(id: $id) {
+    id
+    shape
+    x1
+    y1
+    x2
+    y2
+    width
+    height
+    radius
+    fill
+    prefill
+    name
+    imageMapModalID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetImageMapItemQueryVariables,
+  APITypes.GetImageMapItemQuery
+>;
+export const listImageMapItems = /* GraphQL */ `query ListImageMapItems(
+  $filter: ModelImageMapItemFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listImageMapItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      shape
+      x1
+      y1
+      x2
+      y2
+      width
+      height
+      radius
+      fill
+      prefill
+      name
+      imageMapModalID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListImageMapItemsQueryVariables,
+  APITypes.ListImageMapItemsQuery
+>;
+export const imageMapItemsByImageMapModalID = /* GraphQL */ `query ImageMapItemsByImageMapModalID(
+  $imageMapModalID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelImageMapItemFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  imageMapItemsByImageMapModalID(
+    imageMapModalID: $imageMapModalID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      shape
+      x1
+      y1
+      x2
+      y2
+      width
+      height
+      radius
+      fill
+      prefill
+      name
+      imageMapModalID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ImageMapItemsByImageMapModalIDQueryVariables,
+  APITypes.ImageMapItemsByImageMapModalIDQuery
 >;

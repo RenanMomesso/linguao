@@ -6,6 +6,7 @@ export const Container = styled.View<{ backgroundColor?: backgroundColor }>`
   flex: 1;
   background-color: ${({ theme, backgroundColor }) =>
     theme.colors[backgroundColor || "greyScale100"]};
+    position: relative;
 `;
 
 export const Row = styled.View`

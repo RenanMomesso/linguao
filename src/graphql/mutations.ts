@@ -216,6 +216,7 @@ export const createWordList = /* GraphQL */ `mutation CreateWordList(
   createWordList(input: $input, condition: $condition) {
     id
     level
+    name
     Words {
       items {
         id
@@ -246,6 +247,7 @@ export const updateWordList = /* GraphQL */ `mutation UpdateWordList(
   updateWordList(input: $input, condition: $condition) {
     id
     level
+    name
     Words {
       items {
         id
@@ -276,6 +278,7 @@ export const deleteWordList = /* GraphQL */ `mutation DeleteWordList(
   deleteWordList(input: $input, condition: $condition) {
     id
     level
+    name
     Words {
       items {
         id
@@ -306,6 +309,7 @@ export const createEnglishSentence = /* GraphQL */ `mutation CreateEnglishSenten
   createEnglishSentence(input: $input, condition: $condition) {
     id
     sentence
+    type
     imageUrl
     translation
     fakeWords
@@ -329,6 +333,7 @@ export const updateEnglishSentence = /* GraphQL */ `mutation UpdateEnglishSenten
   updateEnglishSentence(input: $input, condition: $condition) {
     id
     sentence
+    type
     imageUrl
     translation
     fakeWords
@@ -352,6 +357,7 @@ export const deleteEnglishSentence = /* GraphQL */ `mutation DeleteEnglishSenten
   deleteEnglishSentence(input: $input, condition: $condition) {
     id
     sentence
+    type
     imageUrl
     translation
     fakeWords
@@ -367,4 +373,199 @@ export const deleteEnglishSentence = /* GraphQL */ `mutation DeleteEnglishSenten
 ` as GeneratedMutation<
   APITypes.DeleteEnglishSentenceMutationVariables,
   APITypes.DeleteEnglishSentenceMutation
+>;
+export const createImageMapModal = /* GraphQL */ `mutation CreateImageMapModal(
+  $input: CreateImageMapModalInput!
+  $condition: ModelImageMapModalConditionInput
+) {
+  createImageMapModal(input: $input, condition: $condition) {
+    id
+    imageUrl
+    items {
+      items {
+        id
+        shape
+        x1
+        y1
+        x2
+        y2
+        width
+        height
+        radius
+        fill
+        prefill
+        name
+        imageMapModalID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateImageMapModalMutationVariables,
+  APITypes.CreateImageMapModalMutation
+>;
+export const updateImageMapModal = /* GraphQL */ `mutation UpdateImageMapModal(
+  $input: UpdateImageMapModalInput!
+  $condition: ModelImageMapModalConditionInput
+) {
+  updateImageMapModal(input: $input, condition: $condition) {
+    id
+    imageUrl
+    items {
+      items {
+        id
+        shape
+        x1
+        y1
+        x2
+        y2
+        width
+        height
+        radius
+        fill
+        prefill
+        name
+        imageMapModalID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateImageMapModalMutationVariables,
+  APITypes.UpdateImageMapModalMutation
+>;
+export const deleteImageMapModal = /* GraphQL */ `mutation DeleteImageMapModal(
+  $input: DeleteImageMapModalInput!
+  $condition: ModelImageMapModalConditionInput
+) {
+  deleteImageMapModal(input: $input, condition: $condition) {
+    id
+    imageUrl
+    items {
+      items {
+        id
+        shape
+        x1
+        y1
+        x2
+        y2
+        width
+        height
+        radius
+        fill
+        prefill
+        name
+        imageMapModalID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteImageMapModalMutationVariables,
+  APITypes.DeleteImageMapModalMutation
+>;
+export const createImageMapItem = /* GraphQL */ `mutation CreateImageMapItem(
+  $input: CreateImageMapItemInput!
+  $condition: ModelImageMapItemConditionInput
+) {
+  createImageMapItem(input: $input, condition: $condition) {
+    id
+    shape
+    x1
+    y1
+    x2
+    y2
+    width
+    height
+    radius
+    fill
+    prefill
+    name
+    imageMapModalID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateImageMapItemMutationVariables,
+  APITypes.CreateImageMapItemMutation
+>;
+export const updateImageMapItem = /* GraphQL */ `mutation UpdateImageMapItem(
+  $input: UpdateImageMapItemInput!
+  $condition: ModelImageMapItemConditionInput
+) {
+  updateImageMapItem(input: $input, condition: $condition) {
+    id
+    shape
+    x1
+    y1
+    x2
+    y2
+    width
+    height
+    radius
+    fill
+    prefill
+    name
+    imageMapModalID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateImageMapItemMutationVariables,
+  APITypes.UpdateImageMapItemMutation
+>;
+export const deleteImageMapItem = /* GraphQL */ `mutation DeleteImageMapItem(
+  $input: DeleteImageMapItemInput!
+  $condition: ModelImageMapItemConditionInput
+) {
+  deleteImageMapItem(input: $input, condition: $condition) {
+    id
+    shape
+    x1
+    y1
+    x2
+    y2
+    width
+    height
+    radius
+    fill
+    prefill
+    name
+    imageMapModalID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteImageMapItemMutationVariables,
+  APITypes.DeleteImageMapItemMutation
 >;

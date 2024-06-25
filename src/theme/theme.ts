@@ -1,5 +1,5 @@
 import { Dimensions } from "react-native";
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 const scale = (size: number) => Math.ceil((width / 375) * size);
 
@@ -73,6 +73,7 @@ export const theme = {
 };
 
 export const windowWidth = width;
+export const windowHeight = height
 
 
 export type Theme = typeof theme;

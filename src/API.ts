@@ -263,10 +263,12 @@ export type DeleteWordInput = {
 export type CreateWordListInput = {
   id?: string | null,
   level?: EnglishLevel | null,
+  name?: string | null,
 };
 
 export type ModelWordListConditionInput = {
   level?: ModelEnglishLevelInput | null,
+  name?: ModelStringInput | null,
   and?: Array< ModelWordListConditionInput | null > | null,
   or?: Array< ModelWordListConditionInput | null > | null,
   not?: ModelWordListConditionInput | null,
@@ -278,6 +280,7 @@ export type WordList = {
   __typename: "WordList",
   id: string,
   level?: EnglishLevel | null,
+  name?: string | null,
   Words?: ModelWordConnection | null,
   createdAt: string,
   updatedAt: string,
@@ -292,6 +295,7 @@ export type ModelWordConnection = {
 export type UpdateWordListInput = {
   id: string,
   level?: EnglishLevel | null,
+  name?: string | null,
 };
 
 export type DeleteWordListInput = {
@@ -301,6 +305,7 @@ export type DeleteWordListInput = {
 export type CreateEnglishSentenceInput = {
   id?: string | null,
   sentence: string,
+  type: string,
   imageUrl?: string | null,
   translation: string,
   fakeWords: Array< string >,
@@ -308,6 +313,7 @@ export type CreateEnglishSentenceInput = {
   fakeSentences?: Array< string > | null,
   language: Language,
   category: Category,
+  createdAt?: string | null,
 };
 
 export enum Category {
@@ -321,6 +327,7 @@ export enum Category {
 
 export type ModelEnglishSentenceConditionInput = {
   sentence?: ModelStringInput | null,
+  type?: ModelStringInput | null,
   imageUrl?: ModelStringInput | null,
   translation?: ModelStringInput | null,
   fakeWords?: ModelStringInput | null,
@@ -328,10 +335,10 @@ export type ModelEnglishSentenceConditionInput = {
   fakeSentences?: ModelStringInput | null,
   language?: ModelLanguageInput | null,
   category?: ModelCategoryInput | null,
+  createdAt?: ModelStringInput | null,
   and?: Array< ModelEnglishSentenceConditionInput | null > | null,
   or?: Array< ModelEnglishSentenceConditionInput | null > | null,
   not?: ModelEnglishSentenceConditionInput | null,
-  createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
@@ -344,6 +351,7 @@ export type EnglishSentence = {
   __typename: "EnglishSentence",
   id: string,
   sentence: string,
+  type: string,
   imageUrl?: string | null,
   translation: string,
   fakeWords: Array< string >,
@@ -358,6 +366,7 @@ export type EnglishSentence = {
 export type UpdateEnglishSentenceInput = {
   id: string,
   sentence?: string | null,
+  type?: string | null,
   imageUrl?: string | null,
   translation?: string | null,
   fakeWords?: Array< string > | null,
@@ -365,9 +374,146 @@ export type UpdateEnglishSentenceInput = {
   fakeSentences?: Array< string > | null,
   language?: Language | null,
   category?: Category | null,
+  createdAt?: string | null,
 };
 
 export type DeleteEnglishSentenceInput = {
+  id: string,
+};
+
+export type CreateImageMapModalInput = {
+  id?: string | null,
+  imageUrl: string,
+};
+
+export type ModelImageMapModalConditionInput = {
+  imageUrl?: ModelStringInput | null,
+  and?: Array< ModelImageMapModalConditionInput | null > | null,
+  or?: Array< ModelImageMapModalConditionInput | null > | null,
+  not?: ModelImageMapModalConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ImageMapModal = {
+  __typename: "ImageMapModal",
+  id: string,
+  imageUrl: string,
+  items?: ModelImageMapItemConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelImageMapItemConnection = {
+  __typename: "ModelImageMapItemConnection",
+  items:  Array<ImageMapItem | null >,
+  nextToken?: string | null,
+};
+
+export type ImageMapItem = {
+  __typename: "ImageMapItem",
+  id: string,
+  shape: Shape,
+  x1: number,
+  y1: number,
+  x2?: number | null,
+  y2?: number | null,
+  width?: number | null,
+  height?: number | null,
+  radius?: number | null,
+  fill?: string | null,
+  prefill?: string | null,
+  name?: string | null,
+  imageMapModalID: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum Shape {
+  RECTANGLE = "RECTANGLE",
+  CIRCLE = "CIRCLE",
+}
+
+
+export type UpdateImageMapModalInput = {
+  id: string,
+  imageUrl?: string | null,
+};
+
+export type DeleteImageMapModalInput = {
+  id: string,
+};
+
+export type CreateImageMapItemInput = {
+  id?: string | null,
+  shape: Shape,
+  x1: number,
+  y1: number,
+  x2?: number | null,
+  y2?: number | null,
+  width?: number | null,
+  height?: number | null,
+  radius?: number | null,
+  fill?: string | null,
+  prefill?: string | null,
+  name?: string | null,
+  imageMapModalID: string,
+};
+
+export type ModelImageMapItemConditionInput = {
+  shape?: ModelShapeInput | null,
+  x1?: ModelFloatInput | null,
+  y1?: ModelFloatInput | null,
+  x2?: ModelFloatInput | null,
+  y2?: ModelFloatInput | null,
+  width?: ModelFloatInput | null,
+  height?: ModelFloatInput | null,
+  radius?: ModelFloatInput | null,
+  fill?: ModelStringInput | null,
+  prefill?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  imageMapModalID?: ModelIDInput | null,
+  and?: Array< ModelImageMapItemConditionInput | null > | null,
+  or?: Array< ModelImageMapItemConditionInput | null > | null,
+  not?: ModelImageMapItemConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelShapeInput = {
+  eq?: Shape | null,
+  ne?: Shape | null,
+};
+
+export type ModelFloatInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type UpdateImageMapItemInput = {
+  id: string,
+  shape?: Shape | null,
+  x1?: number | null,
+  y1?: number | null,
+  x2?: number | null,
+  y2?: number | null,
+  width?: number | null,
+  height?: number | null,
+  radius?: number | null,
+  fill?: string | null,
+  prefill?: string | null,
+  name?: string | null,
+  imageMapModalID?: string | null,
+};
+
+export type DeleteImageMapItemInput = {
   id: string,
 };
 
@@ -441,6 +587,7 @@ export enum ModelSortDirection {
 export type ModelWordListFilterInput = {
   id?: ModelIDInput | null,
   level?: ModelEnglishLevelInput | null,
+  name?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelWordListFilterInput | null > | null,
@@ -457,6 +604,7 @@ export type ModelWordListConnection = {
 export type ModelEnglishSentenceFilterInput = {
   id?: ModelIDInput | null,
   sentence?: ModelStringInput | null,
+  type?: ModelStringInput | null,
   imageUrl?: ModelStringInput | null,
   translation?: ModelStringInput | null,
   fakeWords?: ModelStringInput | null,
@@ -475,6 +623,53 @@ export type ModelEnglishSentenceConnection = {
   __typename: "ModelEnglishSentenceConnection",
   items:  Array<EnglishSentence | null >,
   nextToken?: string | null,
+};
+
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
+export type ModelImageMapModalFilterInput = {
+  id?: ModelIDInput | null,
+  imageUrl?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelImageMapModalFilterInput | null > | null,
+  or?: Array< ModelImageMapModalFilterInput | null > | null,
+  not?: ModelImageMapModalFilterInput | null,
+};
+
+export type ModelImageMapModalConnection = {
+  __typename: "ModelImageMapModalConnection",
+  items:  Array<ImageMapModal | null >,
+  nextToken?: string | null,
+};
+
+export type ModelImageMapItemFilterInput = {
+  id?: ModelIDInput | null,
+  shape?: ModelShapeInput | null,
+  x1?: ModelFloatInput | null,
+  y1?: ModelFloatInput | null,
+  x2?: ModelFloatInput | null,
+  y2?: ModelFloatInput | null,
+  width?: ModelFloatInput | null,
+  height?: ModelFloatInput | null,
+  radius?: ModelFloatInput | null,
+  fill?: ModelStringInput | null,
+  prefill?: ModelStringInput | null,
+  name?: ModelStringInput | null,
+  imageMapModalID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelImageMapItemFilterInput | null > | null,
+  or?: Array< ModelImageMapItemFilterInput | null > | null,
+  not?: ModelImageMapItemFilterInput | null,
 };
 
 export type ModelSubscriptionUserFilterInput = {
@@ -556,6 +751,7 @@ export type ModelSubscriptionWordFilterInput = {
 export type ModelSubscriptionWordListFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   level?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionWordListFilterInput | null > | null,
@@ -565,6 +761,7 @@ export type ModelSubscriptionWordListFilterInput = {
 export type ModelSubscriptionEnglishSentenceFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   sentence?: ModelSubscriptionStringInput | null,
+  type?: ModelSubscriptionStringInput | null,
   imageUrl?: ModelSubscriptionStringInput | null,
   translation?: ModelSubscriptionStringInput | null,
   fakeWords?: ModelSubscriptionStringInput | null,
@@ -576,6 +773,47 @@ export type ModelSubscriptionEnglishSentenceFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionEnglishSentenceFilterInput | null > | null,
   or?: Array< ModelSubscriptionEnglishSentenceFilterInput | null > | null,
+};
+
+export type ModelSubscriptionImageMapModalFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  imageUrl?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionImageMapModalFilterInput | null > | null,
+  or?: Array< ModelSubscriptionImageMapModalFilterInput | null > | null,
+};
+
+export type ModelSubscriptionImageMapItemFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  shape?: ModelSubscriptionStringInput | null,
+  x1?: ModelSubscriptionFloatInput | null,
+  y1?: ModelSubscriptionFloatInput | null,
+  x2?: ModelSubscriptionFloatInput | null,
+  y2?: ModelSubscriptionFloatInput | null,
+  width?: ModelSubscriptionFloatInput | null,
+  height?: ModelSubscriptionFloatInput | null,
+  radius?: ModelSubscriptionFloatInput | null,
+  fill?: ModelSubscriptionStringInput | null,
+  prefill?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  imageMapModalID?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionImageMapItemFilterInput | null > | null,
+  or?: Array< ModelSubscriptionImageMapItemFilterInput | null > | null,
+};
+
+export type ModelSubscriptionFloatInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
 };
 
 export type CreateUserMutationVariables = {
@@ -780,6 +1018,7 @@ export type CreateWordListMutation = {
     __typename: "WordList",
     id: string,
     level?: EnglishLevel | null,
+    name?: string | null,
     Words?:  {
       __typename: "ModelWordConnection",
       items:  Array< {
@@ -809,6 +1048,7 @@ export type UpdateWordListMutation = {
     __typename: "WordList",
     id: string,
     level?: EnglishLevel | null,
+    name?: string | null,
     Words?:  {
       __typename: "ModelWordConnection",
       items:  Array< {
@@ -838,6 +1078,7 @@ export type DeleteWordListMutation = {
     __typename: "WordList",
     id: string,
     level?: EnglishLevel | null,
+    name?: string | null,
     Words?:  {
       __typename: "ModelWordConnection",
       items:  Array< {
@@ -867,6 +1108,7 @@ export type CreateEnglishSentenceMutation = {
     __typename: "EnglishSentence",
     id: string,
     sentence: string,
+    type: string,
     imageUrl?: string | null,
     translation: string,
     fakeWords: Array< string >,
@@ -889,6 +1131,7 @@ export type UpdateEnglishSentenceMutation = {
     __typename: "EnglishSentence",
     id: string,
     sentence: string,
+    type: string,
     imageUrl?: string | null,
     translation: string,
     fakeWords: Array< string >,
@@ -911,6 +1154,7 @@ export type DeleteEnglishSentenceMutation = {
     __typename: "EnglishSentence",
     id: string,
     sentence: string,
+    type: string,
     imageUrl?: string | null,
     translation: string,
     fakeWords: Array< string >,
@@ -918,6 +1162,195 @@ export type DeleteEnglishSentenceMutation = {
     fakeSentences?: Array< string > | null,
     language: Language,
     category: Category,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateImageMapModalMutationVariables = {
+  input: CreateImageMapModalInput,
+  condition?: ModelImageMapModalConditionInput | null,
+};
+
+export type CreateImageMapModalMutation = {
+  createImageMapModal?:  {
+    __typename: "ImageMapModal",
+    id: string,
+    imageUrl: string,
+    items?:  {
+      __typename: "ModelImageMapItemConnection",
+      items:  Array< {
+        __typename: "ImageMapItem",
+        id: string,
+        shape: Shape,
+        x1: number,
+        y1: number,
+        x2?: number | null,
+        y2?: number | null,
+        width?: number | null,
+        height?: number | null,
+        radius?: number | null,
+        fill?: string | null,
+        prefill?: string | null,
+        name?: string | null,
+        imageMapModalID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateImageMapModalMutationVariables = {
+  input: UpdateImageMapModalInput,
+  condition?: ModelImageMapModalConditionInput | null,
+};
+
+export type UpdateImageMapModalMutation = {
+  updateImageMapModal?:  {
+    __typename: "ImageMapModal",
+    id: string,
+    imageUrl: string,
+    items?:  {
+      __typename: "ModelImageMapItemConnection",
+      items:  Array< {
+        __typename: "ImageMapItem",
+        id: string,
+        shape: Shape,
+        x1: number,
+        y1: number,
+        x2?: number | null,
+        y2?: number | null,
+        width?: number | null,
+        height?: number | null,
+        radius?: number | null,
+        fill?: string | null,
+        prefill?: string | null,
+        name?: string | null,
+        imageMapModalID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteImageMapModalMutationVariables = {
+  input: DeleteImageMapModalInput,
+  condition?: ModelImageMapModalConditionInput | null,
+};
+
+export type DeleteImageMapModalMutation = {
+  deleteImageMapModal?:  {
+    __typename: "ImageMapModal",
+    id: string,
+    imageUrl: string,
+    items?:  {
+      __typename: "ModelImageMapItemConnection",
+      items:  Array< {
+        __typename: "ImageMapItem",
+        id: string,
+        shape: Shape,
+        x1: number,
+        y1: number,
+        x2?: number | null,
+        y2?: number | null,
+        width?: number | null,
+        height?: number | null,
+        radius?: number | null,
+        fill?: string | null,
+        prefill?: string | null,
+        name?: string | null,
+        imageMapModalID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateImageMapItemMutationVariables = {
+  input: CreateImageMapItemInput,
+  condition?: ModelImageMapItemConditionInput | null,
+};
+
+export type CreateImageMapItemMutation = {
+  createImageMapItem?:  {
+    __typename: "ImageMapItem",
+    id: string,
+    shape: Shape,
+    x1: number,
+    y1: number,
+    x2?: number | null,
+    y2?: number | null,
+    width?: number | null,
+    height?: number | null,
+    radius?: number | null,
+    fill?: string | null,
+    prefill?: string | null,
+    name?: string | null,
+    imageMapModalID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateImageMapItemMutationVariables = {
+  input: UpdateImageMapItemInput,
+  condition?: ModelImageMapItemConditionInput | null,
+};
+
+export type UpdateImageMapItemMutation = {
+  updateImageMapItem?:  {
+    __typename: "ImageMapItem",
+    id: string,
+    shape: Shape,
+    x1: number,
+    y1: number,
+    x2?: number | null,
+    y2?: number | null,
+    width?: number | null,
+    height?: number | null,
+    radius?: number | null,
+    fill?: string | null,
+    prefill?: string | null,
+    name?: string | null,
+    imageMapModalID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteImageMapItemMutationVariables = {
+  input: DeleteImageMapItemInput,
+  condition?: ModelImageMapItemConditionInput | null,
+};
+
+export type DeleteImageMapItemMutation = {
+  deleteImageMapItem?:  {
+    __typename: "ImageMapItem",
+    id: string,
+    shape: Shape,
+    x1: number,
+    y1: number,
+    x2?: number | null,
+    y2?: number | null,
+    width?: number | null,
+    height?: number | null,
+    radius?: number | null,
+    fill?: string | null,
+    prefill?: string | null,
+    name?: string | null,
+    imageMapModalID: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1097,6 +1530,7 @@ export type GetWordListQuery = {
     __typename: "WordList",
     id: string,
     level?: EnglishLevel | null,
+    name?: string | null,
     Words?:  {
       __typename: "ModelWordConnection",
       items:  Array< {
@@ -1129,6 +1563,7 @@ export type ListWordListsQuery = {
       __typename: "WordList",
       id: string,
       level?: EnglishLevel | null,
+      name?: string | null,
       Words?:  {
         __typename: "ModelWordConnection",
         items:  Array< {
@@ -1159,6 +1594,7 @@ export type GetEnglishSentenceQuery = {
     __typename: "EnglishSentence",
     id: string,
     sentence: string,
+    type: string,
     imageUrl?: string | null,
     translation: string,
     fakeWords: Array< string >,
@@ -1184,6 +1620,7 @@ export type ListEnglishSentencesQuery = {
       __typename: "EnglishSentence",
       id: string,
       sentence: string,
+      type: string,
       imageUrl?: string | null,
       translation: string,
       fakeWords: Array< string >,
@@ -1191,6 +1628,204 @@ export type ListEnglishSentencesQuery = {
       fakeSentences?: Array< string > | null,
       language: Language,
       category: Category,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type SentencesByCreatedAtQueryVariables = {
+  type: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelEnglishSentenceFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type SentencesByCreatedAtQuery = {
+  sentencesByCreatedAt?:  {
+    __typename: "ModelEnglishSentenceConnection",
+    items:  Array< {
+      __typename: "EnglishSentence",
+      id: string,
+      sentence: string,
+      type: string,
+      imageUrl?: string | null,
+      translation: string,
+      fakeWords: Array< string >,
+      level: EnglishLevel,
+      fakeSentences?: Array< string > | null,
+      language: Language,
+      category: Category,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetImageMapModalQueryVariables = {
+  id: string,
+};
+
+export type GetImageMapModalQuery = {
+  getImageMapModal?:  {
+    __typename: "ImageMapModal",
+    id: string,
+    imageUrl: string,
+    items?:  {
+      __typename: "ModelImageMapItemConnection",
+      items:  Array< {
+        __typename: "ImageMapItem",
+        id: string,
+        shape: Shape,
+        x1: number,
+        y1: number,
+        x2?: number | null,
+        y2?: number | null,
+        width?: number | null,
+        height?: number | null,
+        radius?: number | null,
+        fill?: string | null,
+        prefill?: string | null,
+        name?: string | null,
+        imageMapModalID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListImageMapModalsQueryVariables = {
+  filter?: ModelImageMapModalFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListImageMapModalsQuery = {
+  listImageMapModals?:  {
+    __typename: "ModelImageMapModalConnection",
+    items:  Array< {
+      __typename: "ImageMapModal",
+      id: string,
+      imageUrl: string,
+      items?:  {
+        __typename: "ModelImageMapItemConnection",
+        items:  Array< {
+          __typename: "ImageMapItem",
+          id: string,
+          shape: Shape,
+          x1: number,
+          y1: number,
+          x2?: number | null,
+          y2?: number | null,
+          width?: number | null,
+          height?: number | null,
+          radius?: number | null,
+          fill?: string | null,
+          prefill?: string | null,
+          name?: string | null,
+          imageMapModalID: string,
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetImageMapItemQueryVariables = {
+  id: string,
+};
+
+export type GetImageMapItemQuery = {
+  getImageMapItem?:  {
+    __typename: "ImageMapItem",
+    id: string,
+    shape: Shape,
+    x1: number,
+    y1: number,
+    x2?: number | null,
+    y2?: number | null,
+    width?: number | null,
+    height?: number | null,
+    radius?: number | null,
+    fill?: string | null,
+    prefill?: string | null,
+    name?: string | null,
+    imageMapModalID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListImageMapItemsQueryVariables = {
+  filter?: ModelImageMapItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListImageMapItemsQuery = {
+  listImageMapItems?:  {
+    __typename: "ModelImageMapItemConnection",
+    items:  Array< {
+      __typename: "ImageMapItem",
+      id: string,
+      shape: Shape,
+      x1: number,
+      y1: number,
+      x2?: number | null,
+      y2?: number | null,
+      width?: number | null,
+      height?: number | null,
+      radius?: number | null,
+      fill?: string | null,
+      prefill?: string | null,
+      name?: string | null,
+      imageMapModalID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ImageMapItemsByImageMapModalIDQueryVariables = {
+  imageMapModalID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelImageMapItemFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ImageMapItemsByImageMapModalIDQuery = {
+  imageMapItemsByImageMapModalID?:  {
+    __typename: "ModelImageMapItemConnection",
+    items:  Array< {
+      __typename: "ImageMapItem",
+      id: string,
+      shape: Shape,
+      x1: number,
+      y1: number,
+      x2?: number | null,
+      y2?: number | null,
+      width?: number | null,
+      height?: number | null,
+      radius?: number | null,
+      fill?: string | null,
+      prefill?: string | null,
+      name?: string | null,
+      imageMapModalID: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1390,6 +2025,7 @@ export type OnCreateWordListSubscription = {
     __typename: "WordList",
     id: string,
     level?: EnglishLevel | null,
+    name?: string | null,
     Words?:  {
       __typename: "ModelWordConnection",
       items:  Array< {
@@ -1418,6 +2054,7 @@ export type OnUpdateWordListSubscription = {
     __typename: "WordList",
     id: string,
     level?: EnglishLevel | null,
+    name?: string | null,
     Words?:  {
       __typename: "ModelWordConnection",
       items:  Array< {
@@ -1446,6 +2083,7 @@ export type OnDeleteWordListSubscription = {
     __typename: "WordList",
     id: string,
     level?: EnglishLevel | null,
+    name?: string | null,
     Words?:  {
       __typename: "ModelWordConnection",
       items:  Array< {
@@ -1474,6 +2112,7 @@ export type OnCreateEnglishSentenceSubscription = {
     __typename: "EnglishSentence",
     id: string,
     sentence: string,
+    type: string,
     imageUrl?: string | null,
     translation: string,
     fakeWords: Array< string >,
@@ -1495,6 +2134,7 @@ export type OnUpdateEnglishSentenceSubscription = {
     __typename: "EnglishSentence",
     id: string,
     sentence: string,
+    type: string,
     imageUrl?: string | null,
     translation: string,
     fakeWords: Array< string >,
@@ -1516,6 +2156,7 @@ export type OnDeleteEnglishSentenceSubscription = {
     __typename: "EnglishSentence",
     id: string,
     sentence: string,
+    type: string,
     imageUrl?: string | null,
     translation: string,
     fakeWords: Array< string >,
@@ -1523,6 +2164,189 @@ export type OnDeleteEnglishSentenceSubscription = {
     fakeSentences?: Array< string > | null,
     language: Language,
     category: Category,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateImageMapModalSubscriptionVariables = {
+  filter?: ModelSubscriptionImageMapModalFilterInput | null,
+};
+
+export type OnCreateImageMapModalSubscription = {
+  onCreateImageMapModal?:  {
+    __typename: "ImageMapModal",
+    id: string,
+    imageUrl: string,
+    items?:  {
+      __typename: "ModelImageMapItemConnection",
+      items:  Array< {
+        __typename: "ImageMapItem",
+        id: string,
+        shape: Shape,
+        x1: number,
+        y1: number,
+        x2?: number | null,
+        y2?: number | null,
+        width?: number | null,
+        height?: number | null,
+        radius?: number | null,
+        fill?: string | null,
+        prefill?: string | null,
+        name?: string | null,
+        imageMapModalID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateImageMapModalSubscriptionVariables = {
+  filter?: ModelSubscriptionImageMapModalFilterInput | null,
+};
+
+export type OnUpdateImageMapModalSubscription = {
+  onUpdateImageMapModal?:  {
+    __typename: "ImageMapModal",
+    id: string,
+    imageUrl: string,
+    items?:  {
+      __typename: "ModelImageMapItemConnection",
+      items:  Array< {
+        __typename: "ImageMapItem",
+        id: string,
+        shape: Shape,
+        x1: number,
+        y1: number,
+        x2?: number | null,
+        y2?: number | null,
+        width?: number | null,
+        height?: number | null,
+        radius?: number | null,
+        fill?: string | null,
+        prefill?: string | null,
+        name?: string | null,
+        imageMapModalID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteImageMapModalSubscriptionVariables = {
+  filter?: ModelSubscriptionImageMapModalFilterInput | null,
+};
+
+export type OnDeleteImageMapModalSubscription = {
+  onDeleteImageMapModal?:  {
+    __typename: "ImageMapModal",
+    id: string,
+    imageUrl: string,
+    items?:  {
+      __typename: "ModelImageMapItemConnection",
+      items:  Array< {
+        __typename: "ImageMapItem",
+        id: string,
+        shape: Shape,
+        x1: number,
+        y1: number,
+        x2?: number | null,
+        y2?: number | null,
+        width?: number | null,
+        height?: number | null,
+        radius?: number | null,
+        fill?: string | null,
+        prefill?: string | null,
+        name?: string | null,
+        imageMapModalID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateImageMapItemSubscriptionVariables = {
+  filter?: ModelSubscriptionImageMapItemFilterInput | null,
+};
+
+export type OnCreateImageMapItemSubscription = {
+  onCreateImageMapItem?:  {
+    __typename: "ImageMapItem",
+    id: string,
+    shape: Shape,
+    x1: number,
+    y1: number,
+    x2?: number | null,
+    y2?: number | null,
+    width?: number | null,
+    height?: number | null,
+    radius?: number | null,
+    fill?: string | null,
+    prefill?: string | null,
+    name?: string | null,
+    imageMapModalID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateImageMapItemSubscriptionVariables = {
+  filter?: ModelSubscriptionImageMapItemFilterInput | null,
+};
+
+export type OnUpdateImageMapItemSubscription = {
+  onUpdateImageMapItem?:  {
+    __typename: "ImageMapItem",
+    id: string,
+    shape: Shape,
+    x1: number,
+    y1: number,
+    x2?: number | null,
+    y2?: number | null,
+    width?: number | null,
+    height?: number | null,
+    radius?: number | null,
+    fill?: string | null,
+    prefill?: string | null,
+    name?: string | null,
+    imageMapModalID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteImageMapItemSubscriptionVariables = {
+  filter?: ModelSubscriptionImageMapItemFilterInput | null,
+};
+
+export type OnDeleteImageMapItemSubscription = {
+  onDeleteImageMapItem?:  {
+    __typename: "ImageMapItem",
+    id: string,
+    shape: Shape,
+    x1: number,
+    y1: number,
+    x2?: number | null,
+    y2?: number | null,
+    width?: number | null,
+    height?: number | null,
+    radius?: number | null,
+    fill?: string | null,
+    prefill?: string | null,
+    name?: string | null,
+    imageMapModalID: string,
     createdAt: string,
     updatedAt: string,
   } | null,

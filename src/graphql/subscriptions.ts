@@ -186,6 +186,7 @@ export const onCreateWordList = /* GraphQL */ `subscription OnCreateWordList($fi
   onCreateWordList(filter: $filter) {
     id
     level
+    name
     Words {
       items {
         id
@@ -213,6 +214,7 @@ export const onUpdateWordList = /* GraphQL */ `subscription OnUpdateWordList($fi
   onUpdateWordList(filter: $filter) {
     id
     level
+    name
     Words {
       items {
         id
@@ -240,6 +242,7 @@ export const onDeleteWordList = /* GraphQL */ `subscription OnDeleteWordList($fi
   onDeleteWordList(filter: $filter) {
     id
     level
+    name
     Words {
       items {
         id
@@ -269,6 +272,7 @@ export const onCreateEnglishSentence = /* GraphQL */ `subscription OnCreateEngli
   onCreateEnglishSentence(filter: $filter) {
     id
     sentence
+    type
     imageUrl
     translation
     fakeWords
@@ -291,6 +295,7 @@ export const onUpdateEnglishSentence = /* GraphQL */ `subscription OnUpdateEngli
   onUpdateEnglishSentence(filter: $filter) {
     id
     sentence
+    type
     imageUrl
     translation
     fakeWords
@@ -313,6 +318,7 @@ export const onDeleteEnglishSentence = /* GraphQL */ `subscription OnDeleteEngli
   onDeleteEnglishSentence(filter: $filter) {
     id
     sentence
+    type
     imageUrl
     translation
     fakeWords
@@ -328,4 +334,193 @@ export const onDeleteEnglishSentence = /* GraphQL */ `subscription OnDeleteEngli
 ` as GeneratedSubscription<
   APITypes.OnDeleteEnglishSentenceSubscriptionVariables,
   APITypes.OnDeleteEnglishSentenceSubscription
+>;
+export const onCreateImageMapModal = /* GraphQL */ `subscription OnCreateImageMapModal(
+  $filter: ModelSubscriptionImageMapModalFilterInput
+) {
+  onCreateImageMapModal(filter: $filter) {
+    id
+    imageUrl
+    items {
+      items {
+        id
+        shape
+        x1
+        y1
+        x2
+        y2
+        width
+        height
+        radius
+        fill
+        prefill
+        name
+        imageMapModalID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateImageMapModalSubscriptionVariables,
+  APITypes.OnCreateImageMapModalSubscription
+>;
+export const onUpdateImageMapModal = /* GraphQL */ `subscription OnUpdateImageMapModal(
+  $filter: ModelSubscriptionImageMapModalFilterInput
+) {
+  onUpdateImageMapModal(filter: $filter) {
+    id
+    imageUrl
+    items {
+      items {
+        id
+        shape
+        x1
+        y1
+        x2
+        y2
+        width
+        height
+        radius
+        fill
+        prefill
+        name
+        imageMapModalID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateImageMapModalSubscriptionVariables,
+  APITypes.OnUpdateImageMapModalSubscription
+>;
+export const onDeleteImageMapModal = /* GraphQL */ `subscription OnDeleteImageMapModal(
+  $filter: ModelSubscriptionImageMapModalFilterInput
+) {
+  onDeleteImageMapModal(filter: $filter) {
+    id
+    imageUrl
+    items {
+      items {
+        id
+        shape
+        x1
+        y1
+        x2
+        y2
+        width
+        height
+        radius
+        fill
+        prefill
+        name
+        imageMapModalID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteImageMapModalSubscriptionVariables,
+  APITypes.OnDeleteImageMapModalSubscription
+>;
+export const onCreateImageMapItem = /* GraphQL */ `subscription OnCreateImageMapItem(
+  $filter: ModelSubscriptionImageMapItemFilterInput
+) {
+  onCreateImageMapItem(filter: $filter) {
+    id
+    shape
+    x1
+    y1
+    x2
+    y2
+    width
+    height
+    radius
+    fill
+    prefill
+    name
+    imageMapModalID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateImageMapItemSubscriptionVariables,
+  APITypes.OnCreateImageMapItemSubscription
+>;
+export const onUpdateImageMapItem = /* GraphQL */ `subscription OnUpdateImageMapItem(
+  $filter: ModelSubscriptionImageMapItemFilterInput
+) {
+  onUpdateImageMapItem(filter: $filter) {
+    id
+    shape
+    x1
+    y1
+    x2
+    y2
+    width
+    height
+    radius
+    fill
+    prefill
+    name
+    imageMapModalID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateImageMapItemSubscriptionVariables,
+  APITypes.OnUpdateImageMapItemSubscription
+>;
+export const onDeleteImageMapItem = /* GraphQL */ `subscription OnDeleteImageMapItem(
+  $filter: ModelSubscriptionImageMapItemFilterInput
+) {
+  onDeleteImageMapItem(filter: $filter) {
+    id
+    shape
+    x1
+    y1
+    x2
+    y2
+    width
+    height
+    radius
+    fill
+    prefill
+    name
+    imageMapModalID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteImageMapItemSubscriptionVariables,
+  APITypes.OnDeleteImageMapItemSubscription
 >;

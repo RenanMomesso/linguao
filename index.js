@@ -17,6 +17,7 @@ const myErrorHandler = (error, isFatal) => {
 
   // Optionally, show an alert to the user
   if (isFatal) {
+    console.log("Fatal error detected", isFatal);
     Alert.alert(
       "Unexpected error occurred",
       `
@@ -28,7 +29,7 @@ const myErrorHandler = (error, isFatal) => {
         {
           text: "Restart",
           onPress: () => {
-            RNR?.restart();
+            // RNR?.restart();
           },
         },
       ],
