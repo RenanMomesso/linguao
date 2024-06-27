@@ -27,6 +27,9 @@
           "deploymentBucketName": "amplify-linguao-dev-13eb4-deployment",
           "s3Key": "amplify-builds/S3Trigger4ed17bbe-30547178465432537230-build.zip"
         }
+      },
+      "storage": {
+        "linguaoimage": {}
       }
     }
   },
