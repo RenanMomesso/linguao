@@ -14,6 +14,8 @@ import FillInTheBlanksScreen from "@/pages/ExerciciesScreens/FillInTheBlanksScre
 import LessonCompletedScreen from "@/pages/LessonCompletedScreen/LessonCompletedScreen";
 import SelectCorrectImgTextScreen from "@/pages/ExerciciesScreens/SelectCorrectImgTextScreen/SelectCorrectImgTextScreen";
 import SelectCorrectlyAudioScreen from "@/pages/ExerciciesScreens/SelectCorrectlyAudioScreen/SelectCorrectlyAudioScreen";
+import TypeWhatYouHearScreen from "@/pages/ExerciciesScreens/TypeWhatYouHearScreen/TypeWhatYouHearScreen";
+import SelectMatchAudioWithTextScreen from "@/pages/ExerciciesScreens/SelectMatchAudioWithTextScreen/SelectMatchAudioWithTextScreen";
 
 const Stack = createStackNavigator<ExercisesStackProps>();
 
@@ -63,6 +65,14 @@ const ExercisesNavigation = () => {
       <Stack.Screen
         name="SelectCorrectImgTextScreen"
         component={SelectCorrectImgTextScreen}
+      />
+      <Stack.Screen
+        name="TypeWhatYouHearScreen"
+        component={TypeWhatYouHearScreen}
+      />
+      <Stack.Screen
+        name="SelectMatchAudioWithTextScreen"
+        component={SelectMatchAudioWithTextScreen}
       />
     </Stack.Navigator>
   );

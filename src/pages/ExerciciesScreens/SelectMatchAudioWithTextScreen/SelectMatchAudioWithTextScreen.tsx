@@ -1,25 +1,28 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Pressable } from "react-native";
+import React from "react";
 import ExercicesLayout from "@/layouts/ExercicesLayout";
-import Button from "@/components/Button/Button";
-import { ExercisesStack } from "@/interface/navigation.interface";
-import React, { useMemo, useState } from "react";
-import useMatchWordPair from "./useMatchWordPair";
-import TextComponent from "@/components/Text";
 import { theme } from "@/theme/theme";
+import TextComponent from "@/components/Text";
+import Button from "@/components/Button/Button";
 
-interface MatchWordPairScreenProps {
-  navigation: ExercisesStack;
-}
+import TapAudioCircle from "@/assets/images/TapAudioCircle.svg";
+import WordsSelectors from "../../TranslateSentenceScreen/components/WordsSelectors";
 
-const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
+import BottomSheetAnswer from "../components/BottomSheetAnswer/BottomSheetAnswer";
+import CustomInput from "@/components/Input/Input";
+import useMatchWordPair from "../MatchWordPairScreen/useMatchWordPair";
+import Selectable from "@/components/Selectable/Selectable";
+import SpeakerWithBars from "../SelectCorrectlyAudioScreen/SpeakerWithBars";
+import { useTypedNavigation } from "@/hooks/useNavigationTyped";
+import { useNavigation } from "@react-navigation/native";
+import { ExercisesStack } from "@/interface/navigation.interface";
+
+const SelectMatchAudioWithTextScreen = (props: any) => {
+  const navigation = useNavigation<ExercisesStack>()
   const {
     handlePress,
     isMatched,
     isSelected,
-    list: words,
-    selected,
-    wordsPairs,
-    matches,
     sortedWordsEnglish,
     sortedWordsPortuguese,
   } = useMatchWordPair();
@@ -27,7 +30,8 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
   return (
     <ExercicesLayout
       barProgressPercentage={80}
-      pageTitle="Select the correct matches">
+      pageTitle="Match the audio with the text">
+      <View style={{ height: 20 }} />
       <View style={styles.container}>
         <View style={styles.column}>
           {sortedWordsEnglish.map(
@@ -42,14 +46,10 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
                     isMatched(word.word) && styles.matchedCard,
                   ]}
                   onPress={() => handlePress(word, "word")}>
-                  <TextComponent
-                    color={
-                      isSelected(word, "word") || isMatched(word?.word)
-                        ? "white"
-                        : "greyScale900"
-                    }>
-                    {word?.word}
-                  </TextComponent>
+                  <SpeakerWithBars
+                    size="small"
+                    sentence={word.translatedWord}
+                  />
                 </TouchableOpacity>
               );
             },
@@ -60,6 +60,7 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
             <TouchableOpacity
               key={index}
               style={[
+                {alignItems:'flex-start', justifyContent:'flex-start'},
                 styles.card,
                 isSelected(word, "translatedWord") && styles.selectedCard,
                 isMatched(word.translatedWord) && styles.matchedCard,
@@ -80,21 +81,31 @@ const MatchWordPairScreen = ({ navigation }: MatchWordPairScreenProps) => {
       </View>
       <ExercicesLayout.Footer>
         <Button
-          disabled={false}
-          backgroundColor={false ? "greyScale400" : "primary"}
-          buttonText="Next"
-          onPressButton={() =>
-            navigation.navigate("SelectCorrectlyAudioScreen")
-          }
-          touchSoundDisabled={false}
+          backgroundColor={true ? "primary" : "greyScale300"}
+          buttonText="Check Answers"
           textColor="white"
+          disabled={false}
+          onPressButton={() => {
+            navigation.navigate("LessonCompletedScreen")
+          }}
         />
       </ExercicesLayout.Footer>
+      {false && (
+        <BottomSheetAnswer
+          correctlyAnswered={true}
+          translation={""}
+          handleAlert={() => {}}
+          handleClickContinue={() => {
+
+          }}
+          handleShare={() => {}}
+        />
+      )}
     </ExercicesLayout>
   );
 };
 
-export default MatchWordPairScreen;
+export default SelectMatchAudioWithTextScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -111,6 +122,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f0f0",
     borderRadius: 12,
     alignItems: "center",
+    justifyContent: "center",
+    maxHeight: 55,
+    height: 55,
   },
   selectedCard: {
     backgroundColor: theme.colors.success,

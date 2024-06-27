@@ -3,12 +3,17 @@ import { Pressable } from "react-native";
 import LottieView from "lottie-react-native";
 import { theme } from "@/theme/theme";
 import jsonLottie from "@/assets/json/Lc8090d9Br.json";
-
+export type Size = "small" | "medium" | "large";
 interface SpeakerButtonProps {
   soundPlaying: boolean;
   handleSpeak: () => void;
+  size?: Size;
 }
-const SpeakerButton = ({ soundPlaying, handleSpeak }: SpeakerButtonProps) => {
+const SpeakerButton = ({
+  soundPlaying,
+  handleSpeak,
+  size = "medium",
+}: SpeakerButtonProps) => {
   return (
     <Pressable
       style={{
@@ -23,8 +28,8 @@ const SpeakerButton = ({ soundPlaying, handleSpeak }: SpeakerButtonProps) => {
         autoPlay={soundPlaying}
         loop={false}
         style={{
-          height: 25,
-          width: 25,
+          height: size === "small" ? 15 : size === "medium" ? 25 : 30,
+          width: size === "small" ? 15 : size === "medium" ? 25 : 30,
         }}
       />
     </Pressable>

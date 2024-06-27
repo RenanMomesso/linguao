@@ -63,7 +63,11 @@ const SpeakTheSentenceScreen = () => {
             soundPlaying || showAnswer ? () => {} : () => handleSpeak
           }
         />
-        <TextComponent size="heading6" weight="bold" align="center">
+        <TextComponent
+          style={{ flex: 1 }}
+          size="heading6"
+          weight="bold"
+          align="left">
           {sentence}
         </TextComponent>
       </Row>

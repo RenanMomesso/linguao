@@ -26,8 +26,6 @@ function getRandomScreen(): keyof typeof screens {
 const LoadingExercisesScreen = () => {
   const navigation = useNavigation<ExercisesStack>();
   const dispatch = useAppDispatch();
-  const { sentence } = useTranslationSentence();
-  console.log("🚀 ~ LoadingExercisesScreen ~ sentence:", sentence)
 
   useFocusEffect(
     useCallback(() => {

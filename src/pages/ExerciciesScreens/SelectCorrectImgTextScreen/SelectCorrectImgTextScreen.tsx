@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import React, { useState } from "react";
 import ExercicesLayout from "@/layouts/ExercicesLayout";
 import BoxImgTxt from "@/components/BoxImgTxt/BoxImgTxt";
@@ -18,8 +18,7 @@ interface SelectCorrectImgTextScreenProps {
 const SelectCorrectImgTextScreen = ({
   navigation,
 }: SelectCorrectImgTextScreenProps) => {
-
-    const [soundPlaying, setSoundPlaying] = useState(false);
+  const [soundPlaying, setSoundPlaying] = useState(false);
   return (
     <ExercicesLayout
       barProgressPercentage={80}
@@ -65,24 +64,58 @@ const SelectCorrectImgTextScreen = ({
       </Row>
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 20 }}>
-        <BoxImgTxt
-          imgUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg"
-          text="A cat"
-        />
-        <BoxImgTxt
-          imgUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg"
-          text="A dog"
-        />
-
-        <BoxImgTxt
-          imgUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg"
-          text="A bird"
-        />
-
-        <BoxImgTxt
-          imgUrl="https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg"
-          text="A fish"
-        />
+        <Pressable
+          style={{
+            width: "47%",
+            height: 70,
+            borderWidth: 1,
+            borderRadius: 8,
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+          <TextComponent size="heading5" align="center" weight="bold">
+            Dog
+          </TextComponent>
+        </Pressable>
+        <Pressable
+          style={{
+            width: "47%",
+            height: 70,
+            borderWidth: 1,
+            borderRadius: 8,
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+          <TextComponent size="heading5" align="center" weight="bold">
+            Dog
+          </TextComponent>
+        </Pressable>
+        <Pressable
+          style={{
+            width: "47%",
+            height: 70,
+            borderWidth: 1,
+            borderRadius: 8,
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+          <TextComponent size="heading5" align="center" weight="bold">
+            Dog
+          </TextComponent>
+        </Pressable>
+        <Pressable
+          style={{
+            width: "47%",
+            height: 70,
+            borderWidth: 1,
+            borderRadius: 8,
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+          <TextComponent size="heading5" align="center" weight="bold">
+            Dog
+          </TextComponent>
+        </Pressable>
       </View>
       <ExercicesLayout.Footer>
         <Button
@@ -90,7 +123,7 @@ const SelectCorrectImgTextScreen = ({
           backgroundColor="primary"
           buttonText="Next"
           onPressButton={() => {
-            navigation.navigate("LessonCompletedScreen");
+            navigation.navigate("TypeWhatYouHearScreen");
           }}
           touchSoundDisabled={false}
           textColor="Red"

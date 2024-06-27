@@ -26,7 +26,7 @@ const LessonCompletedScreen = ({navigation}:any) => {
           backgroundColor="primary"
           textColor="white"
           onPressButton={() => {
-            navigation.navigate("Home");
+            navigation.navigate("HomePlay");
           }}
         />
       </BottomContainer>

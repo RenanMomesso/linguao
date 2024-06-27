@@ -38,6 +38,8 @@ export type ExercisesStackProps = {
   LessonCompletedScreen: undefined;
   SelectCorrectImgTextScreen: undefined;
   SelectCorrectlyAudioScreen: undefined;
+  TypeWhatYouHearScreen: undefined;
+  SelectMatchAudioWithTextScreen: undefined;
 };
 
 export type TrainingStackProps = {
