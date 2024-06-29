@@ -1,6 +1,4 @@
-if (__DEV__) {
-  import("./ReactoTronConfig");
-}
+
 import { Amplify } from "aws-amplify";
 import amplifyconfig from "./src/amplifyconfiguration.json";
 Amplify.configure(amplifyconfig);

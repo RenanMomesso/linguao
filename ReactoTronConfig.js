@@ -1,7 +1,14 @@
-import Reactotron from "reactotron-react-native";
+import Reactotron, { trackGlobalErrors } from 'reactotron-react-native';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
-Reactotron.configure() // controls connection & communication settings
+Reactotron.setAsyncStorageHandler(AsyncStorage)
+  .use(trackGlobalErrors())
+  .configure()
   .useReactNative({
     storybook: true,
-  }) // add all built-in react native plugins
-  .connect(); // let's connect!
+  }) 
+  .connect(); 
+
+console.tron = Reactotron;
+
+export default Reactotron;
