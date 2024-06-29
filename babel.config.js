@@ -18,6 +18,7 @@ module.exports = {
           "@/navigation": "./src/navigation",
           "@/hooks": "./src/hooks",
           "@/layouts": "./src/layouts",
+          "@/graphql": "./src/graphql",
         },
       },
     ],

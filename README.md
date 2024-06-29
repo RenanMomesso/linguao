@@ -39,6 +39,8 @@ Benefit: Enhances cultural understanding and practical usage of the language.
 Tech Stack: Rich multimedia content, videos, and articles.
 Premium Support:
 
+TRADUZIR AUTOMATICAMENTE E INSTANTANEAMENTE O QUE A PESSOA DISSER!
+
 Feature: Access to priority customer support or language coaches.
 Benefit: Provides personalized assistance and faster response times.
 Tech Stack: Integrated support system with chat, email, or video call options.

@@ -15,6 +15,7 @@
       "@/screens/*": ["screens/*"],
       "@/types/*": ["types/*"],
       "@/assets/*": ["assets/*"],
+      "@/graphql/*": ["graphql/*"],
       
     }
   }

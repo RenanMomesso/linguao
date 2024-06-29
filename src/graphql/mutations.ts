@@ -28,6 +28,126 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     followers
     following
     lifetimeexp
+    artificialInteligenceUser
+    ChatRooms {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          name
+          languageLevel
+          language
+          nativeLanguage
+          age
+          email
+          languagePurpose
+          timePerDay
+          avatar
+          challenges
+          diamonds
+          followers
+          following
+          lifetimeexp
+          artificialInteligenceUser
+          ChatRooms {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        chatRoom {
+          id
+          name
+          messages {
+            items {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          users {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          lastMessage {
+            id
+            text
+            chatroomID
+            userID
+            userName
+            images
+            Attachments {
+              nextToken
+              __typename
+            }
+            showMenu
+            menuType
+            progress
+            createdAt
+            updatedAt
+            __typename
+          }
+          Attachments {
+            items {
+              id
+              storageKey
+              type
+              width
+              height
+              duration
+              messageID
+              chatroomID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          artificialInteligenceRoom
+          createdAt
+          updatedAt
+          chatRoomLastMessageId
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -57,6 +177,126 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     followers
     following
     lifetimeexp
+    artificialInteligenceUser
+    ChatRooms {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          name
+          languageLevel
+          language
+          nativeLanguage
+          age
+          email
+          languagePurpose
+          timePerDay
+          avatar
+          challenges
+          diamonds
+          followers
+          following
+          lifetimeexp
+          artificialInteligenceUser
+          ChatRooms {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        chatRoom {
+          id
+          name
+          messages {
+            items {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          users {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          lastMessage {
+            id
+            text
+            chatroomID
+            userID
+            userName
+            images
+            Attachments {
+              nextToken
+              __typename
+            }
+            showMenu
+            menuType
+            progress
+            createdAt
+            updatedAt
+            __typename
+          }
+          Attachments {
+            items {
+              id
+              storageKey
+              type
+              width
+              height
+              duration
+              messageID
+              chatroomID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          artificialInteligenceRoom
+          createdAt
+          updatedAt
+          chatRoomLastMessageId
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -86,6 +326,126 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     followers
     following
     lifetimeexp
+    artificialInteligenceUser
+    ChatRooms {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          name
+          languageLevel
+          language
+          nativeLanguage
+          age
+          email
+          languagePurpose
+          timePerDay
+          avatar
+          challenges
+          diamonds
+          followers
+          following
+          lifetimeexp
+          artificialInteligenceUser
+          ChatRooms {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        chatRoom {
+          id
+          name
+          messages {
+            items {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          users {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          lastMessage {
+            id
+            text
+            chatroomID
+            userID
+            userName
+            images
+            Attachments {
+              nextToken
+              __typename
+            }
+            showMenu
+            menuType
+            progress
+            createdAt
+            updatedAt
+            __typename
+          }
+          Attachments {
+            items {
+              id
+              storageKey
+              type
+              width
+              height
+              duration
+              messageID
+              chatroomID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          artificialInteligenceRoom
+          createdAt
+          updatedAt
+          chatRoomLastMessageId
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -568,4 +928,1672 @@ export const deleteImageMapItem = /* GraphQL */ `mutation DeleteImageMapItem(
 ` as GeneratedMutation<
   APITypes.DeleteImageMapItemMutationVariables,
   APITypes.DeleteImageMapItemMutation
+>;
+export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
+  $input: CreateChatRoomInput!
+  $condition: ModelChatRoomConditionInput
+) {
+  createChatRoom(input: $input, condition: $condition) {
+    id
+    name
+    messages {
+      items {
+        id
+        text
+        chatroomID
+        userID
+        userName
+        images
+        Attachments {
+          items {
+            id
+            storageKey
+            type
+            width
+            height
+            duration
+            messageID
+            chatroomID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        showMenu
+        menuType
+        progress
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    users {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          name
+          languageLevel
+          language
+          nativeLanguage
+          age
+          email
+          languagePurpose
+          timePerDay
+          avatar
+          challenges
+          diamonds
+          followers
+          following
+          lifetimeexp
+          artificialInteligenceUser
+          ChatRooms {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        chatRoom {
+          id
+          name
+          messages {
+            items {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          users {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          lastMessage {
+            id
+            text
+            chatroomID
+            userID
+            userName
+            images
+            Attachments {
+              nextToken
+              __typename
+            }
+            showMenu
+            menuType
+            progress
+            createdAt
+            updatedAt
+            __typename
+          }
+          Attachments {
+            items {
+              id
+              storageKey
+              type
+              width
+              height
+              duration
+              messageID
+              chatroomID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          artificialInteligenceRoom
+          createdAt
+          updatedAt
+          chatRoomLastMessageId
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    lastMessage {
+      id
+      text
+      chatroomID
+      userID
+      userName
+      images
+      Attachments {
+        items {
+          id
+          storageKey
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      showMenu
+      menuType
+      progress
+      createdAt
+      updatedAt
+      __typename
+    }
+    Attachments {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    artificialInteligenceRoom
+    createdAt
+    updatedAt
+    chatRoomLastMessageId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateChatRoomMutationVariables,
+  APITypes.CreateChatRoomMutation
+>;
+export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
+  $input: UpdateChatRoomInput!
+  $condition: ModelChatRoomConditionInput
+) {
+  updateChatRoom(input: $input, condition: $condition) {
+    id
+    name
+    messages {
+      items {
+        id
+        text
+        chatroomID
+        userID
+        userName
+        images
+        Attachments {
+          items {
+            id
+            storageKey
+            type
+            width
+            height
+            duration
+            messageID
+            chatroomID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        showMenu
+        menuType
+        progress
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    users {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          name
+          languageLevel
+          language
+          nativeLanguage
+          age
+          email
+          languagePurpose
+          timePerDay
+          avatar
+          challenges
+          diamonds
+          followers
+          following
+          lifetimeexp
+          artificialInteligenceUser
+          ChatRooms {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        chatRoom {
+          id
+          name
+          messages {
+            items {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          users {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          lastMessage {
+            id
+            text
+            chatroomID
+            userID
+            userName
+            images
+            Attachments {
+              nextToken
+              __typename
+            }
+            showMenu
+            menuType
+            progress
+            createdAt
+            updatedAt
+            __typename
+          }
+          Attachments {
+            items {
+              id
+              storageKey
+              type
+              width
+              height
+              duration
+              messageID
+              chatroomID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          artificialInteligenceRoom
+          createdAt
+          updatedAt
+          chatRoomLastMessageId
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    lastMessage {
+      id
+      text
+      chatroomID
+      userID
+      userName
+      images
+      Attachments {
+        items {
+          id
+          storageKey
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      showMenu
+      menuType
+      progress
+      createdAt
+      updatedAt
+      __typename
+    }
+    Attachments {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    artificialInteligenceRoom
+    createdAt
+    updatedAt
+    chatRoomLastMessageId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateChatRoomMutationVariables,
+  APITypes.UpdateChatRoomMutation
+>;
+export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
+  $input: DeleteChatRoomInput!
+  $condition: ModelChatRoomConditionInput
+) {
+  deleteChatRoom(input: $input, condition: $condition) {
+    id
+    name
+    messages {
+      items {
+        id
+        text
+        chatroomID
+        userID
+        userName
+        images
+        Attachments {
+          items {
+            id
+            storageKey
+            type
+            width
+            height
+            duration
+            messageID
+            chatroomID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        showMenu
+        menuType
+        progress
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    users {
+      items {
+        id
+        userId
+        chatRoomId
+        user {
+          id
+          name
+          languageLevel
+          language
+          nativeLanguage
+          age
+          email
+          languagePurpose
+          timePerDay
+          avatar
+          challenges
+          diamonds
+          followers
+          following
+          lifetimeexp
+          artificialInteligenceUser
+          ChatRooms {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        chatRoom {
+          id
+          name
+          messages {
+            items {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          users {
+            items {
+              id
+              userId
+              chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          lastMessage {
+            id
+            text
+            chatroomID
+            userID
+            userName
+            images
+            Attachments {
+              nextToken
+              __typename
+            }
+            showMenu
+            menuType
+            progress
+            createdAt
+            updatedAt
+            __typename
+          }
+          Attachments {
+            items {
+              id
+              storageKey
+              type
+              width
+              height
+              duration
+              messageID
+              chatroomID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          artificialInteligenceRoom
+          createdAt
+          updatedAt
+          chatRoomLastMessageId
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    lastMessage {
+      id
+      text
+      chatroomID
+      userID
+      userName
+      images
+      Attachments {
+        items {
+          id
+          storageKey
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      showMenu
+      menuType
+      progress
+      createdAt
+      updatedAt
+      __typename
+    }
+    Attachments {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    artificialInteligenceRoom
+    createdAt
+    updatedAt
+    chatRoomLastMessageId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteChatRoomMutationVariables,
+  APITypes.DeleteChatRoomMutation
+>;
+export const createMessage = /* GraphQL */ `mutation CreateMessage(
+  $input: CreateMessageInput!
+  $condition: ModelMessageConditionInput
+) {
+  createMessage(input: $input, condition: $condition) {
+    id
+    text
+    chatroomID
+    userID
+    userName
+    images
+    Attachments {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    showMenu
+    menuType
+    progress
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateMessageMutationVariables,
+  APITypes.CreateMessageMutation
+>;
+export const updateMessage = /* GraphQL */ `mutation UpdateMessage(
+  $input: UpdateMessageInput!
+  $condition: ModelMessageConditionInput
+) {
+  updateMessage(input: $input, condition: $condition) {
+    id
+    text
+    chatroomID
+    userID
+    userName
+    images
+    Attachments {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    showMenu
+    menuType
+    progress
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateMessageMutationVariables,
+  APITypes.UpdateMessageMutation
+>;
+export const deleteMessage = /* GraphQL */ `mutation DeleteMessage(
+  $input: DeleteMessageInput!
+  $condition: ModelMessageConditionInput
+) {
+  deleteMessage(input: $input, condition: $condition) {
+    id
+    text
+    chatroomID
+    userID
+    userName
+    images
+    Attachments {
+      items {
+        id
+        storageKey
+        type
+        width
+        height
+        duration
+        messageID
+        chatroomID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    showMenu
+    menuType
+    progress
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteMessageMutationVariables,
+  APITypes.DeleteMessageMutation
+>;
+export const createAttachment = /* GraphQL */ `mutation CreateAttachment(
+  $input: CreateAttachmentInput!
+  $condition: ModelAttachmentConditionInput
+) {
+  createAttachment(input: $input, condition: $condition) {
+    id
+    storageKey
+    type
+    width
+    height
+    duration
+    messageID
+    chatroomID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateAttachmentMutationVariables,
+  APITypes.CreateAttachmentMutation
+>;
+export const updateAttachment = /* GraphQL */ `mutation UpdateAttachment(
+  $input: UpdateAttachmentInput!
+  $condition: ModelAttachmentConditionInput
+) {
+  updateAttachment(input: $input, condition: $condition) {
+    id
+    storageKey
+    type
+    width
+    height
+    duration
+    messageID
+    chatroomID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateAttachmentMutationVariables,
+  APITypes.UpdateAttachmentMutation
+>;
+export const deleteAttachment = /* GraphQL */ `mutation DeleteAttachment(
+  $input: DeleteAttachmentInput!
+  $condition: ModelAttachmentConditionInput
+) {
+  deleteAttachment(input: $input, condition: $condition) {
+    id
+    storageKey
+    type
+    width
+    height
+    duration
+    messageID
+    chatroomID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteAttachmentMutationVariables,
+  APITypes.DeleteAttachmentMutation
+>;
+export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
+  $input: CreateUserChatRoomInput!
+  $condition: ModelUserChatRoomConditionInput
+) {
+  createUserChatRoom(input: $input, condition: $condition) {
+    id
+    userId
+    chatRoomId
+    user {
+      id
+      name
+      languageLevel
+      language
+      nativeLanguage
+      age
+      email
+      languagePurpose
+      timePerDay
+      avatar
+      challenges
+      diamonds
+      followers
+      following
+      lifetimeexp
+      artificialInteligenceUser
+      ChatRooms {
+        items {
+          id
+          userId
+          chatRoomId
+          user {
+            id
+            name
+            languageLevel
+            language
+            nativeLanguage
+            age
+            email
+            languagePurpose
+            timePerDay
+            avatar
+            challenges
+            diamonds
+            followers
+            following
+            lifetimeexp
+            artificialInteligenceUser
+            ChatRooms {
+              nextToken
+              __typename
+            }
+            createdAt
+            updatedAt
+            __typename
+          }
+          chatRoom {
+            id
+            name
+            messages {
+              nextToken
+              __typename
+            }
+            users {
+              nextToken
+              __typename
+            }
+            lastMessage {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            Attachments {
+              nextToken
+              __typename
+            }
+            artificialInteligenceRoom
+            createdAt
+            updatedAt
+            chatRoomLastMessageId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    chatRoom {
+      id
+      name
+      messages {
+        items {
+          id
+          text
+          chatroomID
+          userID
+          userName
+          images
+          Attachments {
+            items {
+              id
+              storageKey
+              type
+              width
+              height
+              duration
+              messageID
+              chatroomID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          showMenu
+          menuType
+          progress
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      users {
+        items {
+          id
+          userId
+          chatRoomId
+          user {
+            id
+            name
+            languageLevel
+            language
+            nativeLanguage
+            age
+            email
+            languagePurpose
+            timePerDay
+            avatar
+            challenges
+            diamonds
+            followers
+            following
+            lifetimeexp
+            artificialInteligenceUser
+            ChatRooms {
+              nextToken
+              __typename
+            }
+            createdAt
+            updatedAt
+            __typename
+          }
+          chatRoom {
+            id
+            name
+            messages {
+              nextToken
+              __typename
+            }
+            users {
+              nextToken
+              __typename
+            }
+            lastMessage {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            Attachments {
+              nextToken
+              __typename
+            }
+            artificialInteligenceRoom
+            createdAt
+            updatedAt
+            chatRoomLastMessageId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      lastMessage {
+        id
+        text
+        chatroomID
+        userID
+        userName
+        images
+        Attachments {
+          items {
+            id
+            storageKey
+            type
+            width
+            height
+            duration
+            messageID
+            chatroomID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        showMenu
+        menuType
+        progress
+        createdAt
+        updatedAt
+        __typename
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      artificialInteligenceRoom
+      createdAt
+      updatedAt
+      chatRoomLastMessageId
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateUserChatRoomMutationVariables,
+  APITypes.CreateUserChatRoomMutation
+>;
+export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
+  $input: UpdateUserChatRoomInput!
+  $condition: ModelUserChatRoomConditionInput
+) {
+  updateUserChatRoom(input: $input, condition: $condition) {
+    id
+    userId
+    chatRoomId
+    user {
+      id
+      name
+      languageLevel
+      language
+      nativeLanguage
+      age
+      email
+      languagePurpose
+      timePerDay
+      avatar
+      challenges
+      diamonds
+      followers
+      following
+      lifetimeexp
+      artificialInteligenceUser
+      ChatRooms {
+        items {
+          id
+          userId
+          chatRoomId
+          user {
+            id
+            name
+            languageLevel
+            language
+            nativeLanguage
+            age
+            email
+            languagePurpose
+            timePerDay
+            avatar
+            challenges
+            diamonds
+            followers
+            following
+            lifetimeexp
+            artificialInteligenceUser
+            ChatRooms {
+              nextToken
+              __typename
+            }
+            createdAt
+            updatedAt
+            __typename
+          }
+          chatRoom {
+            id
+            name
+            messages {
+              nextToken
+              __typename
+            }
+            users {
+              nextToken
+              __typename
+            }
+            lastMessage {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            Attachments {
+              nextToken
+              __typename
+            }
+            artificialInteligenceRoom
+            createdAt
+            updatedAt
+            chatRoomLastMessageId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    chatRoom {
+      id
+      name
+      messages {
+        items {
+          id
+          text
+          chatroomID
+          userID
+          userName
+          images
+          Attachments {
+            items {
+              id
+              storageKey
+              type
+              width
+              height
+              duration
+              messageID
+              chatroomID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          showMenu
+          menuType
+          progress
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      users {
+        items {
+          id
+          userId
+          chatRoomId
+          user {
+            id
+            name
+            languageLevel
+            language
+            nativeLanguage
+            age
+            email
+            languagePurpose
+            timePerDay
+            avatar
+            challenges
+            diamonds
+            followers
+            following
+            lifetimeexp
+            artificialInteligenceUser
+            ChatRooms {
+              nextToken
+              __typename
+            }
+            createdAt
+            updatedAt
+            __typename
+          }
+          chatRoom {
+            id
+            name
+            messages {
+              nextToken
+              __typename
+            }
+            users {
+              nextToken
+              __typename
+            }
+            lastMessage {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            Attachments {
+              nextToken
+              __typename
+            }
+            artificialInteligenceRoom
+            createdAt
+            updatedAt
+            chatRoomLastMessageId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      lastMessage {
+        id
+        text
+        chatroomID
+        userID
+        userName
+        images
+        Attachments {
+          items {
+            id
+            storageKey
+            type
+            width
+            height
+            duration
+            messageID
+            chatroomID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        showMenu
+        menuType
+        progress
+        createdAt
+        updatedAt
+        __typename
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      artificialInteligenceRoom
+      createdAt
+      updatedAt
+      chatRoomLastMessageId
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateUserChatRoomMutationVariables,
+  APITypes.UpdateUserChatRoomMutation
+>;
+export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
+  $input: DeleteUserChatRoomInput!
+  $condition: ModelUserChatRoomConditionInput
+) {
+  deleteUserChatRoom(input: $input, condition: $condition) {
+    id
+    userId
+    chatRoomId
+    user {
+      id
+      name
+      languageLevel
+      language
+      nativeLanguage
+      age
+      email
+      languagePurpose
+      timePerDay
+      avatar
+      challenges
+      diamonds
+      followers
+      following
+      lifetimeexp
+      artificialInteligenceUser
+      ChatRooms {
+        items {
+          id
+          userId
+          chatRoomId
+          user {
+            id
+            name
+            languageLevel
+            language
+            nativeLanguage
+            age
+            email
+            languagePurpose
+            timePerDay
+            avatar
+            challenges
+            diamonds
+            followers
+            following
+            lifetimeexp
+            artificialInteligenceUser
+            ChatRooms {
+              nextToken
+              __typename
+            }
+            createdAt
+            updatedAt
+            __typename
+          }
+          chatRoom {
+            id
+            name
+            messages {
+              nextToken
+              __typename
+            }
+            users {
+              nextToken
+              __typename
+            }
+            lastMessage {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            Attachments {
+              nextToken
+              __typename
+            }
+            artificialInteligenceRoom
+            createdAt
+            updatedAt
+            chatRoomLastMessageId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    chatRoom {
+      id
+      name
+      messages {
+        items {
+          id
+          text
+          chatroomID
+          userID
+          userName
+          images
+          Attachments {
+            items {
+              id
+              storageKey
+              type
+              width
+              height
+              duration
+              messageID
+              chatroomID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          showMenu
+          menuType
+          progress
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      users {
+        items {
+          id
+          userId
+          chatRoomId
+          user {
+            id
+            name
+            languageLevel
+            language
+            nativeLanguage
+            age
+            email
+            languagePurpose
+            timePerDay
+            avatar
+            challenges
+            diamonds
+            followers
+            following
+            lifetimeexp
+            artificialInteligenceUser
+            ChatRooms {
+              nextToken
+              __typename
+            }
+            createdAt
+            updatedAt
+            __typename
+          }
+          chatRoom {
+            id
+            name
+            messages {
+              nextToken
+              __typename
+            }
+            users {
+              nextToken
+              __typename
+            }
+            lastMessage {
+              id
+              text
+              chatroomID
+              userID
+              userName
+              images
+              showMenu
+              menuType
+              progress
+              createdAt
+              updatedAt
+              __typename
+            }
+            Attachments {
+              nextToken
+              __typename
+            }
+            artificialInteligenceRoom
+            createdAt
+            updatedAt
+            chatRoomLastMessageId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      lastMessage {
+        id
+        text
+        chatroomID
+        userID
+        userName
+        images
+        Attachments {
+          items {
+            id
+            storageKey
+            type
+            width
+            height
+            duration
+            messageID
+            chatroomID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        showMenu
+        menuType
+        progress
+        createdAt
+        updatedAt
+        __typename
+      }
+      Attachments {
+        items {
+          id
+          storageKey
+          type
+          width
+          height
+          duration
+          messageID
+          chatroomID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      artificialInteligenceRoom
+      createdAt
+      updatedAt
+      chatRoomLastMessageId
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteUserChatRoomMutationVariables,
+  APITypes.DeleteUserChatRoomMutation
 >;

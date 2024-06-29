@@ -20,7 +20,6 @@ const SigninScreen = () => {
       Keyboard.dismiss();
     } catch (error) {
       Alert.alert("Error", (error as Error).message);
-      console.log("error signing in", error);
     }
   };
 

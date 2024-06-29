@@ -6,15 +6,28 @@ const imgPlaceholder = "https://via.placeholder.com/150";
 interface AvatarProps {
   avatarUrl?: string | null | undefined;
   showEditIcon?: boolean;
+  size?: "small" | "medium" | "large";
 }
+
+const sizes = {
+  small: 40,
+  medium: 120,
+  large: 160,
+};
 const Avatar = ({
   avatarUrl = imgPlaceholder,
   showEditIcon = false,
+  size = "medium",
 }: AvatarProps) => {
-  console.log("avatar rendered");
   return (
     <AvatarContainer>
-      <AvatarImage source={{ uri: avatarUrl || imgPlaceholder }} />
+      <AvatarImage
+        source={{ uri: avatarUrl || imgPlaceholder }}
+        style={{
+          width: sizes[size],
+          height: sizes[size],
+        }}
+      />
       {showEditIcon && <AvatarEditIcon />}
     </AvatarContainer>
   );
