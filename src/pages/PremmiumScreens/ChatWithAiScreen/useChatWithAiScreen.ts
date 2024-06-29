@@ -206,7 +206,6 @@ const useChatWithAiScreen = () => {
           userID: String(userSender),
           showMenu,
           userName: aiInfo?.user?.name!,
-          
         },
       },
     });
@@ -220,10 +219,6 @@ const useChatWithAiScreen = () => {
 
   useEffect(() => {
     if (!mountedRef.current) return;
-    console.log(
-      "🚀 ~ useChatWithAiScreen ~ mountedRef.current:",
-      mountedRef.current,
-    );
     if (!checkIfUserHasAiChatRoom && !loadingListUserhatRoomsQuery) {
       createChatRoomFunction();
     }
