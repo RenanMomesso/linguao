@@ -17,6 +17,7 @@ const HeaderChat = ({ aiName, aiAvatar }: HeaderChatProps) => {
         height: 60,
         backgroundColor: theme.colors.Blue,
         borderRadius: 12,
+        elevation: 8,
       }}>
       <GoBack />
       <Text size="heading5">{aiName}</Text>

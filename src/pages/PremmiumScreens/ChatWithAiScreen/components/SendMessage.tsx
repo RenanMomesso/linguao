@@ -1,6 +1,6 @@
 import { View, TextInput, Alert, TouchableOpacity } from "react-native";
-import React, { useState, useCallback } from "react";
-import Text from "@/components/Text";
+import React, { useState, useCallback, useEffect } from "react";
+import { SendIcon, MicrophoneIcon } from "@/assets/images";
 
 interface SendMessageProps {
   handleCreateMessage: (text: string, showMenu: boolean) => void;
@@ -9,6 +9,7 @@ interface SendMessageProps {
 const SendMessage = ({ handleCreateMessage }: SendMessageProps) => {
   const [message, setMessage] = useState("");
   const [loadingMessage, setLoadingMessage] = useState(false);
+
 
   const handleCreateMessageTrigger = useCallback(() => {
     if (message.trim().length === 0) {
@@ -19,9 +20,8 @@ const SendMessage = ({ handleCreateMessage }: SendMessageProps) => {
       return;
     }
     if (loadingMessage) return;
-
     setLoadingMessage(true);
-    handleCreateMessage(message, true);
+    handleCreateMessage(message, false);
     setLoadingMessage(false);
     setMessage("");
   }, [message, loadingMessage, handleCreateMessage]);
@@ -46,17 +46,10 @@ const SendMessage = ({ handleCreateMessage }: SendMessageProps) => {
         placeholder="Type a message"
       />
       <TouchableOpacity
-        onPress={handleCreateMessageTrigger}
+        onPress={!!message.length ? handleCreateMessageTrigger : () => setMessage("")}
         disabled={loadingMessage}
-        style={{ marginLeft: "auto", padding: 10 }}
-      >
-        <Text
-          size="text"
-          weight="semibold"
-          disabled={loadingMessage}
-        >
-          {loadingMessage ? "Sending..." : "Send"}
-        </Text>
+        style={{ marginLeft: "auto", padding: 10 }}>
+        {!!message.length ? <SendIcon /> : <MicrophoneIcon />}
       </TouchableOpacity>
     </View>
   );

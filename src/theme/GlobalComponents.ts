@@ -2,11 +2,12 @@ import styled from "styled-components/native";
 import { theme } from "./theme";
 
 export type backgroundColor = keyof typeof theme.colors;
-export const Container = styled.View<{ backgroundColor?: backgroundColor }>`
+export const Container = styled.View<{ backgroundColor?: backgroundColor, padding?: number }>`
   flex: 1;
   background-color: ${({ theme, backgroundColor }) =>
     theme.colors[backgroundColor || "greyScale100"]};
-    position: relative;
+  position: relative;
+  padding: ${({ padding }) => padding ? padding : 0}px;
 `;
 
 export const Row = styled.View`
@@ -31,10 +32,8 @@ export const HR = styled.View`
   background-color: ${({ theme }) => theme.colors.greyScale500};
 `;
 
-
 export const Column = styled.View`
   flex-direction: column;
   align-items: center;
   gap: 12px;
-
-`
+`;

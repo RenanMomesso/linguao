@@ -28,9 +28,11 @@ import {
   createUserChatRoom,
 } from "@/graphql/mutations";
 import { FlatList } from "react-native-gesture-handler";
+import useKeyboard from "@/hooks/useKeyboard";
 
 const useChatWithAiScreen = () => {
   const userID = useAppSelector(state => state.user.user.id);
+  const myUserName = useAppSelector(state => state.user.user.name);
   const mountedRef = useRef(false);
   const flatListRef = useRef<FlatList>(null);
 
@@ -85,10 +87,6 @@ const useChatWithAiScreen = () => {
     },
   );
 
-  console.log(
-    "🚀 ~ useChatWithAiScreen ~ loadingListUserhatRoomsQuery:",
-    loadingListUserhatRoomsQuery,
-  );
   const firstChatRoomInfo =
     listUserChatRoomsQuery?.listUserChatRooms?.items.find(
       item => !!item?.chatRoom?.artificialInteligenceRoom,
@@ -100,37 +98,46 @@ const useChatWithAiScreen = () => {
   );
   console.log("🚀 ~ useChatWithAiScreen ~ aiChatInfo:", !!aiChatInfo);
 
-  const { data: listMessagesQuery, refetch: refetchListMessages } = useQuery<
-    ListMessagesQuery,
-    ListMessagesQueryVariables
-  >(gql(listMessages), {
-    variables: {
-      filter: {
-        chatroomID: {
-          eq: firstChatRoomInfo?.id!,
+  const {
+    data: listMessagesQuery,
+    refetch: refetchListMessages,
+    loading: loadingListMessagesQuery,
+  } = useQuery<ListMessagesQuery, ListMessagesQueryVariables>(
+    gql(listMessages),
+    {
+      variables: {
+        filter: {
+          chatroomID: {
+            eq: firstChatRoomInfo?.id!,
+          },
         },
       },
     },
-  });
+  );
 
   const listAiUsers = listAiUsersQuery?.listUsers?.items;
   const artificialInteligenceUserId = String(listAiUsers?.[0]?.id);
 
+  const isKeyboardVisible = useKeyboard();
   useEffect(() => {
     mountedRef.current = true;
+    if (listMessagesQuery?.listMessages?.items?.length) {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    }
     return () => {
       mountedRef.current = false;
     };
-  }, []);
+  }, [
+    loadingListMessagesQuery,
+    mountedRef.current,
+    listMessagesQuery?.listMessages?.items?.length,
+    isKeyboardVisible,
+  ]);
 
   const checkIfUserHasAiChatRoom =
     listUserChatRoomsQuery?.listUserChatRooms?.items.some(
       item => item?.chatRoom?.artificialInteligenceRoom,
     );
-  console.log(
-    "🚀 ~ useChatWithAiScreen ~ checkIfUserHasAiChatRoom:",
-    checkIfUserHasAiChatRoom,
-  );
 
   const createChatRoomFunction = async () => {
     if (checkIfUserHasAiChatRoom) {
@@ -192,7 +199,7 @@ const useChatWithAiScreen = () => {
     text: string,
     showMenu: boolean,
     userSender: string = String(userID),
-    userName = "me",
+    userName = myUserName,
   ) => {
     if (!text.length) {
       throw new Error("Message cannot be empty");
@@ -205,7 +212,7 @@ const useChatWithAiScreen = () => {
           text,
           userID: String(userSender),
           showMenu,
-          userName: aiInfo?.user?.name!,
+          userName: userName,
         },
       },
     });

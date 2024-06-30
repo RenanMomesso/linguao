@@ -1,5 +1,5 @@
 import { Alert, ListRenderItem, Pressable, View } from "react-native";
-import React from "react";
+import React, { memo } from "react";
 import { Container } from "@/theme/GlobalComponents";
 import { Message } from "@/API";
 import { FlatList } from "react-native-gesture-handler";
@@ -40,24 +40,28 @@ const ChatMessages = ({
     : null;
 
   const renderItem: ListRenderItem<Message> = ({ item }) => {
+    console.log({item})
     if (item.text === "Menu" && item.userID === otherUserId) {
       return (
         <View
           style={{
-            backgroundColor: theme.colors.Yellow,
             padding: 10,
             borderRadius: 10,
             marginBottom: 10,
             alignSelf: "flex-start",
           }}>
-          <View>
+          <View style={{
+            backgroundColor: theme.colors.white,
+            padding:4,
+            borderRadius:8
+          }}>
             
             <Text>Choose an option </Text>
             <View style={{ alignItems: "center" }}>
               <Button
                 disabled={getLastMessage?.id === item.id}
                 backgroundColor={
-                  getLastMessage?.id === item.id ? "greyScale200" : "primary"
+                  getLastMessage?.id === item.id ? "white" : "primary"
                 }
                 buttonText="Choose a menu"
                 onPressButton={() => {
@@ -75,18 +79,17 @@ const ChatMessages = ({
         style={{
           backgroundColor:
             item?.userID === otherUserId
-              ? theme.colors.Yellow
-              : theme.colors.greyScale200,
+              ? theme.colors.white
+              : theme.colors.Green,
           padding: 10,
-          borderRadius: 10,
-          marginBottom: 10,
+          borderRadius: 12,
           alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
         }}>
         <Text
           size="text"
           align={item.userID === otherUserId ? "left" : "right"}
           weight="semibold"
-          color={item?.userID === otherUserId ? "primary" : "greyScale900"}>
+          color={'greyScale900'}>
           {item?.text}
         </Text>
       </View>
@@ -95,11 +98,15 @@ const ChatMessages = ({
 
   return (
     <AnimatedContainer
-      entering={FadeIn.duration(2000)}
+      entering={FadeIn.duration(500)}
+      backgroundColor={'primary'}
       style={{
         marginTop: 20,
       }}>
       <FlatList
+        
+        automaticallyAdjustContentInsets
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         showsVerticalScrollIndicator={false}
         ref={flatListRef}
         data={sortMessages}
@@ -110,4 +117,4 @@ const ChatMessages = ({
   );
 };
 
-export default ChatMessages;
+export default memo(ChatMessages);

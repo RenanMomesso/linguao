@@ -1,15 +1,23 @@
 import { View, Text, Pressable } from "react-native";
-import React from "react";
+import React, { useCallback } from "react";
 import PremmiumLayout from "@/layouts/PremmiumLayout";
-import { useAppSelector } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { TextContainer } from "@/components/Text";
 import { Row } from "@/theme/GlobalComponents";
 import { ChatAiIcon, ChatIcon, NotificationIcon } from "@/assets/images";
 import PressableCard from "@/components/PressableCard/PressableCard";
+import { useFocusEffect } from "@react-navigation/native";
+import { toggleBottomNavigation } from "@/store/reducer/uiReducer";
 
 const PremmiumScreen = () => {
   const { user } = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
   const userIsPremium = user?.isPremium || false;
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(toggleBottomNavigation(true));
+    }, []),
+  );
 
   return (
     <PremmiumLayout>
@@ -35,15 +43,31 @@ const PremmiumScreen = () => {
         />
         <PressableCard
           imgUrl={require("@/assets/images/chatWithAI.webp")}
-          title="Chat with AI"
+          title="Instantaneous Translation"
         />
         <PressableCard
           imgUrl={require("@/assets/images/chatWithAI.webp")}
-          title="Chat with AI"
+          title="Studying plan"
         />
         <PressableCard
           imgUrl={require("@/assets/images/chatWithAI.webp")}
-          title="Chat with AI"
+          title="My progresses"
+        />
+        <PressableCard
+          imgUrl={require("@/assets/images/chatWithAI.webp")}
+          title="Flashcards"
+        />
+        <PressableCard
+          imgUrl={require("@/assets/images/chatWithAI.webp")}
+          title="Simulators"
+        />
+        <PressableCard
+          imgUrl={require("@/assets/images/chatWithAI.webp")}
+          title="Challenges"
+        />
+        <PressableCard
+          imgUrl={require("@/assets/images/chatWithAI.webp")}
+          title="Community"
         />
       </Row>
     </PremmiumLayout>

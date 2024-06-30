@@ -15,7 +15,7 @@ const PremmiumLayout = ({ children }: PremmiumLayoutProps) => {
       }}>
       <StatusBar
         barStyle="light-content"
-        backgroundColor={theme.colors.Blue}
+        backgroundColor={theme.colors.primary}
       />
       {children}
     </Container>
