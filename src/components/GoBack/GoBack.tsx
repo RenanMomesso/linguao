@@ -10,6 +10,8 @@ const GoBack = ({ lastRoute = null }: GoBackProps) => {
   const navigation = useNavigation<NavigationProps>();
   return (
     <ArrowLeftIcon
+      width={20}
+      
       onPress={
         lastRoute && lastRoute !== null
           ? () => navigation.navigate(lastRoute)

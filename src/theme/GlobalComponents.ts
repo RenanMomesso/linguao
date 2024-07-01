@@ -7,7 +7,7 @@ export const Container = styled.View<{ backgroundColor?: backgroundColor, paddin
   background-color: ${({ theme, backgroundColor }) =>
     theme.colors[backgroundColor || "greyScale100"]};
   position: relative;
-  padding: ${({ padding }) => padding ? padding : 0}px;
+  padding: ${({ padding }) => padding ? padding : 20}px;
 `;
 
 export const Row = styled.View`

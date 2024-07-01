@@ -4,6 +4,8 @@ import { theme } from "@/theme/theme";
 import GoBack from "@/components/GoBack/GoBack";
 import Avatar from "@/components/Avatar/Avatar";
 import Text from "@/components/Text";
+import { View } from "react-native";
+import { SettingsOutlineIcon } from "@/assets/images";
 
 interface HeaderChatProps {
   aiName: string;
@@ -15,13 +17,16 @@ const HeaderChat = ({ aiName, aiAvatar }: HeaderChatProps) => {
       style={{
         alignItems: "center",
         height: 60,
-        backgroundColor: theme.colors.Blue,
         borderRadius: 12,
-        elevation: 8,
+        borderBottomWidth: 1,
+        borderColor: theme.colors.greyScale200,
       }}>
       <GoBack />
-      <Text size="heading5">{aiName}</Text>
       <Avatar size={"small"} avatarUrl={aiAvatar} />
+      <Text size="heading6">{aiName}</Text>
+      <SettingsOutlineIcon style={{
+        marginLeft: "auto",
+      }} />
     </Row>
   );
 };

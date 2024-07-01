@@ -21,7 +21,7 @@ const ChatWithAiScreen = () => {
   }, []);
 
   return (
-    <Container backgroundColor="primary" padding={20} >
+    <Container backgroundColor="white" padding={20} >
       <HeaderChat
         aiName={aiChatInfo?.user?.name || ""}
         aiAvatar={aiChatInfo?.user?.avatar || ""}

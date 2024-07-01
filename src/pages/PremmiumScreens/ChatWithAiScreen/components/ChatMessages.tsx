@@ -40,7 +40,7 @@ const ChatMessages = ({
     : null;
 
   const renderItem: ListRenderItem<Message> = ({ item }) => {
-    console.log({item})
+    console.log({ item });
     if (item.text === "Menu" && item.userID === otherUserId) {
       return (
         <View
@@ -50,12 +50,12 @@ const ChatMessages = ({
             marginBottom: 10,
             alignSelf: "flex-start",
           }}>
-          <View style={{
-            backgroundColor: theme.colors.white,
-            padding:4,
-            borderRadius:8
-          }}>
-            
+          <View
+            style={{
+              backgroundColor: theme.colors.white,
+              padding: 4,
+              borderRadius: 8,
+            }}>
             <Text>Choose an option </Text>
             <View style={{ alignItems: "center" }}>
               <Button
@@ -89,7 +89,7 @@ const ChatMessages = ({
           size="text"
           align={item.userID === otherUserId ? "left" : "right"}
           weight="semibold"
-          color={'greyScale900'}>
+          color={"greyScale900"}>
           {item?.text}
         </Text>
       </View>
@@ -98,13 +98,10 @@ const ChatMessages = ({
 
   return (
     <AnimatedContainer
+      padding={5}
       entering={FadeIn.duration(500)}
-      backgroundColor={'primary'}
-      style={{
-        marginTop: 20,
-      }}>
+      backgroundColor={"white"}>
       <FlatList
-        
         automaticallyAdjustContentInsets
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         showsVerticalScrollIndicator={false}

@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { ColorSchemeName, Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 const scale = (size: number) => Math.ceil((width / 375) * size);
@@ -59,7 +59,6 @@ export const theme = {
     semibold: "Nunito-SemiBold",
     bold: "Nunito-Bold",
     black: "Nunito-Black",
-
   },
   fontSize: {
     heading1: scale(48),
@@ -73,7 +72,8 @@ export const theme = {
 };
 
 export const windowWidth = width;
-export const windowHeight = height
-
+export const windowHeight = height;
+export type ColorsKeys = keyof typeof theme.colors;
+export const deviceColorSchema: ColorSchemeName = "light";
 
 export type Theme = typeof theme;

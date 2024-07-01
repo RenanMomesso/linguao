@@ -42,9 +42,7 @@ const bottomTabNavigationOptions: BottomTabNavigationOptions = {
     paddingHorizontal: 20,
   },
   tabBarLabelStyle: {
-    fontSize: 11,
-    fontFamily: theme.fontWeight.semibold,
-    marginBottom: 10,
+    display: "none",
   },
 };
 
@@ -58,7 +56,7 @@ const BottomNavigation = () => {
         ...bottomTabNavigationOptions,
         tabBarStyle: showBottomNavigation
           ? bottomTabNavigationOptions.tabBarStyle
-          : { position: "absolute", bottom: -1000},
+          : { position: "absolute", bottom: -1000 },
       }}>
       <BottomTabNavigation.Screen
         name="Home"
@@ -67,6 +65,8 @@ const BottomNavigation = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <HomeIcon
+                height={30}
+                width={30}
                 color={
                   focused ? theme.colors.primary : theme.colors.greyScale400
                 }
@@ -83,20 +83,13 @@ const BottomNavigation = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <DumbbellsIcon
+                height={50}
+                width={50}
                 color={
                   focused ? theme.colors.primary : theme.colors.greyScale400
                 }
                 style={{}}
               />
-            );
-          },
-          tabBarLabel(props) {
-            return (
-              <TextComponent
-                color="primary"
-                style={{ color: props.color, fontSize: 11, marginBottom: 10 }}>
-                Training
-              </TextComponent>
             );
           },
         }}
@@ -106,7 +99,11 @@ const BottomNavigation = () => {
         component={View}
         options={{
           tabBarIcon: ({ focused }) => {
-            return !focused ? <TicketStar /> : <TicketStarActived />;
+            return !focused ? (
+              <TicketStar height={35} width={35} />
+            ) : (
+              <TicketStarActived height={35} width={35} />
+            );
           },
         }}
       />
@@ -115,7 +112,11 @@ const BottomNavigation = () => {
         component={PremmiumNavigation}
         options={{
           tabBarIcon: ({ focused }) => {
-            return !focused ? <StarIcon /> : <StarIcon />;
+            return !focused ? (
+              <StarIcon height={30} width={30} />
+            ) : (
+              <StarIcon height={30} width={30} />
+            );
           },
         }}
       />
@@ -125,7 +126,11 @@ const BottomNavigation = () => {
         options={{
           tabBarLabel: "Account",
           tabBarIcon: ({ focused }) => {
-            return !focused ? <ProfileIcon /> : <ProfileIcon />;
+            return !focused ? (
+              <ProfileIcon height={35} width={35} />
+            ) : (
+              <ProfileIcon height={35} width={35} />
+            );
           },
         }}
       />

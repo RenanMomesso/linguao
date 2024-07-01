@@ -23,6 +23,7 @@ import AlertIcon from "./AlertIcon.svg";
 import BaloonMsgIcon from "./BaloonMsgIcon.svg";
 import MicrophoneIcon from "./MicrophoneIcon.svg";
 import SendIcon from './SendIcon.svg'
+import SettingsOutlineIcon from './SettingsOutlineIcon.svg'
 
 
 export const SvgComponent = (props: SvgProps) => (
@@ -76,5 +77,6 @@ export {
   AlertIcon,
   BaloonMsgIcon,
   MicrophoneIcon,
-  SendIcon
+  SendIcon,
+  SettingsOutlineIcon
 };

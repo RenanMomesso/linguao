@@ -9,6 +9,7 @@ const AvatarContainer = styled.View`
 `;
 
 const AvatarImage = styled.Image`
+  border: 1px solid lightgray;
   width: 120px;
   height: 120px;
   border-radius: 75px;

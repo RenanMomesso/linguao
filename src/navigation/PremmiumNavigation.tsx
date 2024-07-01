@@ -12,6 +12,7 @@ const PremmiumNavigation = () => {
     <PremiumStack.Navigator screenOptions={premmiumNavigationOptions}> 
       <PremiumStack.Screen name="Premium" component={PremmiumScreen} />
       <PremiumStack.Screen name="ChatWithAi" component={ChatWithAiScreen} />
+      <PremiumStack.Screen name="ChatWithAi" component={ChatWithAiScreen} />
     </PremiumStack.Navigator>
   );
 };

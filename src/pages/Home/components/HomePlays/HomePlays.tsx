@@ -120,6 +120,7 @@ const HomePlays = () => {
 
   return (
     <SectionList
+      bounces={false}
       showsVerticalScrollIndicator={false}
       sections={homePlaysData}
       ListFooterComponent={() => <View style={{ height: 100 }} />}
