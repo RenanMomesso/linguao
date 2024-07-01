@@ -74,6 +74,7 @@ export const theme = {
 
 export const windowWidth = width;
 export const windowHeight = height
+export type ColorsKeys = keyof typeof theme.colors;
 
 
 export type Theme = typeof theme;

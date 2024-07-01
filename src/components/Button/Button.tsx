@@ -1,9 +1,14 @@
-import { View, Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from "react-native";
 import React from "react";
 import { theme } from "@/theme/theme";
 import TextComponent from "../Text";
 
-interface ButtonProps extends TouchableOpacityProps {
+export interface ButtonProps extends TouchableOpacityProps {
   buttonText: string;
   onPressButton: () => void;
   backgroundColor: keyof typeof theme.colors;
@@ -19,6 +24,9 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <TouchableOpacity
+      id="custom-button"
+      testID="custom-button"
+      
       activeOpacity={0.9}
       {...rest}
       onPress={onPressButton}
