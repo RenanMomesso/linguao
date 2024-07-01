@@ -25,14 +25,15 @@ const normalizedStories = [
   },
   {
     titlePrefix: "",
-    directory: "./src/components/Button",
-    files: "Button.stories.tsx",
-    importPathMatcher: /^\.[\\/](?:Button\.stories\.tsx)$/,
+    directory: "./.storybook",
+    files: "**/*.stories.?(ts|tsx|js|jsx)",
+    importPathMatcher:
+      /^\.(?:(?:^|[\\/]|(?:(?:(?!(?:^|[\\/])\.).)*?)[\\/])(?!\.)(?=.)[^\\/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
     // @ts-ignore
     req: require.context(
-      "../src/components/Button",
-      false,
-      /^\.[\\/](?:Button\.stories\.tsx)$/
+      "./",
+      true,
+      /^\.(?:(?:^|[\\/]|(?:(?:(?!(?:^|[\\/])\.).)*?)[\\/])(?!\.)(?=.)[^\\/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/
     ),
   },
 ];
