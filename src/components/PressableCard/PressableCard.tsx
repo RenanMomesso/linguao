@@ -2,17 +2,25 @@ import { View, Text, Pressable, Image, ImageRequireSource } from "react-native";
 import React from "react";
 import { TextContainer } from "../Text";
 import { useNavigation } from "@react-navigation/native";
+import {
+  PremmiumStack,
+  PremmiumStackProps,
+} from "@/interface/navigation.interface";
 
 interface PressableCardProps {
   imgUrl: ImageRequireSource;
   title: string;
-  navigationTo?: any;
+  navigationTo?: keyof PremmiumStackProps;
 }
 
-const PressableCard = ({ imgUrl, title, navigationTo }: PressableCardProps) => {
-  const navigation = useNavigation();
+const PressableCard = ({
+  imgUrl,
+  title,
+  navigationTo = "ChatWithAi",
+}: PressableCardProps) => {
+  const navigation = useNavigation<PremmiumStack>();
   const handlePressItem = () => {
-    navigation.navigate(navigationTo || "ChatWithAiScreen");
+    navigation.navigate(navigationTo);
   };
   return (
     <Pressable
@@ -29,9 +37,9 @@ const PressableCard = ({ imgUrl, title, navigationTo }: PressableCardProps) => {
       <Image
         source={imgUrl}
         style={{
-          height: 100,
+          height: 60,
           borderRadius: 10,
-          width: 100,
+          width: 60,
         }}
       />
       <TextContainer weight="bold" color="primary">

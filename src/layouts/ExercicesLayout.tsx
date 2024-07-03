@@ -21,9 +21,8 @@ const ExercicesLayout = ({
   return (
     <Container
       backgroundColor="white"
-      style={{
-        padding: 20,
-      }}>
+      padding={20}
+      >
       <StatusBar barStyle="dark-content" backgroundColor={"white"} />
       <BarProgress
         percentageStatus={barProgressPercentage}

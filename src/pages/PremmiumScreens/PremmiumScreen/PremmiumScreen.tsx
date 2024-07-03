@@ -22,19 +22,9 @@ const PremmiumScreen = () => {
   return (
     <PremmiumLayout>
       <Row style={{ justifyContent: "space-between" }}>
-        <TextContainer weight="bold" size="heading6">
-          Premmium account
-        </TextContainer>
+        <TextContainer weight="bold" size="heading6"></TextContainer>
         <NotificationIcon height={25} width={25} color="white" />
       </Row>
-
-      <TextContainer
-        weight="bold"
-        size="heading5"
-        align="center"
-        style={{ marginTop: 30 }}>
-        Premmium Features
-      </TextContainer>
       <Row style={{ flexDirection: "row", flexWrap: "wrap" }}>
         <PressableCard
           navigationTo={"ChatWithAi"}
@@ -43,7 +33,8 @@ const PremmiumScreen = () => {
         />
         <PressableCard
           imgUrl={require("@/assets/images/chatWithAI.webp")}
-          title="Instantaneous Translation"
+          title="Translation"
+          navigationTo={"InstantaneousTranslationScreen"}
         />
         <PressableCard
           imgUrl={require("@/assets/images/chatWithAI.webp")}

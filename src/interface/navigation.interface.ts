@@ -42,6 +42,12 @@ export type ExercisesStackProps = {
   SelectMatchAudioWithTextScreen: undefined;
 };
 
+export type PremmiumStackProps = {
+  Premium: undefined;
+  ChatWithAi: undefined;
+  InstantaneousTranslationScreen: undefined;
+};
+
 export type TrainingStackProps = {
   Training: undefined;
   TrainingListening: undefined;
@@ -59,6 +65,7 @@ export type TrainingStackProps = {
 
 export type TrainingStack = StackNavigationProp<TrainingStackProps>;
 export type ExercisesStack = StackNavigationProp<ExercisesStackProps>;
+export type PremmiumStack = StackNavigationProp<PremmiumStackProps>;
 
 export type BottomNavigationStack =
   BottomTabNavigationProp<NavigationBottomProps>;

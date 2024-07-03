@@ -29,8 +29,10 @@ import {
 } from "@/graphql/mutations";
 import { FlatList } from "react-native-gesture-handler";
 import useKeyboard from "@/hooks/useKeyboard";
+import { sendMessageToOpenAI } from "@/services/openAi.service";
 
 const useChatWithAiScreen = () => {
+  const abortController = new AbortController();
   const userID = useAppSelector(state => state.user.user.id);
   const myUserName = useAppSelector(state => state.user.user.name);
   const mountedRef = useRef(false);
@@ -48,6 +50,11 @@ const useChatWithAiScreen = () => {
     CreateMessageMutationVariables
   >(gql(createMessage), {
     refetchQueries: [{ query: gql(listMessages) }],
+    context: {
+      fetchOptions: {
+        signal: abortController.signal,
+      },
+    },
   });
 
   const [createUserChatRoomMutation] = useMutation<
@@ -122,7 +129,7 @@ const useChatWithAiScreen = () => {
   useEffect(() => {
     mountedRef.current = true;
     if (listMessagesQuery?.listMessages?.items?.length) {
-      flatListRef.current?.scrollToEnd({ animated: true });
+      // flatListRef.current?.scrollToEnd({ animated: true });
     }
     return () => {
       mountedRef.current = false;
@@ -133,6 +140,12 @@ const useChatWithAiScreen = () => {
     listMessagesQuery?.listMessages?.items?.length,
     isKeyboardVisible,
   ]);
+
+  useEffect(() => {
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
   const checkIfUserHasAiChatRoom =
     listUserChatRoomsQuery?.listUserChatRooms?.items.some(
@@ -205,6 +218,7 @@ const useChatWithAiScreen = () => {
       throw new Error("Message cannot be empty");
       return;
     }
+
     const { data: createChatRoomMessageData } = await createChatRoomMessage({
       variables: {
         input: {
@@ -216,12 +230,33 @@ const useChatWithAiScreen = () => {
         },
       },
     });
-    flatListRef.current?.scrollToEnd({ animated: true });
+
+    if (userSender !== artificialInteligenceUserId) {
+      const response = await sendMessageToOpenAI(text);
+      let dataResponse = undefined;
+      if (response?.id) {
+        const { data: createChatRoomMessageData } = await createChatRoomMessage(
+          {
+            variables: {
+              input: {
+                chatroomID: firstChatRoomInfo?.id!,
+                text: response.choices[0].message.content,
+                userID: artificialInteligenceUserId,
+                showMenu: false,
+                userName: aiInfo?.user?.name!,
+              },
+            },
+          },
+        );
+        dataResponse = createChatRoomMessageData;
+      }
+    }
+
     refetchListMessages();
     setReRenderChatMessages(!reRenderChatMessages);
-    if (createChatRoomMessageData?.createMessage?.showMenu) {
-      handleCreateMessage("Menu", false, artificialInteligenceUserId, "AI");
-    }
+    // if (createChatRoomMessageData?.createMessage?.showMenu) {
+    //   handleCreateMessage("Menu", false, artificialInteligenceUserId, "AI");
+    // }
   };
 
   useEffect(() => {

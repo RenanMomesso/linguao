@@ -3,7 +3,7 @@ import React, { memo } from "react";
 import { Row } from "@/theme/GlobalComponents";
 import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
 import { theme } from "@/theme/theme";
-import { speakerVoiceMessage } from "@/utils/speakerVoice";
+import { speakerVoiceMessage, stopSpeakerVoice } from "@/utils/speakerVoice";
 
 export type Size = "small" | "medium" | "large";
 
@@ -39,10 +39,12 @@ const GenerateBars = memo(({ size = "medium" }: { size: Size }) => {
 interface SpeakerWithBarsProps {
   sentence?: string;
   size?: Size;
+  playSound?: boolean;
 }
 const SpeakerWithBars = ({
   sentence,
   size = "medium",
+  playSound = false,
 }: SpeakerWithBarsProps) => {
   if (!sentence) return null;
   return (
@@ -59,7 +61,10 @@ const SpeakerWithBars = ({
         size={size}
         soundPlaying={false}
         handleSpeak={() => {
-          speakerVoiceMessage(sentence);
+          // !playSound ?
+          //  speakerVoiceMessage(sentence) 
+          //  : 
+           stopSpeakerVoice();
         }}
       />
       <GenerateBars size={size} />

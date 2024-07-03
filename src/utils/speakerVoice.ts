@@ -11,3 +11,7 @@ export const speakerVoiceMessage = (message: string) => {
     iosVoiceId: "com.apple.ttsbundle.Samantha-compact",
   });
 };
+
+export const stopSpeakerVoice = () => {
+  return TTS.stop();
+}

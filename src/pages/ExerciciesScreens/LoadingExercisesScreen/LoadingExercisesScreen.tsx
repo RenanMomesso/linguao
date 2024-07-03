@@ -38,6 +38,7 @@ const LoadingExercisesScreen = () => {
 
   return (
     <Container
+      padding={20}
       style={{
         justifyContent: "center",
         alignItems: "center",

@@ -1,12 +1,14 @@
 import { Alert, ListRenderItem, Pressable, View } from "react-native";
 import React, { memo } from "react";
-import { Container } from "@/theme/GlobalComponents";
+import { Container, Row } from "@/theme/GlobalComponents";
 import { Message } from "@/API";
 import { FlatList } from "react-native-gesture-handler";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { theme } from "@/theme/theme";
 import Text from "@/components/Text";
 import Button from "@/components/Button/Button";
+import { speakerVoiceMessage } from "@/utils/speakerVoice";
+import SpeakerWithBars from "@/pages/ExerciciesScreens/SelectCorrectlyAudioScreen/SpeakerWithBars";
 
 interface ChatMessagesProps {
   messages: Message[] | null;
@@ -23,12 +25,11 @@ const ChatMessages = ({
   otherUserName = "",
   flatListRef,
 }: ChatMessagesProps) => {
-  // console.log("🚀 ~ messages:", messages?.map(item => item.text))
   const sortMessages = messages?.length
     ? [...messages]?.sort((a, b) => {
         if (a?.createdAt && b?.createdAt) {
           return (
-            new Date(a?.createdAt).getTime() - new Date(b?.createdAt).getTime()
+            new Date(b?.createdAt).getTime() - new Date(a?.createdAt).getTime()
           );
         }
         return 0;
@@ -39,16 +40,17 @@ const ChatMessages = ({
     ? messages[messages.length - 1]
     : null;
 
-  const renderItem: ListRenderItem<Message> = ({ item }) => {
-    console.log({ item });
+  const RenderItem: ListRenderItem<Message> = ({ item }) => {
+    const [transpile, setTranspile] = React.useState(false);
+    const [playAudio, setPlayAudio] = React.useState(false);
     if (item.text === "Menu" && item.userID === otherUserId) {
       return (
         <View
           style={{
-            padding: 10,
             borderRadius: 10,
             marginBottom: 10,
             alignSelf: "flex-start",
+            backgroundColor:'blue'
           }}>
           <View
             style={{
@@ -85,13 +87,72 @@ const ChatMessages = ({
           borderRadius: 12,
           alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
         }}>
-        <Text
-          size="text"
-          align={item.userID === otherUserId ? "left" : "right"}
-          weight="semibold"
-          color={"greyScale900"}>
-          {item?.text}
-        </Text>
+        {transpile && item.userID === otherUserId ? (
+          <Text
+            onLongPress={() => {
+              speakerVoiceMessage(item.text);
+            }}
+            size="text"
+            align={item.userID === otherUserId ? "left" : "right"}
+            weight="semibold"
+            color={"greyScale900"}>
+            {item?.text}
+          </Text>
+        ) : item.userID !== otherUserId ? (
+          <Text
+            onLongPress={() => {
+              speakerVoiceMessage(item.text);
+            }}
+            size="text"
+            align={item.userID === otherUserId ? "left" : "right"}
+            weight="semibold"
+            color={"greyScale900"}>
+            {item?.text}
+          </Text>
+        ) : (
+          <></>
+        )}
+        {item?.userID === otherUserId && (
+          <View style={{ gap: 6 }}>
+            <SpeakerWithBars
+              playSound={playAudio}
+              sentence={item.text}
+              size="small"
+            />
+            <Row>
+              <Pressable
+                style={{
+                  padding: 5,
+                  borderRadius: 10,
+                  backgroundColor: theme.colors.greyScale100,
+                  alignSelf: "flex-start",
+                }}
+                onPress={() => {
+                  Alert.alert("User Info", `User: ${otherUserName}`);
+                }}>
+                <Text size="text" color="primary" weight="semibold">
+                  Translate
+                </Text>
+              </Pressable>
+              <Pressable
+                style={{
+                  padding: 5,
+                  borderRadius: 10,
+                  backgroundColor: theme.colors.greyScale100,
+                  alignSelf: "flex-start",
+                }}
+                onPress={() => {
+                  setTranspile(c => !c);
+                }}>
+                {
+                  <Text size="text" color="primary" weight="semibold">
+                    Transpile
+                  </Text>
+                }
+              </Pressable>
+            </Row>
+          </View>
+        )}
       </View>
     );
   };
@@ -100,15 +161,22 @@ const ChatMessages = ({
     <AnimatedContainer
       padding={5}
       entering={FadeIn.duration(500)}
-      backgroundColor={"white"}>
+      style={{
+        borderRadius: 12,
+        flex: 1,
+      }}
+      backgroundColor={"greyScale400"}>
       <FlatList
+        inverted
         automaticallyAdjustContentInsets
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         showsVerticalScrollIndicator={false}
         ref={flatListRef}
         data={sortMessages}
         keyExtractor={item => item.id.toString()}
-        renderItem={renderItem}
+        renderItem={({ item, separators }) => (
+          <RenderItem item={item} separators={separators} index={+item.id} />
+        )}
       />
     </AnimatedContainer>
   );
