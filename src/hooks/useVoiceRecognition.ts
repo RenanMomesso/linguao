@@ -3,6 +3,11 @@ import Voice, {
   SpeechResultsEvent,
 } from "@react-native-voice/voice";
 import { useEffect, useState } from "react";
+import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+import RNFS from 'react-native-fs';
+import { View, Text, Button } from 'react-native';
+
+const audioRecorderPlayer = new AudioRecorderPlayer();
 
 export interface IVoiceResult {
   regognized: string;
@@ -13,6 +18,7 @@ export interface IVoiceResult {
   results: string[];
   partialResults: string[];
   isRecording: boolean;
+  duration: number; // Add duration property
 }
 
 const useVoiceRecognition = () => {
@@ -25,7 +31,9 @@ const useVoiceRecognition = () => {
     results: [],
     partialResults: [],
     isRecording: false,
+    duration: 0, // Initialize duration
   });
+  const [audioPath, setAudioPath] = useState<string | null>(null);
 
   const resetState = () => {
     setVoiceResult({
@@ -37,6 +45,7 @@ const useVoiceRecognition = () => {
       results: [],
       partialResults: [],
       isRecording: true,
+      duration: 0, // Reset duration
     });
   };
 
@@ -44,6 +53,16 @@ const useVoiceRecognition = () => {
     resetState();
     try {
       await Voice.start("en-US");
+      const path = `${RNFS.DocumentDirectoryPath}/test.mp4`;
+      const result = await audioRecorderPlayer.startRecorder(path);
+      setAudioPath(result);
+
+      audioRecorderPlayer.addRecordBackListener((e) => {
+        setVoiceResult(prevState => ({
+          ...prevState,
+          duration: e.currentPosition, // Update duration
+        }));
+      });
     } catch (e) {
       console.error(e);
     }
@@ -52,6 +71,9 @@ const useVoiceRecognition = () => {
   const stopRecognizing = async () => {
     try {
       await Voice.stop();
+      const result = await audioRecorderPlayer.stopRecorder();
+      setAudioPath(result);
+      audioRecorderPlayer.removeRecordBackListener(); // Remove listener
     } catch (e) {
       console.error(e);
     }
@@ -60,8 +82,21 @@ const useVoiceRecognition = () => {
   const cancelRecognizing = async () => {
     try {
       await Voice.cancel();
+      await audioRecorderPlayer.stopRecorder();
+      setAudioPath(null);
+      audioRecorderPlayer.removeRecordBackListener(); // Remove listener
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const playRecording = async () => {
+    if (audioPath) {
+      try {
+        await audioRecorderPlayer.startPlayer(audioPath);
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 
@@ -115,10 +150,6 @@ const useVoiceRecognition = () => {
       }));
     };
 
-    // Voice.onSpeechVolumeChanged = (e: any) => {
-    //   setVoiceResult(previousState => ({ ...previousState, pitch: e.value }));
-    // };
-
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
     };
@@ -129,6 +160,8 @@ const useVoiceRecognition = () => {
     startRecognizing,
     stopRecognizing,
     cancelRecognizing,
+    playRecording,
+    audioPath
   };
 };
 
