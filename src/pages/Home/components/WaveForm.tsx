@@ -1,48 +1,51 @@
-// Waveform.tsx
-import React, { useState, useEffect } from "react";
-import { View, Dimensions, TouchableOpacity, Text } from "react-native";
-import Svg, { Rect } from "react-native-svg";
+import React, { useState } from "react";
+import { Dimensions } from "react-native";
 import Animated, {
   useSharedValue,
-  useAnimatedProps,
+  useAnimatedStyle,
+  withTiming,
 } from "react-native-reanimated";
 import AudioRecorderPlayer from "react-native-audio-recorder-player";
-import { theme } from "@/theme/theme"; 
-import Slider from "@react-native-community/slider";
+import styled from "styled-components/native";
+
+import { PauseIcon, PlayIcon } from "@/assets/images";
+import Text from "@/components/Text";
 
 const { width } = Dimensions.get("window");
-const AnimatedRect = Animated.createAnimatedComponent(Rect);
-
+const adjustedWidth = width - 100;
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
-const generateBars = (barCount: number) => {
-  const bars = [];
-  const barWidth = width  / barCount;
-  for (let i = 0; i < barCount; i++) {
-    bars.push({
-      x: i * barWidth,
-      height: Math.random() * 100 + 20,
-      width: barWidth - 2,
-    });
-  }
-  return bars;
+interface WaveformProps {
+  audioPath: string;
+  duration: number | null | string;
+}
+
+const calculatePercentage = (current: number, total: number) => {
+  'worklet'
+  return total > 0 ? ((current / total) * 100).toFixed(2) : "0.00";
 };
 
-const Waveform = ({ audioPath }: { audioPath: string }) => {
-  const [bars, setBars] = useState(generateBars(50));
+const calculateLeftPosition = (percentage: number) => {
+  'worklet'
+  return (percentage / 100) * adjustedWidth;
+};
+
+const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
+  const AnimatedIndicator = Animated.createAnimatedComponent(WaveformThumb);
   const progress = useSharedValue(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [pausedPosition, setPausedPosition] = useState(0);
 
-  const animatedProps = useAnimatedProps(() => ({
-    width: progress.value * width,
+  const animatedIndicatorStyle = useAnimatedStyle(() => ({
+    left: withTiming(calculateLeftPosition(progress.value * 100)),
   }));
 
   const startPlaying = async () => {
     setIsPlaying(true);
     const result = await audioRecorderPlayer.startPlayer(audioPath);
-    audioRecorderPlayer.addPlayBackListener(e => {
+    audioRecorderPlayer.addPlayBackListener((e) => {
       setCurrentTime(e.currentPosition);
       setDuration(e.duration);
       progress.value = e.currentPosition / e.duration;
@@ -55,8 +58,25 @@ const Waveform = ({ audioPath }: { audioPath: string }) => {
 
   const stopPlaying = async () => {
     setIsPlaying(false);
-    await audioRecorderPlayer.stopPlayer();
-    audioRecorderPlayer.removePlayBackListener();
+    await audioRecorderPlayer.pausePlayer();
+    setPausedPosition(currentTime);
+  };
+
+  const resumePlaying = async () => {
+    setIsPlaying(true);
+    await audioRecorderPlayer.resumePlayer();
+  };
+
+  const handlePlayPause = async () => {
+    if (isPlaying) {
+      stopPlaying();
+    } else {
+      if (pausedPosition > 0) {
+        resumePlaying();
+      } else {
+        startPlaying();
+      }
+    }
   };
 
   const seekAudio = async (value: number) => {
@@ -65,51 +85,70 @@ const Waveform = ({ audioPath }: { audioPath: string }) => {
     setCurrentTime(seekTime);
   };
 
+  console.log("🚀 ~ Waveform ~ audioPath:", audioPath);
+  const formatTime = (milliseconds: number) => {
+    const minutes = Math.floor(milliseconds / 60000);
+    const seconds = ((milliseconds % 60000) / 1000).toFixed(0);
+    return `${minutes}:${+seconds < 10 ? "0" : ""}${seconds}`;
+  };
   return (
-    <View style={{ justifyContent: "center", alignItems: "center" }}>
-      <Svg height="200" width={400}>
-        {bars.map((bar, index) => (
-          <Rect
-            key={index}
-            x={bar.x}
-            y={200 - bar.height}
-            width={bar.width}
-            height={bar.height}
-            fill="black"
-          />
-        ))}
-        <AnimatedRect
-          x={0}
-          y={0}
-          height={200}
-          fill={theme.colors.primary}
-          animatedProps={animatedProps}
-        />
-      </Svg>
-      <TouchableOpacity
-        onPress={isPlaying ? stopPlaying : startPlaying}
-        style={{ marginTop: 20, backgroundColor: "red" }}>
-        <Text style={{ fontSize: 18, color: theme.colors.primary }}>
-          {isPlaying ? "Pause" : "Play"}
-        </Text>
-      </TouchableOpacity>
-      <Slider
-        style={{ width: width * 0.8, height: 40 }}
-        minimumValue={0}
-        maximumValue={1}
-        value={progress.value}
-        onSlidingComplete={seekAudio}
-      />
-      <Text
-        style={{
-          marginTop: 10,
-          fontSize: 16,
-          color: theme.colors.greyScale900,
-        }}>
-        {new Date(currentTime).toISOString().substr(14, 5)} / {new Date(duration).toISOString().substr(14, 5)}
-      </Text>
-    </View>
+    <Container>
+      {isPlaying ? (
+        <PauseIcon onPress={handlePlayPause} height={25} width={25} />
+      ) : (
+        <PlayIcon onPress={handlePlayPause} />
+      )}
+      <WaveformContainer>
+        <WaveformTrack />
+        <AnimatedIndicator style={animatedIndicatorStyle} />
+        <TimeText
+          size="text"
+          style={{
+            position: "absolute",
+            right: 0,
+            top: 22,
+          }}
+        >
+         {formatTime(currentTime)} / {formatTime(duration)}
+        </TimeText>
+      </WaveformContainer>
+    </Container>
   );
 };
 
 export default Waveform;
+
+const Container = styled.View`
+  align-items: center;
+  background-color: white;
+  flex-direction: row;
+  elevation: 6;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 8px;
+`;
+
+const WaveformContainer = styled.View`
+  height: 30px;
+  flex: 1;
+  justify-content: center;
+`;
+
+const WaveformTrack = styled.View`
+  height: 3px;
+  background-color: gainsboro;
+`;
+
+const WaveformThumb = styled(Animated.View)`
+  height: 14px;
+  width: 14px;
+  border-radius: 14px;
+  background-color: royalblue;
+  position: absolute;
+  aspect-ratio: 2;
+`;
+
+const TimeText = styled(Text)`
+  font-size: 12px;
+  color: black;
+`;

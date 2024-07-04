@@ -11,7 +11,6 @@ const VoiceRecognitionComponent = () => {
     cancelRecognizing,
     audioPath,
   } = useVoiceRecognition();
-  console.log("🚀 ~ VoiceRecognitionComponent ~ audioPath:", audioPath);
 
   return (
     <View style={{ padding: 20 }}>
@@ -31,7 +30,7 @@ const VoiceRecognitionComponent = () => {
       {voiceResult.error && <Text>Error: {voiceResult.error}</Text>}
       <Text>Duration: {voiceResult.duration} ms</Text>
       <View style={{ marginTop: 50 }}>
-        {audioPath && <Waveform audioPath={audioPath} />}
+        {audioPath && <Waveform duration={voiceResult.duration} audioPath={audioPath} />}
       </View>
     </View>
   );
