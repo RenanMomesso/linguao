@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Pressable } from "react-native";
 import useVoiceRecognition from "@/hooks/useVoiceRecognition";
 import Waveform from "./WaveForm"; // Adjust the import path as necessary
 
@@ -10,31 +10,53 @@ const VoiceRecognitionComponent = () => {
     stopRecognizing,
     cancelRecognizing,
     audioPath,
+    convertAudioToText,
+    transcription,
   } = useVoiceRecognition();
 
   return (
     <View style={{ padding: 20 }}>
-      <Button title="Start Recording" onPress={startRecognizing} />
-      <Button title="Stop Recording" onPress={stopRecognizing} />
-      <Button title="Cancel Recording" onPress={cancelRecognizing} />
+      <Pressable
+        style={{
+          width: "100%",
+          padding: 10,
+          backgroundColor: voiceResult.isRecording ? "red" : "blue",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 5,
+        }}
+        onPressIn={startRecognizing}
+        onPressOut={stopRecognizing}>
+        <Text style={{ color: "white" }}>Press and hold to record</Text>
+      </Pressable>
 
       {voiceResult.isRecording && <Text>Recording...</Text>}
 
       <View>
         <Text>Transcriptions:</Text>
-        {voiceResult.results.map((result, index) => (
-          <Text key={index}>{result}</Text>
-        ))}
+        {transcription}
       </View>
 
       {voiceResult.error && <Text>Error: {voiceResult.error}</Text>}
       <Text>Duration: {voiceResult.duration} ms</Text>
       <View style={{ marginTop: 50 }}>
-        {audioPath && (
+        {audioPath && !voiceResult.isRecording && !!voiceResult.duration && (
           <Waveform duration={voiceResult.duration} audioPath={audioPath} />
         )}
       </View>
-      <Text style={{}}>Conveert to text</Text>
+      <Pressable
+        onPress={convertAudioToText}
+        style={{
+          width: "100%",
+          padding: 10,
+          backgroundColor: "lightblue",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 5,
+          marginBottom: 10,
+        }}>
+        <Text>AWS PREDICTION: text</Text>
+      </Pressable>
     </View>
   );
 };

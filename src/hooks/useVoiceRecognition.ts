@@ -7,7 +7,10 @@ import AudioRecorderPlayer from "react-native-audio-recorder-player";
 import RNFS from "react-native-fs";
 import { View, Text, Button } from "react-native";
 // import Prediction from "aws-amplify/p"
+import axios from "axios";
 
+const OpenAI_API_KEY =
+  "sk-proj-OfkcEpPiSvQjwDGTs8hxT3BlbkFJFUiXbwvGHXD256DaspJH";
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
 export interface IVoiceResult {
@@ -36,6 +39,7 @@ const useVoiceRecognition = () => {
   });
 
   const [audioPath, setAudioPath] = useState<string | null>(null);
+  const [transcription, setTranscription] = useState<string | null>(null);
 
   const resetState = () => {
     setVoiceResult({
@@ -58,8 +62,7 @@ const useVoiceRecognition = () => {
       const result = await audioRecorderPlayer.startRecorder(path);
       setAudioPath(result);
 
-      audioRecorderPlayer.addRecordBackListener(async e => {
-        await Voice.start("en-US");
+      audioRecorderPlayer.addRecordBackListener(e => {
         setVoiceResult(prevState => ({
           ...prevState,
           duration: e.currentPosition,
@@ -72,9 +75,12 @@ const useVoiceRecognition = () => {
 
   const stopRecognizing = async () => {
     try {
-      await Voice.stop();
       const result = await audioRecorderPlayer.stopRecorder();
       setAudioPath(result);
+      setVoiceResult(prevState => ({
+        ...prevState,
+        isRecording: false,
+      }));
       audioRecorderPlayer.removeRecordBackListener();
     } catch (e) {
       console.error(e);
@@ -102,59 +108,42 @@ const useVoiceRecognition = () => {
     }
   };
 
-  useEffect(() => {
-    Voice.onSpeechStart = (e: any) => {
-      setVoiceResult(previousState => ({
-        ...previousState,
-        started: e.value,
-        isRecording: true,
-      }));
-    };
+  const convertAudioToText = async () => {
+    if (!audioPath) return;
 
-    Voice.onSpeechError = (e: SpeechErrorEvent) => {
-      setVoiceResult(previousState => ({
-        ...previousState,
-        error: e?.error?.message || "",
-        isRecording: false,
-      }));
-    };
+    try {
+      const formData = new FormData();
+      formData.append("file", {
+        uri: audioPath,
+        name: "audio.mp4",
+        type: "audio/mp4",
+      } as any);
+      formData.append("model", "whisper-1");
+      formData.append("language", "en");
 
-    Voice.onSpeechEnd = (e: any) => {
-      setVoiceResult(previousState => ({
-        ...previousState,
-        end: e.value,
-        isRecording: false,
+      const response = await axios.post(
+        "https://api.openai.com/v1/audio/transcriptions",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${OpenAI_API_KEY}`,
+          },
+        },
+      );
+      console.log("@@@@@@@@@@RESPONSE: ", response.data);
+      setTranscription(response.data.transcription);
+      setVoiceResult(prevState => ({
+        ...prevState,
+        results: response.data.transcription,
       }));
-    };
-
-    Voice.onSpeechRecognized = (e: any) => {
-      setVoiceResult(previousState => ({
-        ...previousState,
-        recognized: e.value,
-      }));
-    };
-
-    Voice.onSpeechResults = (e: SpeechResultsEvent) => {
-      console.log("onSpeechResults:", e);
-      if (e.value) {
-        setVoiceResult(previousState => ({
-          ...previousState,
-          results: e.value,
-        }));
+    } catch (error: any) {
+      console.error("Error in audio-to-text conversion:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
       }
-    };
-
-    Voice.onSpeechPartialResults = (e: any) => {
-      setVoiceResult(previousState => ({
-        ...previousState,
-        partialResults: e.value,
-      }));
-    };
-
-    return () => {
-      Voice.destroy().then(Voice.removeAllListeners);
-    };
-  }, []);
+    }
+  };
 
   return {
     voiceResult,
@@ -163,6 +152,8 @@ const useVoiceRecognition = () => {
     cancelRecognizing,
     playRecording,
     audioPath,
+    convertAudioToText,
+    transcription,
   };
 };
 
