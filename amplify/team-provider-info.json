@@ -30,6 +30,9 @@
       },
       "storage": {
         "linguaoimage": {}
+      },
+      "predictions": {
+        "speechGenerator184d0778": {}
       }
     }
   },
