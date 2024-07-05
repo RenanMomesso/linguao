@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import AudioRecorderPlayer from "react-native-audio-recorder-player";
 import RNFS from "react-native-fs";
 import { View, Text, Button } from "react-native";
+// import Prediction from "aws-amplify/p"
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
@@ -53,12 +54,12 @@ const useVoiceRecognition = () => {
   const startRecognizing = async () => {
     resetState();
     try {
-      await Voice.start("en-US");
       const path = `${RNFS.DocumentDirectoryPath}/test.mp4`;
       const result = await audioRecorderPlayer.startRecorder(path);
       setAudioPath(result);
 
-      audioRecorderPlayer.addRecordBackListener(e => {
+      audioRecorderPlayer.addRecordBackListener(async e => {
+        await Voice.start("en-US");
         setVoiceResult(prevState => ({
           ...prevState,
           duration: e.currentPosition,

@@ -30,8 +30,11 @@ const VoiceRecognitionComponent = () => {
       {voiceResult.error && <Text>Error: {voiceResult.error}</Text>}
       <Text>Duration: {voiceResult.duration} ms</Text>
       <View style={{ marginTop: 50 }}>
-        {audioPath && <Waveform duration={voiceResult.duration} audioPath={audioPath} />}
+        {audioPath && (
+          <Waveform duration={voiceResult.duration} audioPath={audioPath} />
+        )}
       </View>
+      <Text style={{}}>Conveert to text</Text>
     </View>
   );
 };
