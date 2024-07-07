@@ -40,6 +40,8 @@ Tech Stack: Rich multimedia content, videos, and articles.
 Premium Support:
 
 TRADUZIR AUTOMATICAMENTE E INSTANTANEAMENTE O QUE A PESSOA DISSER!
+ADICIONAR RECENTES ACESSADOS E MUDAR BOTTOM TAB
+TIRAR ANIMACAO
 
 Feature: Access to priority customer support or language coaches.
 Benefit: Provides personalized assistance and faster response times.

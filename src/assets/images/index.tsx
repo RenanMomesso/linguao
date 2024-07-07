@@ -24,6 +24,9 @@ import BaloonMsgIcon from "./BaloonMsgIcon.svg";
 import MicrophoneIcon from "./MicrophoneIcon.svg";
 import SendIcon from './SendIcon.svg'
 import SettingsOutlineIcon from './SettingsOutlineIcon.svg'
+import StartIcon from './StartIcon.svg'
+import PlayIcon from './PlayIcon.svg'
+import PauseIcon from './PauseIcon.svg'
 
 
 export const SvgComponent = (props: SvgProps) => (
@@ -78,5 +81,8 @@ export {
   BaloonMsgIcon,
   MicrophoneIcon,
   SendIcon,
-  SettingsOutlineIcon
+  SettingsOutlineIcon,
+  StartIcon,
+  PlayIcon,
+  PauseIcon
 };
