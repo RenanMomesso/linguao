@@ -3,6 +3,15 @@ enum AttachmentType {
   VIDEO
 }
 
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  MENU
+  PROGRESS
+}
+
 enum MenuType {
   LIST
   BUTTON
@@ -149,6 +158,9 @@ type Message @model @auth(rules: [{ allow: public }]) {
   showMenu: Boolean
   menuType: MenuType
   progress: Int
+  messageType: MessageType
+  audioDuration: Int
+  audioText: String
 }
 
 type Attachment @model @auth(rules: [{ allow: public }]) {

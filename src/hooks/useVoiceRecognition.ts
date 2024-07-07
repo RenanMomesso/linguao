@@ -3,18 +3,9 @@ import Voice, {
   SpeechResultsEvent,
 } from "@react-native-voice/voice";
 import { useEffect, useState } from "react";
-import AudioRecorderPlayer from "react-native-audio-recorder-player";
-import RNFS from "react-native-fs";
-import { View, Text, Button } from "react-native";
-// import Prediction from "aws-amplify/p"
-import axios from "axios";
-
-const OpenAI_API_KEY =
-  "sk-proj-OfkcEpPiSvQjwDGTs8hxT3BlbkFJFUiXbwvGHXD256DaspJH";
-const audioRecorderPlayer = new AudioRecorderPlayer();
 
 export interface IVoiceResult {
-  recognized: string;
+  regognized: string;
   pitch: string;
   error: string;
   end: string;
@@ -22,12 +13,11 @@ export interface IVoiceResult {
   results: string[];
   partialResults: string[];
   isRecording: boolean;
-  duration: number;
 }
 
 const useVoiceRecognition = () => {
   const [voiceResult, setVoiceResult] = useState<IVoiceResult>({
-    recognized: "",
+    regognized: "",
     pitch: "",
     error: "",
     end: "",
@@ -35,39 +25,26 @@ const useVoiceRecognition = () => {
     results: [],
     partialResults: [],
     isRecording: false,
-    duration: 0,
   });
-
-  const [audioPath, setAudioPath] = useState<string | null>(null);
-  const [transcription, setTranscription] = useState<string | null>(null);
+  console.log("🚀 ~ useVoiceRecognition ~ voiceResult:", voiceResult.results)
 
   const resetState = () => {
     setVoiceResult({
-      recognized: "",
+      regognized: "",
       pitch: "",
       error: "",
       end: "",
       started: "",
       results: [],
       partialResults: [],
-      isRecording: false,
-      duration: 0,
+      isRecording: true,
     });
   };
 
   const startRecognizing = async () => {
     resetState();
     try {
-      const path = `${RNFS.DocumentDirectoryPath}/test.mp4`;
-      const result = await audioRecorderPlayer.startRecorder(path);
-      setAudioPath(result);
-
-      audioRecorderPlayer.addRecordBackListener(e => {
-        setVoiceResult(prevState => ({
-          ...prevState,
-          duration: e.currentPosition,
-        }));
-      });
+      await Voice.start("en-US");
     } catch (e) {
       console.error(e);
     }
@@ -75,13 +52,7 @@ const useVoiceRecognition = () => {
 
   const stopRecognizing = async () => {
     try {
-      const result = await audioRecorderPlayer.stopRecorder();
-      setAudioPath(result);
-      setVoiceResult(prevState => ({
-        ...prevState,
-        isRecording: false,
-      }));
-      audioRecorderPlayer.removeRecordBackListener();
+      await Voice.stop();
     } catch (e) {
       console.error(e);
     }
@@ -90,70 +61,75 @@ const useVoiceRecognition = () => {
   const cancelRecognizing = async () => {
     try {
       await Voice.cancel();
-      await audioRecorderPlayer.stopRecorder();
-      setAudioPath(null);
-      audioRecorderPlayer.removeRecordBackListener();
     } catch (e) {
       console.error(e);
     }
   };
 
-  const playRecording = async () => {
-    if (audioPath) {
-      try {
-        await audioRecorderPlayer.startPlayer(audioPath);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  };
-
-  const convertAudioToText = async () => {
-    if (!audioPath) return;
-
-    try {
-      const formData = new FormData();
-      formData.append("file", {
-        uri: audioPath,
-        name: "audio.mp4",
-        type: "audio/mp4",
-      } as any);
-      formData.append("model", "whisper-1");
-      formData.append("language", "en");
-
-      const response = await axios.post(
-        "https://api.openai.com/v1/audio/transcriptions",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${OpenAI_API_KEY}`,
-          },
-        },
-      );
-      console.log("@@@@@@@@@@RESPONSE: ", response.data);
-      setTranscription(response.data.transcription);
-      setVoiceResult(prevState => ({
-        ...prevState,
-        results: response.data.transcription,
+  useEffect(() => {
+    Voice.onSpeechStart = (e: any) => {
+      setVoiceResult(previousState => ({
+        ...previousState,
+        started: e.value,
+        isRecording: true,
       }));
-    } catch (error: any) {
-      console.error("Error in audio-to-text conversion:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-      }
-    }
-  };
+    };
+
+    Voice.onSpeechError = (e: SpeechErrorEvent) => {
+      setVoiceResult(previousState => ({
+        ...previousState,
+        error: e?.error?.message || "",
+        isRecording: false,
+      }));
+    };
+
+    Voice.onSpeechEnd = (e: any) => {
+      setVoiceResult(previousState => ({
+        ...previousState,
+        end: e.value,
+        isRecording: false,
+      }));
+    };
+
+    Voice.onSpeechRecognized = (e: any) => {
+      setVoiceResult(previousState => ({
+        ...previousState,
+        regognized: e.value,
+      }));
+    };
+
+    Voice.onSpeechResults = (e: SpeechResultsEvent) => {
+      if (!e.value) return;
+      console.log("onSpeechResults: ", e);
+      setVoiceResult(previousState => {
+        return {
+          ...previousState,
+          results: e.value!,
+        };
+      });
+    };
+
+    Voice.onSpeechPartialResults = (e: any) => {
+      setVoiceResult(previousState => ({
+        ...previousState,
+        partialResults: e.value,
+      }));
+    };
+
+    // Voice.onSpeechVolumeChanged = (e: any) => {
+    //   setVoiceResult(previousState => ({ ...previousState, pitch: e.value }));
+    // };
+
+    return () => {
+      Voice.destroy().then(Voice.removeAllListeners);
+    };
+  }, []);
 
   return {
     voiceResult,
     startRecognizing,
     stopRecognizing,
     cancelRecognizing,
-    playRecording,
-    audioPath,
-    convertAudioToText,
-    transcription,
   };
 };
 

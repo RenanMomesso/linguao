@@ -78,6 +78,9 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -111,6 +114,9 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -224,6 +230,9 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -257,6 +266,9 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -370,6 +382,9 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -403,6 +418,9 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -916,6 +934,9 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -975,6 +996,9 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1008,6 +1032,9 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -1069,6 +1096,9 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -1133,6 +1163,9 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -1192,6 +1225,9 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1225,6 +1261,9 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -1286,6 +1325,9 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -1350,6 +1392,9 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -1409,6 +1454,9 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1442,6 +1490,9 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -1503,6 +1554,9 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -1563,6 +1617,9 @@ export const onCreateMessage = /* GraphQL */ `subscription OnCreateMessage($filt
     showMenu
     menuType
     progress
+    messageType
+    audioDuration
+    audioText
     createdAt
     updatedAt
     __typename
@@ -1600,6 +1657,9 @@ export const onUpdateMessage = /* GraphQL */ `subscription OnUpdateMessage($filt
     showMenu
     menuType
     progress
+    messageType
+    audioDuration
+    audioText
     createdAt
     updatedAt
     __typename
@@ -1637,6 +1697,9 @@ export const onDeleteMessage = /* GraphQL */ `subscription OnDeleteMessage($filt
     showMenu
     menuType
     progress
+    messageType
+    audioDuration
+    audioText
     createdAt
     updatedAt
     __typename
@@ -1784,6 +1847,9 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1840,6 +1906,9 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -1898,6 +1967,9 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1946,6 +2018,9 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -2057,6 +2132,9 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -2113,6 +2191,9 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -2171,6 +2252,9 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -2219,6 +2303,9 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -2330,6 +2417,9 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -2386,6 +2476,9 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -2444,6 +2537,9 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -2492,6 +2588,9 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename

@@ -61,9 +61,9 @@ const SpeakerWithBars = ({
         size={size}
         soundPlaying={false}
         handleSpeak={() => {
-          // !playSound ?
-          //  speakerVoiceMessage(sentence) 
-          //  : 
+          !playSound ?
+           speakerVoiceMessage(sentence) 
+           : 
            stopSpeakerVoice();
         }}
       />

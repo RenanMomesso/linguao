@@ -21,12 +21,12 @@ interface WaveformProps {
 }
 
 const calculatePercentage = (current: number, total: number) => {
-  'worklet'
+  "worklet";
   return total > 0 ? ((current / total) * 100).toFixed(2) : "0.00";
 };
 
 const calculateLeftPosition = (percentage: number) => {
-  'worklet'
+  "worklet";
   return (percentage / 100) * adjustedWidth;
 };
 
@@ -45,7 +45,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
   const startPlaying = async () => {
     setIsPlaying(true);
     const result = await audioRecorderPlayer.startPlayer(audioPath);
-    audioRecorderPlayer.addPlayBackListener((e) => {
+    audioRecorderPlayer.addPlayBackListener(e => {
       setCurrentTime(e.currentPosition);
       setDuration(e.duration);
       progress.value = e.currentPosition / e.duration;
@@ -85,7 +85,6 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
     setCurrentTime(seekTime);
   };
 
-  console.log("🚀 ~ Waveform ~ audioPath:", audioPath);
   const formatTime = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = ((milliseconds % 60000) / 1000).toFixed(0);
@@ -107,9 +106,8 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
             position: "absolute",
             right: 0,
             top: 22,
-          }}
-        >
-         {formatTime(currentTime)} / {formatTime(duration)}
+          }}>
+          {formatTime(currentTime)} / {formatTime(duration)}
         </TimeText>
       </WaveformContainer>
     </Container>

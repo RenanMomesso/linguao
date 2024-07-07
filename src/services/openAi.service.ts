@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const OpenAI_API_KEY =
+  "sk-proj-4biiUmZMYhgc4UeWj6H5T3BlbkFJCspXYoT5bubj2NRNSz0Q";
+
 interface Message {
   role: "system" | "user" | "assistant";
   content: string;
@@ -71,5 +74,37 @@ export const sendMessageToOpenAI = async (
   }
 };
 
+export const convertAudioToText = async (audioPath: string) => {
+  if (!audioPath) return;
+
+  try {
+    const formData = new FormData();
+    formData.append("file", {
+      uri: audioPath,
+      name: "audio.mp4",
+      type: "audio/mp4",
+    } as any);
+    formData.append("model", "whisper-1");
+    formData.append("language", "en");
+
+    const response = await axios.post(
+      "https://api.openai.com/v1/audio/transcriptions",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${OpenAI_API_KEY}`,
+        },
+      },
+    );
+    console.log("@@@@@@@@@@RESPONSE: ", response.data);
+    return response?.data?.text;
+  } catch (error: any) {
+    console.error("Error in audio-to-text conversion:", error);
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+    }
+  }
+};
 
 // Example usage:

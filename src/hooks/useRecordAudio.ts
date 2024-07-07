@@ -6,6 +6,10 @@ import axios from "axios";
 const OpenAI_API_KEY =
   "sk-proj-OfkcEpPiSvQjwDGTs8hxT3BlbkFJFUiXbwvGHXD256DaspJH";
 const audioRecorderPlayer = new AudioRecorderPlayer();
+console.log(
+  "🚀 ~ audioRecorderPlayer:",
+  JSON.stringify(audioRecorderPlayer, undefined, 3),
+);
 
 export interface IVoiceResult {
   recognized: string;
@@ -19,7 +23,7 @@ export interface IVoiceResult {
   duration: number;
 }
 
-const useVoiceRecognition = () => {
+const useRecordAudio = () => {
   const [voiceResult, setVoiceResult] = useState<IVoiceResult>({
     recognized: "",
     pitch: "",
@@ -54,9 +58,12 @@ const useVoiceRecognition = () => {
     try {
       const path = `${RNFS.DocumentDirectoryPath}/test.mp4`;
       const result = await audioRecorderPlayer.startRecorder(path);
+      console.log("🚀 ~ startRecognizing ~ result:", result);
       setAudioPath(result);
 
       audioRecorderPlayer.addRecordBackListener(e => {
+        
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@Event: ", e);
         setVoiceResult(prevState => ({
           ...prevState,
           duration: e.currentPosition,
@@ -107,7 +114,7 @@ const useVoiceRecognition = () => {
     try {
       const formData = new FormData();
       formData.append("file", {
-        uri: audioPath,
+        uri: "https://linguaoimagebucket13eb4-dev.s3.amazonaws.com/public/e498e478-3071-7042-da1d-3736b5ee6244/3gGnm1E1BzJM-audio.mp3",
         name: "audio.mp4",
         type: "audio/mp4",
       } as any);
@@ -138,6 +145,12 @@ const useVoiceRecognition = () => {
     }
   };
 
+  const handleResetAudio = () => {
+    setAudioPath(null);
+    setTranscription(null);
+    resetState();
+  }
+
   return {
     voiceResult,
     startRecognizing,
@@ -147,7 +160,8 @@ const useVoiceRecognition = () => {
     audioPath,
     convertAudioToText,
     transcription,
+    handleResetAudio
   };
 };
 
-export default useVoiceRecognition;
+export default useRecordAudio;

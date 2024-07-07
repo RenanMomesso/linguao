@@ -81,6 +81,9 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -114,6 +117,9 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -230,6 +236,9 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -263,6 +272,9 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -379,6 +391,9 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -412,6 +427,9 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -964,6 +982,9 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -1023,6 +1044,9 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1056,6 +1080,9 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -1117,6 +1144,9 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -1184,6 +1214,9 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -1243,6 +1276,9 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1276,6 +1312,9 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -1337,6 +1376,9 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -1404,6 +1446,9 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -1463,6 +1508,9 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1496,6 +1544,9 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -1557,6 +1608,9 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -1620,6 +1674,9 @@ export const createMessage = /* GraphQL */ `mutation CreateMessage(
     showMenu
     menuType
     progress
+    messageType
+    audioDuration
+    audioText
     createdAt
     updatedAt
     __typename
@@ -1660,6 +1717,9 @@ export const updateMessage = /* GraphQL */ `mutation UpdateMessage(
     showMenu
     menuType
     progress
+    messageType
+    audioDuration
+    audioText
     createdAt
     updatedAt
     __typename
@@ -1700,6 +1760,9 @@ export const deleteMessage = /* GraphQL */ `mutation DeleteMessage(
     showMenu
     menuType
     progress
+    messageType
+    audioDuration
+    audioText
     createdAt
     updatedAt
     __typename
@@ -1851,6 +1914,9 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1907,6 +1973,9 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -1965,6 +2034,9 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -2013,6 +2085,9 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -2125,6 +2200,9 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -2181,6 +2259,9 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -2239,6 +2320,9 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -2287,6 +2371,9 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -2399,6 +2486,9 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -2455,6 +2545,9 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -2513,6 +2606,9 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -2561,6 +2657,9 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename

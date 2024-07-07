@@ -78,6 +78,9 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -111,6 +114,9 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -225,6 +231,9 @@ export const listUsers = /* GraphQL */ `query ListUsers(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -720,6 +729,9 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -779,6 +791,9 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -812,6 +827,9 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -873,6 +891,9 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -942,6 +963,9 @@ export const listChatRooms = /* GraphQL */ `query ListChatRooms(
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -1000,6 +1024,9 @@ export const listChatRooms = /* GraphQL */ `query ListChatRooms(
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1048,6 +1075,9 @@ export const listChatRooms = /* GraphQL */ `query ListChatRooms(
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -1111,6 +1141,9 @@ export const getMessage = /* GraphQL */ `query GetMessage($id: ID!) {
     showMenu
     menuType
     progress
+    messageType
+    audioDuration
+    audioText
     createdAt
     updatedAt
     __typename
@@ -1153,6 +1186,9 @@ export const listMessages = /* GraphQL */ `query ListMessages(
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -1206,6 +1242,9 @@ export const messagesByChatroomID = /* GraphQL */ `query MessagesByChatroomID(
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -1259,6 +1298,9 @@ export const messagesByUserID = /* GraphQL */ `query MessagesByUserID(
       showMenu
       menuType
       progress
+      messageType
+      audioDuration
+      audioText
       createdAt
       updatedAt
       __typename
@@ -1460,6 +1502,9 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1516,6 +1561,9 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -1574,6 +1622,9 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
               showMenu
               menuType
               progress
+              messageType
+              audioDuration
+              audioText
               createdAt
               updatedAt
               __typename
@@ -1622,6 +1673,9 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
         showMenu
         menuType
         progress
+        messageType
+        audioDuration
+        audioText
         createdAt
         updatedAt
         __typename
@@ -1749,6 +1803,9 @@ export const listUserChatRooms = /* GraphQL */ `query ListUserChatRooms(
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -1825,6 +1882,9 @@ export const listUserChatRooms = /* GraphQL */ `query ListUserChatRooms(
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -1963,6 +2023,9 @@ export const userChatRoomsByUserId = /* GraphQL */ `query UserChatRoomsByUserId(
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -2039,6 +2102,9 @@ export const userChatRoomsByUserId = /* GraphQL */ `query UserChatRoomsByUserId(
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename
@@ -2177,6 +2243,9 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `query UserChatRoomsByCha
             showMenu
             menuType
             progress
+            messageType
+            audioDuration
+            audioText
             createdAt
             updatedAt
             __typename
@@ -2253,6 +2322,9 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `query UserChatRoomsByCha
           showMenu
           menuType
           progress
+          messageType
+          audioDuration
+          audioText
           createdAt
           updatedAt
           __typename

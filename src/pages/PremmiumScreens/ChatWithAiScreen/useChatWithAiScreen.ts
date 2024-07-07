@@ -12,6 +12,7 @@ import {
   ListUsersQuery,
   ListUsersQueryVariables,
   MenuType,
+  MessageType,
 } from "../../../API";
 import {
   listChatRooms,
@@ -29,7 +30,10 @@ import {
 } from "@/graphql/mutations";
 import { FlatList } from "react-native-gesture-handler";
 import useKeyboard from "@/hooks/useKeyboard";
-import { sendMessageToOpenAI } from "@/services/openAi.service";
+import {
+  convertAudioToText,
+  sendMessageToOpenAI,
+} from "@/services/openAi.service";
 
 const useChatWithAiScreen = () => {
   const abortController = new AbortController();
@@ -45,7 +49,7 @@ const useChatWithAiScreen = () => {
     CreateChatRoomMutationVariables
   >(gql(createChatRoom));
 
-  const [createChatRoomMessage] = useMutation<
+  const [createChatRoomMessage, { loading: loadingNewMessage }] = useMutation<
     CreateMessageMutation,
     CreateMessageMutationVariables
   >(gql(createMessage), {
@@ -211,15 +215,13 @@ const useChatWithAiScreen = () => {
   const handleCreateMessage = async (
     text: string,
     showMenu: boolean,
+    messageType: MessageType = MessageType.TEXT,
+    audioDuration: number = 0,
+    audioMessage?: string,
     userSender: string = String(userID),
     userName = myUserName,
   ) => {
-    if (!text.length) {
-      throw new Error("Message cannot be empty");
-      return;
-    }
-
-    const { data: createChatRoomMessageData } = await createChatRoomMessage({
+    const { data, errors } = await createChatRoomMessage({
       variables: {
         input: {
           chatroomID: firstChatRoomInfo?.id!,
@@ -227,12 +229,17 @@ const useChatWithAiScreen = () => {
           userID: String(userSender),
           showMenu,
           userName: userName,
+          messageType,
+          audioDuration: audioDuration,
+          audioText: audioMessage,
         },
       },
     });
 
     if (userSender !== artificialInteligenceUserId) {
-      const response = await sendMessageToOpenAI(text);
+      const response = await sendMessageToOpenAI(
+        messageType === MessageType.AUDIO ? audioMessage! : text,
+      );
       let dataResponse = undefined;
       if (response?.id) {
         const { data: createChatRoomMessageData } = await createChatRoomMessage(
@@ -266,13 +273,14 @@ const useChatWithAiScreen = () => {
     }
   }, [mountedRef.current, loadingListUserhatRoomsQuery]);
 
-  console.log("-------------------------");
+ 
   return {
     data: listUserChatRoomsQuery,
     aiChatInfo: aiInfo,
     messages: listMessagesQuery,
     handleCreateMessage,
     flatListRef,
+    loadingNewMessage,
   };
 };
 

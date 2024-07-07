@@ -9,6 +9,7 @@ import Text from "@/components/Text";
 import Button from "@/components/Button/Button";
 import { speakerVoiceMessage } from "@/utils/speakerVoice";
 import SpeakerWithBars from "@/pages/ExerciciesScreens/SelectCorrectlyAudioScreen/SpeakerWithBars";
+import Waveform from "@/pages/Home/components/WaveForm";
 
 interface ChatMessagesProps {
   messages: Message[] | null;
@@ -43,6 +44,25 @@ const ChatMessages = ({
   const RenderItem: ListRenderItem<Message> = ({ item }) => {
     const [transpile, setTranspile] = React.useState(false);
     const [playAudio, setPlayAudio] = React.useState(false);
+
+    if (item.messageType === "AUDIO") {
+      return (
+        <View
+          style={{
+            backgroundColor:
+              item?.userID === otherUserId
+                ? theme.colors.white
+                : theme.colors.Green,
+            padding: 10,
+            borderRadius: 12,
+            alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
+            width:300
+          }}>
+          <Waveform audioPath={item.text} duration={10} />
+        </View>
+      );
+    }
+
     if (item.text === "Menu" && item.userID === otherUserId) {
       return (
         <View
@@ -50,7 +70,7 @@ const ChatMessages = ({
             borderRadius: 10,
             marginBottom: 10,
             alignSelf: "flex-start",
-            backgroundColor:'blue'
+            backgroundColor: "blue",
           }}>
           <View
             style={{
