@@ -26,7 +26,7 @@ const useVoiceRecognition = () => {
     partialResults: [],
     isRecording: false,
   });
-  console.log("🚀 ~ useVoiceRecognition ~ voiceResult:", voiceResult.results)
+  console.log("🚀 ~ useVoiceRecognition ~ voiceResult:", voiceResult.results);
 
   const resetState = () => {
     setVoiceResult({
@@ -53,6 +53,10 @@ const useVoiceRecognition = () => {
   const stopRecognizing = async () => {
     try {
       await Voice.stop();
+      setVoiceResult(previousState => ({
+        ...previousState,
+        isRecording: false,
+      }));
     } catch (e) {
       console.error(e);
     }
