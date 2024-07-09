@@ -1,11 +1,24 @@
-import awsmobile from '../aws-exports'
+import awsmobile from "../aws-exports";
 import { uploadData, downloadData } from "aws-amplify/storage";
+export type StorageUploadDataPayload =
+  | Blob
+  | ArrayBufferView
+  | ArrayBuffer
+  | string;
 
-export const sendFileToStorage = async (file: any, fileName: string) => {
+export const sendFileToStorage = async (
+  file: any,
+  fileName: string,
+  convertToBlob: boolean = true,
+) => {
   console.log(file, "file");
+  let blob: StorageUploadDataPayload = file;
   try {
-    const responseAudio = await fetch(file);
-    const blob = await responseAudio.blob();
+    if (convertToBlob) {
+      const responseAudio = await fetch(file);
+      blob = await responseAudio.blob();
+    }
+    let response;
     const result = uploadData({
       data: blob,
       key: `${fileName}.mp3`,
@@ -18,10 +31,9 @@ export const sendFileToStorage = async (file: any, fileName: string) => {
       },
     }).result.then(res => {
       const endpoint = `https://${awsmobile.aws_user_files_s3_bucket}.s3.amazonaws.com/public/${fileName}.mp3`;
-      console.log(endpoint);
-      return endpoint
+      response = endpoint;
+      return endpoint;
     });
-    console.log({ result });
     return result;
   } catch (error) {
     console.log("Error uploading file: ", error);

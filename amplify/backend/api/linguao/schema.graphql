@@ -173,3 +173,13 @@ type Attachment @model @auth(rules: [{ allow: public }]) {
   messageID: ID! @index(name: "byMessage")
   chatroomID: ID! @index(name: "byChatRoom")
 }
+
+type AiReply {
+  audio: String
+  text: String
+}
+
+type Mutation {
+  aiReplyMutation(userAudio: String): AiReply!
+    @function(name: "aireply-${env}")
+}

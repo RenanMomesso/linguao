@@ -5,6 +5,7 @@ import {
   Alert,
   TouchableOpacity,
   Pressable,
+  useColorScheme,
 } from "react-native";
 import styled from "styled-components/native";
 import { SendIcon, MicrophoneIcon } from "@/assets/images";
@@ -13,12 +14,23 @@ import useRecordAudio from "@/hooks/useRecordAudio";
 import Waveform from "@/pages/Home/components/WaveForm";
 import Text from "@/components/Text";
 import { sendFileToStorage } from "@/services/sendFileToStorage";
-import { MessageType } from "../../../../API";
+import {
+  AiReplyMutationMutation,
+  AiReplyMutationMutationVariables,
+  MessageType,
+} from "../../../../API";
 import { useAppSelector } from "@/store";
 import { generateRandomValue } from "@/utils/generateRandomValue";
-import { convertAudioToText } from "@/services/openAi.service";
+import {
+  convertAudioToText,
+  generateSpeechAndUploadToS3,
+  sendMessageToOpenAI,
+} from "@/services/openAi.service";
+import { gql, useMutation } from "@apollo/client";
+import { aiReplyMutation } from "@/graphql/mutations";
 
 interface SendMessageProps {
+  aiId?: string;
   handleCreateMessage: (
     text: string,
     showMenu: boolean,
@@ -30,48 +42,87 @@ interface SendMessageProps {
   ) => void;
 }
 
-const SendMessage = ({ handleCreateMessage }: SendMessageProps) => {
+const SendMessage = ({ handleCreateMessage, aiId }: SendMessageProps) => {
+  const color: string = useColorScheme() || "light";
   const userId = useAppSelector(state => state.user.user.id);
   const [message, setMessage] = useState("");
   const [loadingMessage, setLoadingMessage] = useState(false);
   const [showAudioRecording, setShowAudioRecording] = useState(false);
-  const { startRecognizing, stopRecognizing, audioPath, voiceResult, handleResetAudio } =
-    useRecordAudio();
+  const {
+    startRecognizing,
+    stopRecognizing,
+    audioPath,
+    voiceResult,
+    handleResetAudio,
+  } = useRecordAudio();
+  const [createMessageLambda] = useMutation<
+    AiReplyMutationMutation,
+    AiReplyMutationMutationVariables
+  >(gql(aiReplyMutation));
 
-  const handleCreateMessageTrigger = useCallback(() => {
-    if (message.trim().length === 0) {
-      Alert.alert(
-        "Please type a message",
-        "Message cannot be empty " + message.length,
-      );
-      return;
-    }
+  const handleCreateMessageTrigger = async () => {
     if (loadingMessage) return;
-    setLoadingMessage(true);
-    handleCreateMessage(message, false, MessageType.TEXT, 0);
-    setLoadingMessage(false);
-    setMessage("");
-  }, [message, loadingMessage, handleCreateMessage]);
+    try {
+      setLoadingMessage(true);
+      handleCreateMessage(message, false, MessageType.TEXT, 0);
+      const createAiResponse = await sendMessageToOpenAI(message);
+      if (!createAiResponse) return;
+      const handleCreateAiAudio = await generateSpeechAndUploadToS3(
+        createAiResponse.choices[0].message.content,
+      );
+      if (!handleCreateAiAudio) return;
+      handleCreateMessage(
+        handleCreateAiAudio,
+        false,
+        MessageType.AUDIO,
+        20,
+        createAiResponse.choices[0].message.content,
+        aiId,
+      );
+      setMessage("");
+    } catch (error) {
+      Alert.alert("Error", "Error sending message");
+    } finally {
+      setLoadingMessage(false);
+    }
+  };
 
   const handleSendAudio = async () => {
+    // const convertAiAudio = await generateSpeechAndUploadToS3(
+    //   "testando teste testando please work please work",
+    // );
     if (audioPath) {
       const audioName = `${userId}/${generateRandomValue(12)}-audio`;
       const audioUrl = await sendFileToStorage(audioPath, audioName);
-      if (!audioUrl) return;
-      const audioMessage = await convertAudioToText(audioPath);
-      console.log("🚀 ~ handleSendAudio ~ audioMessage:", audioMessage);
-      if (!audioMessage) return;
       if (audioUrl) {
         handleCreateMessage(
           audioUrl,
-          false,
+          true,
           MessageType.AUDIO,
           voiceResult.duration,
-          audioMessage,
+          "",
+          String(userId),
         );
-        handleResetAudio();
+        const text = await convertAudioToText(audioUrl);
+        const aiReply = await sendMessageToOpenAI(text);
+        if (!aiReply) return;
+        const convertAiAudio = await generateSpeechAndUploadToS3(
+          aiReply.choices[0].message.content,
+        );
+
+        if (!convertAiAudio) return;
+
+        handleCreateMessage(
+          convertAiAudio,
+          false,
+          MessageType.AUDIO,
+          20,
+          aiReply.choices[0].message.content,
+          aiId,
+        );
       }
     }
+    handleResetAudio();
   };
 
   return (
@@ -103,6 +154,7 @@ const SendMessage = ({ handleCreateMessage }: SendMessageProps) => {
         </AudioRecordingRow>
       ) : (
         <StyledTextInput
+          style={{ height: 40, color: color !== "light" ? "black" : "white" }}
           value={message}
           onChangeText={text => setMessage(text)}
           multiline

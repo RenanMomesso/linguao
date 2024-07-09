@@ -1,5 +1,6 @@
 import { MicrophoneIcon } from "@/assets/images";
 import GoBack from "@/components/GoBack/GoBack";
+import CustomPicker from "@/components/ListPicker/ListPicker";
 import Selectable from "@/components/Selectable/Selectable";
 import Text from "@/components/Text";
 import useHideBottomNavigation from "@/hooks/useHideBottomNavigation";
@@ -15,12 +16,23 @@ import Translator, { TranslatorProvider } from "react-native-translator";
 interface InstantaneousTranslationScreenProps {
   navigation: PremmiumStack;
 }
+
+const items = [
+  { label: "English", value: "en" },
+  { label: "Spanish", value: "es" },
+  { label: "German", value: "de" },
+  { label: "French", value: "fr" },
+  { label: "Portuguese", value: "pt" },
+  { label: "Mandarin", value: "zh" },
+];
 const InstantaneousTranslationScreen = ({
   navigation,
 }: InstantaneousTranslationScreenProps) => {
   useHideBottomNavigation();
   const [value, setValue] = useState("");
   const [result, setResult] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const [from, setFrom] = useState("en");
 
   const { voiceResult, startRecognizing, stopRecognizing } =
     useVoiceRecognition();
@@ -55,6 +67,24 @@ const InstantaneousTranslationScreen = ({
             </Text>
           </Row>
         </Selectable>
+        <Row style={{
+          marginVertical:20
+        }}>
+          <Text>From:</Text>
+          <CustomPicker
+            items={items}
+            selectedValue={from}
+            onValueChange={setFrom}
+          />
+        </Row>
+        <Row>
+          <Text>to:</Text>
+          <CustomPicker
+            items={items}
+            selectedValue={selectedLanguage}
+            onValueChange={setSelectedLanguage}
+          />
+        </Row>
         <Container
           padding={5}
           style={{
@@ -74,7 +104,7 @@ const InstantaneousTranslationScreen = ({
         {voiceResult.results.length > 0 && !voiceResult.isRecording && (
           <Translator
             from="en"
-            to="fr"
+            to={selectedLanguage}
             type="google"
             value={voiceResult.results[0]}
             onTranslated={t => {
@@ -83,12 +113,6 @@ const InstantaneousTranslationScreen = ({
             }}
           />
         )}
-        <Pressable
-          onPress={() => {
-            Alert.alert("asdasd");
-          }}>
-          <Text>asdasdasd</Text>
-        </Pressable>
       </TranslatorProvider>
     </PremmiumLayout>
   );

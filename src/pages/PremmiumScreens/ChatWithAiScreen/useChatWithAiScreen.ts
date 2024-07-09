@@ -256,6 +256,10 @@ const useChatWithAiScreen = () => {
           },
         );
         dataResponse = createChatRoomMessageData;
+        console.log(
+          "🚀 ~ useChatWithAiScreen ~ createChatRoomMessageData:",
+          createChatRoomMessageData,
+        );
       }
     }
 
@@ -273,7 +277,6 @@ const useChatWithAiScreen = () => {
     }
   }, [mountedRef.current, loadingListUserhatRoomsQuery]);
 
- 
   return {
     data: listUserChatRoomsQuery,
     aiChatInfo: aiInfo,

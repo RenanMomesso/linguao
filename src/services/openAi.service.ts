@@ -1,4 +1,9 @@
 import axios from "axios";
+import { sendFileToStorage } from "./sendFileToStorage";
+import { generateRandomValue } from "@/utils/generateRandomValue";
+import { Buffer } from "buffer";
+import base64ToArrayBuffer from "@/utils/base64toString";
+import { base64StringToBlob } from "blob-util";
 
 const OpenAI_API_KEY =
   "sk-proj-4biiUmZMYhgc4UeWj6H5T3BlbkFJCspXYoT5bubj2NRNSz0Q";
@@ -25,10 +30,10 @@ interface OpenAIResponse {
   }>;
 }
 
+const apiKey = "sk-proj-OfkcEpPiSvQjwDGTs8hxT3BlbkFJFUiXbwvGHXD256DaspJH"; // Ensure you have your API key set in the environment variables
 export const sendMessageToOpenAI = async (
   text: string,
 ): Promise<OpenAIResponse | null> => {
-  const apiKey = "sk-proj-OfkcEpPiSvQjwDGTs8hxT3BlbkFJFUiXbwvGHXD256DaspJH"; // Ensure you have your API key set in the environment variables
   if (!apiKey) {
     console.error("API key is not set");
     return null;
@@ -75,7 +80,10 @@ export const sendMessageToOpenAI = async (
 };
 
 export const convertAudioToText = async (audioPath: string) => {
-  if (!audioPath) return;
+  console.log("🚀 ~ convertAudioToText ~ audioPath:", audioPath);
+  if (!audioPath) {
+    throw new Error("Audio path is required");
+  }
 
   try {
     const formData = new FormData();
@@ -107,4 +115,34 @@ export const convertAudioToText = async (audioPath: string) => {
   }
 };
 
-// Example usage:
+export async function generateSpeechAndUploadToS3(inputText: string) {
+  console.log("🚀 ~ generateSpeechAndUploadToS3 ~ inputText:", inputText);
+  try {
+    const response: any = await axios.post(
+      "https://api.openai.com/v1/audio/speech",
+      {
+        model: "tts-1",
+        input: inputText,
+        voice: "alloy",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        responseType: "arraybuffer", // This is important for handling binary data
+      },
+    );
+
+    const sendAudioToS3 = await sendFileToStorage(
+      response.data,
+      `aiaudio/${generateRandomValue(12)}-audio.mp3`,
+      false,
+    );
+
+    return sendAudioToS3;
+  } catch (error) {
+    console.error("Error generating speech:", error);
+    throw error;
+  }
+}

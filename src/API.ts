@@ -2,6 +2,12 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type AiReply = {
+  __typename: "AiReply",
+  audio?: string | null,
+  text?: string | null,
+};
+
 export type CreateUserInput = {
   id?: string | null,
   name: string,
@@ -1240,6 +1246,18 @@ export type ModelSubscriptionUserChatRoomFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionUserChatRoomFilterInput | null > | null,
   or?: Array< ModelSubscriptionUserChatRoomFilterInput | null > | null,
+};
+
+export type AiReplyMutationMutationVariables = {
+  userAudio?: string | null,
+};
+
+export type AiReplyMutationMutation = {
+  aiReplyMutation:  {
+    __typename: "AiReply",
+    audio?: string | null,
+    text?: string | null,
+  },
 };
 
 export type CreateUserMutationVariables = {

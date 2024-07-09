@@ -8,6 +8,17 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const aiReplyMutation = /* GraphQL */ `mutation AiReplyMutation($userAudio: String) {
+  aiReplyMutation(userAudio: $userAudio) {
+    audio
+    text
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.AiReplyMutationMutationVariables,
+  APITypes.AiReplyMutationMutation
+>;
 export const createUser = /* GraphQL */ `mutation CreateUser(
   $input: CreateUserInput!
   $condition: ModelUserConditionInput

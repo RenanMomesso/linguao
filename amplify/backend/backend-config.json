@@ -58,6 +58,22 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "aireply": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "linguao"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "registeruser": {
       "build": true,
       "dependsOn": [
@@ -89,6 +105,30 @@
         {
           "category": "function",
           "resourceName": "S3Trigger4ed17bbe"
+        }
+      ]
+    },
+    "AMPLIFY_function_aireply_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "aireply"
+        }
+      ]
+    },
+    "AMPLIFY_function_aireply_linguaoaireply": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "aireply"
+        }
+      ]
+    },
+    "AMPLIFY_function_aireply_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "aireply"
         }
       ]
     },

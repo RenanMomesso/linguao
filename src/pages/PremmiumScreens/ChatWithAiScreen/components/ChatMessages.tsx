@@ -16,6 +16,7 @@ interface ChatMessagesProps {
   otherUserId: string;
   otherUserName: string;
   flatListRef: React.RefObject<FlatList<Message>>;
+  loadingNewMessage: boolean;
 }
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);
@@ -25,6 +26,7 @@ const ChatMessages = ({
   otherUserId = "",
   otherUserName = "",
   flatListRef,
+  loadingNewMessage = false
 }: ChatMessagesProps) => {
   const sortMessages = messages?.length
     ? [...messages]?.sort((a, b) => {
@@ -96,6 +98,8 @@ const ChatMessages = ({
         </View>
       );
     }
+    
+    
     return (
       <View
         style={{
@@ -133,45 +137,7 @@ const ChatMessages = ({
           <></>
         )}
         {item?.userID === otherUserId && (
-          <View style={{ gap: 6 }}>
-            <SpeakerWithBars
-              playSound={playAudio}
-              sentence={item.text}
-              size="small"
-            />
-            <Row>
-              <Pressable
-                style={{
-                  padding: 5,
-                  borderRadius: 10,
-                  backgroundColor: theme.colors.greyScale100,
-                  alignSelf: "flex-start",
-                }}
-                onPress={() => {
-                  Alert.alert("User Info", `User: ${otherUserName}`);
-                }}>
-                <Text size="text" color="primary" weight="semibold">
-                  Translate
-                </Text>
-              </Pressable>
-              <Pressable
-                style={{
-                  padding: 5,
-                  borderRadius: 10,
-                  backgroundColor: theme.colors.greyScale100,
-                  alignSelf: "flex-start",
-                }}
-                onPress={() => {
-                  setTranspile(c => !c);
-                }}>
-                {
-                  <Text size="text" color="primary" weight="semibold">
-                    Transpile
-                  </Text>
-                }
-              </Pressable>
-            </Row>
-          </View>
+        <></>
         )}
       </View>
     );
@@ -188,6 +154,15 @@ const ChatMessages = ({
       backgroundColor={"greyScale400"}>
       <FlatList
         inverted
+        ListHeaderComponent={() => {
+          return loadingNewMessage ? (
+            <View style={{ padding: 10 }}>
+              <Text size="text" align="center" color="greyScale900">
+                Loading new messages...
+              </Text>
+            </View>
+          ) : null;
+        }}
         automaticallyAdjustContentInsets
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         showsVerticalScrollIndicator={false}

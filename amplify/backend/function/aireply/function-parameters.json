@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "api": {
+      "linguao": [
+        "Query",
+        "Mutation"
+      ]
+    },
+    "storage": {
+      "Message:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "linguaoaireply",
+      "environmentVariableName": "linguaoaireply"
+    }
+  ]
+}

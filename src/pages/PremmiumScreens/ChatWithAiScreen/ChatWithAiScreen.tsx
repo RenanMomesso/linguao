@@ -12,8 +12,13 @@ import { Message } from "@/API";
 import SendMessage from "./components/SendMessage";
 
 const ChatWithAiScreen = () => {
-  const { aiChatInfo, messages, handleCreateMessage, flatListRef } =
-    useChatWithAiScreen();
+  const {
+    aiChatInfo,
+    messages,
+    handleCreateMessage,
+    flatListRef,
+    loadingNewMessage,
+  } = useChatWithAiScreen();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -32,8 +37,12 @@ const ChatWithAiScreen = () => {
         otherUserId={aiChatInfo?.user?.id || ""}
         otherUserName={aiChatInfo?.user?.name || ""}
         flatListRef={flatListRef}
+        loadingNewMessage={loadingNewMessage}
       />
-      <SendMessage handleCreateMessage={handleCreateMessage} />
+      <SendMessage
+        handleCreateMessage={handleCreateMessage}
+        aiId={aiChatInfo.user?.id}
+      />
     </Container>
   );
 };
