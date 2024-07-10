@@ -183,3 +183,7 @@ type Mutation {
   aiReplyMutation(userAudio: String): AiReply!
     @function(name: "aireply-${env}")
 }
+
+type Query {
+  textToSpeech: String @predictions(actions: [convertTextToSpeech])
+}

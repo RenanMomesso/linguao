@@ -810,6 +810,15 @@ export type DeleteUserChatRoomInput = {
   id: string,
 };
 
+export type TextToSpeechInput = {
+  convertTextToSpeech: TextToSpeechConvertTextToSpeechInput,
+};
+
+export type TextToSpeechConvertTextToSpeechInput = {
+  voiceID: string,
+  text: string,
+};
+
 export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -3913,6 +3922,14 @@ export type DeleteUserChatRoomMutation = {
     createdAt: string,
     updatedAt: string,
   } | null,
+};
+
+export type TextToSpeechQueryVariables = {
+  input: TextToSpeechInput,
+};
+
+export type TextToSpeechQuery = {
+  textToSpeech?: string | null,
 };
 
 export type GetUserQueryVariables = {

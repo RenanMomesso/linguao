@@ -236,6 +236,7 @@ const useChatWithAiScreen = () => {
       },
     });
 
+    console.log("DATA CREATE MESSAGE", JSON.stringify(data, undefined, 4));
     if (userSender !== artificialInteligenceUserId) {
       const response = await sendMessageToOpenAI(
         messageType === MessageType.AUDIO ? audioMessage! : text,

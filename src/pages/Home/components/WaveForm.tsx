@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dimensions } from "react-native";
 import Animated, {
   useSharedValue,
@@ -15,14 +15,12 @@ const { width } = Dimensions.get("window");
 const adjustedWidth = width - 100;
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
-
 interface WaveformProps {
   audioPath: string;
   duration: number | null | string;
 }
 
 const calculatePercentage = (current: number, total: number) => {
-  'worklet'
   return total > 0 ? ((current / total) * 100).toFixed(2) : "0.00";
 };
 
@@ -38,6 +36,14 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [pausedPosition, setPausedPosition] = useState(0);
+  
+
+  useEffect(() => {
+    return () => {
+      audioRecorderPlayer.stopPlayer();
+      audioRecorderPlayer.removePlayBackListener();
+    };
+  }, []);
 
   const animatedIndicatorStyle = useAnimatedStyle(() => ({
     left: withTiming(calculateLeftPosition(progress.value * 100)),
@@ -80,23 +86,18 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
     }
   };
 
-  const seekAudio = async (value: number) => {
-    const seekTime = value * duration;
-    await audioRecorderPlayer.seekToPlayer(seekTime);
-    setCurrentTime(seekTime);
-  };
-
   const formatTime = (milliseconds: number) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = ((milliseconds % 60000) / 1000).toFixed(0);
     return `${minutes}:${+seconds < 10 ? "0" : ""}${seconds}`;
   };
+
   return (
     <Container>
       {isPlaying ? (
         <PauseIcon onPress={handlePlayPause} height={25} width={25} />
       ) : (
-        <PlayIcon onPress={handlePlayPause} />
+        <PlayIcon onPress={handlePlayPause} height={25} width={25} />
       )}
       <WaveformContainer>
         <WaveformTrack />
@@ -109,7 +110,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
             top: 22,
           }}
         >
-         {formatTime(currentTime)} / {formatTime(duration)}
+          {formatTime(currentTime)} / {formatTime(duration)}
         </TimeText>
       </WaveformContainer>
     </Container>
@@ -132,7 +133,7 @@ const WaveformContainer = styled.View`
   height: 30px;
   flex: 1;
   justify-content: center;
-  overflow-x: hidden;
+  overflow: hidden;
 `;
 
 const WaveformTrack = styled.View`

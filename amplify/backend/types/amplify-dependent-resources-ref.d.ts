@@ -41,6 +41,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Region": "string"
     }
   },
+  "predictions": {
+    "convertTextToSpeech": {
+      "language": "string",
+      "region": "string",
+      "voice": "string"
+    }
+  },
   "storage": {
     "linguaoimage": {
       "BucketName": "string",

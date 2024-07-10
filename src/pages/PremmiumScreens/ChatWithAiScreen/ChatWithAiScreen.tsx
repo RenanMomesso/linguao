@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row } from "@/theme/GlobalComponents";
 
 import { useAppDispatch } from "@/store";
@@ -25,6 +25,8 @@ const ChatWithAiScreen = () => {
     dispatch(toggleBottomNavigation(false));
   }, []);
 
+  const [loadingMessages, setLoadingMessages] = useState(false);
+
   return (
     <Container backgroundColor="white" padding={8}>
       <HeaderChat
@@ -42,6 +44,8 @@ const ChatWithAiScreen = () => {
       <SendMessage
         handleCreateMessage={handleCreateMessage}
         aiId={aiChatInfo.user?.id}
+        setLoadingMessages={setLoadingMessages}
+        loadingMessages={loadingNewMessage}
       />
     </Container>
   );

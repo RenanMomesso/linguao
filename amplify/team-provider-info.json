@@ -35,6 +35,9 @@
       },
       "storage": {
         "linguaoimage": {}
+      },
+      "predictions": {
+        "convertTextToSpeech": {}
       }
     }
   },

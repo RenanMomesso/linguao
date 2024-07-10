@@ -21,7 +21,6 @@ const HomeMenuItem = () => {
           width: 0,
           height: 0,
           backgroundColor: "transparent",
-          borderStyle: "solid",
           borderLeftWidth: 7.5,
           borderRightWidth: 7.5,
           borderBottomWidth: 10,

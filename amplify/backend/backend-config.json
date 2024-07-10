@@ -149,6 +149,13 @@
       ]
     }
   },
+  "predictions": {
+    "convertTextToSpeech": {
+      "convertType": "speechGenerator",
+      "providerPlugin": "awscloudformation",
+      "service": "Polly"
+    }
+  },
   "storage": {
     "linguaoimage": {
       "dependsOn": [

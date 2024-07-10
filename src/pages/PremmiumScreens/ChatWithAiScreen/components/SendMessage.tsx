@@ -18,6 +18,8 @@ import {
   AiReplyMutationMutation,
   AiReplyMutationMutationVariables,
   MessageType,
+  TextToSpeechQuery,
+  TextToSpeechQueryVariables,
 } from "../../../../API";
 import { useAppSelector } from "@/store";
 import { generateRandomValue } from "@/utils/generateRandomValue";
@@ -26,11 +28,14 @@ import {
   generateSpeechAndUploadToS3,
   sendMessageToOpenAI,
 } from "@/services/openAi.service";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { aiReplyMutation } from "@/graphql/mutations";
+import { textToSpeech } from "@/graphql/queries";
 
 interface SendMessageProps {
   aiId?: string;
+  loadingMessages: boolean;
+  setLoadingMessages: (loading: boolean) => void;
   handleCreateMessage: (
     text: string,
     showMenu: boolean,
@@ -42,11 +47,15 @@ interface SendMessageProps {
   ) => void;
 }
 
-const SendMessage = ({ handleCreateMessage, aiId }: SendMessageProps) => {
+const SendMessage = ({
+  handleCreateMessage,
+  aiId,
+  setLoadingMessages,
+  loadingMessages,
+}: SendMessageProps) => {
   const color: string = useColorScheme() || "light";
   const userId = useAppSelector(state => state.user.user.id);
   const [message, setMessage] = useState("");
-  const [loadingMessage, setLoadingMessage] = useState(false);
   const [showAudioRecording, setShowAudioRecording] = useState(false);
   const {
     startRecognizing,
@@ -55,42 +64,48 @@ const SendMessage = ({ handleCreateMessage, aiId }: SendMessageProps) => {
     voiceResult,
     handleResetAudio,
   } = useRecordAudio();
-  const [createMessageLambda] = useMutation<
-    AiReplyMutationMutation,
-    AiReplyMutationMutationVariables
-  >(gql(aiReplyMutation));
+
+  const [useTextToSpeechQuery] = useLazyQuery<
+    TextToSpeechQuery,
+    TextToSpeechQueryVariables
+  >(gql(textToSpeech));
 
   const handleCreateMessageTrigger = async () => {
-    if (loadingMessage) return;
+    if (loadingMessages) return;
     try {
-      setLoadingMessage(true);
+      setLoadingMessages(true);
       handleCreateMessage(message, false, MessageType.TEXT, 0);
       const createAiResponse = await sendMessageToOpenAI(message);
       if (!createAiResponse) return;
-      const handleCreateAiAudio = await generateSpeechAndUploadToS3(
-        createAiResponse.choices[0].message.content,
-      );
-      if (!handleCreateAiAudio) return;
+      const { data, error, loading } = await useTextToSpeechQuery({
+        variables: {
+          input: {
+            convertTextToSpeech: {
+              text: `${createAiResponse.choices[0].message.content}`,
+              voiceID: "Russell",
+            },
+          },
+        },
+      });
+      if (!data?.textToSpeech || error) return;
       handleCreateMessage(
-        handleCreateAiAudio,
+        data?.textToSpeech,
         false,
         MessageType.AUDIO,
         20,
         createAiResponse.choices[0].message.content,
         aiId,
       );
+      console.log("CRIOU MENSAGME @@@@@@@@@@@@@@@@@@@@@@@@@@@@");
       setMessage("");
     } catch (error) {
       Alert.alert("Error", "Error sending message");
     } finally {
-      setLoadingMessage(false);
+      setLoadingMessages(false);
     }
   };
 
   const handleSendAudio = async () => {
-    // const convertAiAudio = await generateSpeechAndUploadToS3(
-    //   "testando teste testando please work please work",
-    // );
     if (audioPath) {
       const audioName = `${userId}/${generateRandomValue(12)}-audio`;
       const audioUrl = await sendFileToStorage(audioPath, audioName);
@@ -106,14 +121,21 @@ const SendMessage = ({ handleCreateMessage, aiId }: SendMessageProps) => {
         const text = await convertAudioToText(audioUrl);
         const aiReply = await sendMessageToOpenAI(text);
         if (!aiReply) return;
-        const convertAiAudio = await generateSpeechAndUploadToS3(
-          aiReply.choices[0].message.content,
-        );
-
-        if (!convertAiAudio) return;
-
+        const { data } = await useTextToSpeechQuery({
+          variables: {
+            input: {
+              convertTextToSpeech: {
+                text: `${aiReply.choices[0].message.content}`,
+                voiceID: "Russell",
+              },
+            },
+          },
+        });
+        if(!data?.textToSpeech) {
+          return;
+        }
         handleCreateMessage(
-          convertAiAudio,
+          data?.textToSpeech,
           false,
           MessageType.AUDIO,
           20,
@@ -158,7 +180,7 @@ const SendMessage = ({ handleCreateMessage, aiId }: SendMessageProps) => {
           value={message}
           onChangeText={text => setMessage(text)}
           multiline
-          editable={!loadingMessage}
+          editable={!loadingMessages}
           placeholder="Type a message"
         />
       )}
@@ -166,7 +188,7 @@ const SendMessage = ({ handleCreateMessage, aiId }: SendMessageProps) => {
         onPress={
           !!message.length ? handleCreateMessageTrigger : () => setMessage("")
         }
-        disabled={loadingMessage}>
+        disabled={loadingMessages}>
         {!!message.length ? (
           <SendIcon />
         ) : (

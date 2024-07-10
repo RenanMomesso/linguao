@@ -8,6 +8,13 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const textToSpeech = /* GraphQL */ `query TextToSpeech($input: TextToSpeechInput!) {
+  textToSpeech(input: $input)
+}
+` as GeneratedQuery<
+  APITypes.TextToSpeechQueryVariables,
+  APITypes.TextToSpeechQuery
+>;
 export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   getUser(id: $id) {
     id

@@ -1,7 +1,7 @@
 import { Alert, ListRenderItem, Pressable, View } from "react-native";
 import React, { memo } from "react";
 import { Container, Row } from "@/theme/GlobalComponents";
-import { Message } from "@/API";
+import { MenuType, Message, MessageType } from "@/API";
 import { FlatList } from "react-native-gesture-handler";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { theme } from "@/theme/theme";
@@ -26,7 +26,7 @@ const ChatMessages = ({
   otherUserId = "",
   otherUserName = "",
   flatListRef,
-  loadingNewMessage = false
+  loadingNewMessage = false,
 }: ChatMessagesProps) => {
   const sortMessages = messages?.length
     ? [...messages]?.sort((a, b) => {
@@ -58,7 +58,7 @@ const ChatMessages = ({
             padding: 10,
             borderRadius: 12,
             alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
-            width:300
+            width: 300,
           }}>
           <Waveform audioPath={item.text} duration={10} />
         </View>
@@ -98,49 +98,105 @@ const ChatMessages = ({
         </View>
       );
     }
-    
-    
+
+    if (item?.messageType === "TEXT") {
+      return (
+        <View
+          style={{
+            backgroundColor:
+              item?.userID === otherUserId
+                ? theme.colors.white
+                : theme.colors.Green,
+            padding: 10,
+            borderRadius: 12,
+            alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
+          }}>
+          <Text align="justify">{item.text}</Text>
+        </View>
+      );
+    }
+
     return (
-      <View
-        style={{
-          backgroundColor:
-            item?.userID === otherUserId
-              ? theme.colors.white
-              : theme.colors.Green,
-          padding: 10,
-          borderRadius: 12,
-          alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
-        }}>
-        {transpile && item.userID === otherUserId ? (
-          <Text
-            onLongPress={() => {
-              speakerVoiceMessage(item.text);
-            }}
-            size="text"
-            align={item.userID === otherUserId ? "left" : "right"}
-            weight="semibold"
-            color={"greyScale900"}>
-            {item?.text}
-          </Text>
-        ) : item.userID !== otherUserId ? (
-          <Text
-            onLongPress={() => {
-              speakerVoiceMessage(item.text);
-            }}
-            size="text"
-            align={item.userID === otherUserId ? "left" : "right"}
-            weight="semibold"
-            color={"greyScale900"}>
-            {item?.text}
-          </Text>
-        ) : (
-          <></>
-        )}
-        {item?.userID === otherUserId && (
-        <></>
-        )}
+      <View>
+        {/* <Text>{item.text}</Text> */}
       </View>
     );
+    // return (
+    //   <View
+    //     style={{
+    //       backgroundColor:
+    //         item?.userID === otherUserId
+    //           ? theme.colors.white
+    //           : theme.colors.Green,
+    //       padding: 10,
+    //       borderRadius: 12,
+    //       alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
+    //     }}>
+    //     {transpile && item.userID === otherUserId ? (
+    //       <Text
+    //         onLongPress={() => {
+    //           speakerVoiceMessage(item.text);
+    //         }}
+    //         size="text"
+    //         align={item.userID === otherUserId ? "left" : "right"}
+    //         weight="semibold"
+    //         color={"greyScale900"}>
+    //         {item?.text}
+    //       </Text>
+    //     ) : item.userID !== otherUserId ? (
+    //       <Text
+    //         onLongPress={() => {
+    //           speakerVoiceMessage(item.text);
+    //         }}
+    //         size="text"
+    //         align={item.userID === otherUserId ? "left" : "right"}
+    //         weight="semibold"
+    //         color={"greyScale900"}>
+    //         {item?.text}
+    //       </Text>
+    //     ) : (
+    //       <></>
+    //     )}
+    //     {item?.userID === otherUserId && (
+    //       <View style={{ gap: 6 }}>
+    //         <Text>{JSON.stringify(item.text)}</Text>
+    //         <Text>{JSON.stringify(item, undefined,3)}</Text>
+    //         <Row>
+    //           <Pressable
+    //             style={{
+    //               padding: 5,
+    //               borderRadius: 10,
+    //               backgroundColor: theme.colors.greyScale100,
+    //               alignSelf: "flex-start",
+    //             }}
+    //             onPress={() => {
+    //               Alert.alert("User Info", `User: ${otherUserName}`);
+    //             }}>
+    //             <Text size="text" color="primary" weight="semibold">
+    //               Translate
+    //             </Text>
+    //           </Pressable>
+    //           <Pressable
+    //             style={{
+    //               padding: 5,
+    //               borderRadius: 10,
+    //               backgroundColor: theme.colors.greyScale100,
+    //               alignSelf: "flex-start",
+    //             }}
+    //             onPress={() => {
+    //               setTranspile(c => !c);
+    //             }}>
+    //             {
+    //               <Text size="text" color="primary" weight="semibold">
+    //                 Transpile
+    //               </Text>
+    //             }
+    //           </Pressable>
+    //         </Row>
+    //       </View>
+    //     )}
+    //   </View>
+    // );
   };
 
   return (
