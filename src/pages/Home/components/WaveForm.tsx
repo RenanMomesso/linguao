@@ -12,7 +12,7 @@ import { PauseIcon, PlayIcon } from "@/assets/images";
 import Text from "@/components/Text";
 
 const { width } = Dimensions.get("window");
-const adjustedWidth = width - 100;
+const adjustedWidth = width - 150;
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
 interface WaveformProps {
@@ -25,7 +25,7 @@ const calculatePercentage = (current: number, total: number) => {
 };
 
 const calculateLeftPosition = (percentage: number) => {
-  'worklet'
+  "worklet";
   return (percentage / 100) * adjustedWidth;
 };
 
@@ -36,7 +36,6 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [pausedPosition, setPausedPosition] = useState(0);
-  
 
   useEffect(() => {
     return () => {
@@ -52,7 +51,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
   const startPlaying = async () => {
     setIsPlaying(true);
     const result = await audioRecorderPlayer.startPlayer(audioPath);
-    audioRecorderPlayer.addPlayBackListener((e) => {
+    audioRecorderPlayer.addPlayBackListener(e => {
       setCurrentTime(e.currentPosition);
       setDuration(e.duration);
       progress.value = e.currentPosition / e.duration;
@@ -102,17 +101,15 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
       <WaveformContainer>
         <WaveformTrack />
         <AnimatedIndicator style={animatedIndicatorStyle} />
-        <TimeText
-          size="text"
-          style={{
-            position: "absolute",
-            right: 0,
-            top: 22,
-          }}
-        >
-          {formatTime(currentTime)} / {formatTime(duration)}
-        </TimeText>
       </WaveformContainer>
+      <TimeText
+        size="text"
+        style={{
+          position: "absolute",
+          top: '100%',
+        }}>
+        {formatTime(currentTime)}
+      </TimeText>
     </Container>
   );
 };
@@ -153,4 +150,5 @@ const WaveformThumb = styled(Animated.View)`
 const TimeText = styled(Text)`
   font-size: 12px;
   color: black;
+  right: 20px;
 `;

@@ -1,17 +1,36 @@
 import TTS from "react-native-tts";
+const voices = TTS.voices();
 
-export const speakerVoiceMessage = (message: string) => {
-  return TTS.speak(message, {
-    androidParams: {
-      KEY_PARAM_PAN: 1,
-      KEY_PARAM_VOLUME: 1,
-      KEY_PARAM_STREAM: "STREAM_MUSIC",
-    },
-    rate: 0.9,
-    iosVoiceId: "com.apple.ttsbundle.Samantha-compact",
+TTS.setDefaultVoice("en-us-x-iol-local");
+TTS.setDefaultRate(0.55);
+TTS.setDefaultPitch(0.8)
+
+const availableVoices = voices.then(voices => {
+  voices.filter(v => !v.networkConnectionRequired && !v.notInstalled)
+  .map(v => {
+    console.log({
+      id: v.id,
+      name: v.name,
+      language: v.language,
+    })
+    return { id: v.id, name: v.name, language: v.language };
   });
+});
+
+export const getAvailableVoices = async () => {
+  console.log("Available voices: ", await availableVoices);
+  return availableVoices;
+};
+
+export const speakerVoiceMessage = async (message: string) => {
+  getAvailableVoices();
+  try {
+      return TTS.speak(message);
+  } catch (error) {
+    console.log("Error speaking message: ", error);
+  }
 };
 
 export const stopSpeakerVoice = () => {
   return TTS.stop();
-}
+};

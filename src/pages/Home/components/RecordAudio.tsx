@@ -1,39 +1,56 @@
+import { View, Text, Pressable } from "react-native";
 import React from "react";
-import { View, Text, Button, Pressable } from "react-native";
-import useVoiceRecognition from "@/hooks/useVoiceRecognition";
-import Waveform from "./WaveForm"; // Adjust the import path as necessary
-import useRecordAudio from "@/hooks/useRecordAudio";
-import { gql, useQuery } from "@apollo/client";
-import { textToSpeech } from "@/graphql/queries";
+import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
+import { speakerVoiceMessage } from "@/utils/speakerVoice";
+import { gql, useMutation } from "@apollo/client";
+import { aiReplyMutation } from "@/graphql/mutations";
 import {
-  TextToSpeechConvertTextToSpeechInput,
-  TextToSpeechQuery,
-  TextToSpeechQueryVariables,
+  AiReplyMutationMutation,
+  AiReplyMutationMutationVariables,
 } from "@/API";
 
-const VoiceRecognitionComponent = () => {
-  const { data } = useQuery<TextToSpeechQuery, TextToSpeechQueryVariables>(
-    gql(textToSpeech),
-    {
-      variables: {
-        input: {
-          convertTextToSpeech: {
-            text: "Hello Joana how are you doing today ?",
-            voiceID: "Nicole",
-          },
-        },
-      },
-    },
-  );
-  const handleSpeak = async () => {};
+const RecordAudio = () => {
+  const [useAiReplyMutation] = useMutation<
+    AiReplyMutationMutation,
+    AiReplyMutationMutationVariables
+  >(gql(aiReplyMutation));
 
+  const replyPress = async () => {
+    try {
+      const { data, errors } = await useAiReplyMutation({
+        variables: {
+          userAudio: "test",
+        },
+      });
+      console.log("🚀 ~ replyPress ~ data:", data);
+      if (errors) {
+        console.log(errors);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <View style={{ padding: 20 }}>
-      {data?.textToSpeech && (
-        <Waveform audioPath={data?.textToSpeech} duration={20} />
-      )}
+    <View>
+      <Text>RecordAudio</Text>
+
+      <Pressable
+        style={{
+          backgroundColor: "blue",
+          width: "100%",
+          height: 50,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        onPress={replyPress}>
+        <Text style={{ color: "white" }}>Test Lambda Function</Text>
+      </Pressable>
+      <SpeakerButton
+        soundPlaying={false}
+        handleSpeak={() => speakerVoiceMessage("Hello World")}
+      />
     </View>
   );
 };
 
-export default VoiceRecognitionComponent;
+export default RecordAudio;

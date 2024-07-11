@@ -6,10 +6,6 @@ import axios from "axios";
 const OpenAI_API_KEY =
   "sk-proj-OfkcEpPiSvQjwDGTs8hxT3BlbkFJFUiXbwvGHXD256DaspJH";
 const audioRecorderPlayer = new AudioRecorderPlayer();
-console.log(
-  "🚀 ~ audioRecorderPlayer:",
-  JSON.stringify(audioRecorderPlayer, undefined, 3),
-);
 
 export interface IVoiceResult {
   recognized: string;

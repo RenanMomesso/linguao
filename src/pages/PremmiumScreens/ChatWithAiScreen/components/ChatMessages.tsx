@@ -10,6 +10,8 @@ import Button from "@/components/Button/Button";
 import { speakerVoiceMessage } from "@/utils/speakerVoice";
 import SpeakerWithBars from "@/pages/ExerciciesScreens/SelectCorrectlyAudioScreen/SpeakerWithBars";
 import Waveform from "@/pages/Home/components/WaveForm";
+import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
+import Avatar from "@/components/Avatar/Avatar";
 
 interface ChatMessagesProps {
   messages: Message[] | null;
@@ -43,11 +45,22 @@ const ChatMessages = ({
     ? messages[messages.length - 1]
     : null;
 
-  const RenderItem: ListRenderItem<Message> = ({ item }) => {
+  const [selectedItem, setSelectedItem] = React.useState("");
+
+  const RenderItem: ListRenderItem<any> = ({
+    item,
+    setSelectedItem,
+    selectedItem,
+  }:any) => {
+    console.log("🚀 ~ selectedItem:", selectedItem);
     const [transpile, setTranspile] = React.useState(false);
     const [playAudio, setPlayAudio] = React.useState(false);
 
-    if (item.messageType === "AUDIO") {
+    const handleLongPress = () => {
+      setSelectedItem(item.id);
+    };
+
+    if (item.messageType === "AUDIO" && item.userID !== otherUserId) {
       return (
         <View
           style={{
@@ -62,6 +75,60 @@ const ChatMessages = ({
           }}>
           <Waveform audioPath={item.text} duration={10} />
         </View>
+      );
+    }
+
+    if (item.messageType === "AUDIO" && item.userID === otherUserId) {
+      return (
+        <Pressable
+          onLongPress={handleLongPress}
+          style={{
+            backgroundColor:
+              selectedItem === item.id
+                ? theme.colors.greyScale100
+                : "transparent",
+          }}>
+          <Row
+            style={{
+              backgroundColor:
+                item?.userID === otherUserId
+                  ? theme.colors.white
+                  : theme.colors.Green,
+              padding: 10,
+              borderRadius: 12,
+              alignSelf:
+                item?.userID === otherUserId ? "flex-start" : "flex-end",
+              width: 300,
+            }}>
+            <Avatar size="small" />
+            {/* <Waveform audioPath={item.text} duration={10} /> */}
+            <SpeakerButton
+              style={{ width: "100%" }}
+              handleSpeak={() => {
+                speakerVoiceMessage(item.audioText || "");
+              }}
+              soundPlaying={playAudio}
+            />
+          </Row>
+          <Row>
+            <Button
+              backgroundColor="primary"
+              buttonText="Translate"
+              onPressButton={() => {
+                setPlayAudio(true);
+              }}
+              textColor="white"
+            />
+            <Button
+              backgroundColor="primary"
+              buttonText="Transcribe"
+              onPressButton={() => {
+                setPlayAudio(true);
+              }}
+              textColor="white"
+            />
+          </Row>
+        </Pressable>
       );
     }
 
@@ -116,11 +183,7 @@ const ChatMessages = ({
       );
     }
 
-    return (
-      <View>
-        {/* <Text>{item.text}</Text> */}
-      </View>
-    );
+    return <View>{/* <Text>{item.text}</Text> */}</View>;
     // return (
     //   <View
     //     style={{
@@ -226,7 +289,13 @@ const ChatMessages = ({
         data={sortMessages}
         keyExtractor={item => item.id.toString()}
         renderItem={({ item, separators }) => (
-          <RenderItem item={item} separators={separators} index={+item.id} />
+          <RenderItem
+            item={item}
+            separators={separators}
+            index={+item.id}
+            setSelectedItem={setSelectedItem}
+            selectedItem={selectedItem}
+          />
         )}
       />
     </AnimatedContainer>

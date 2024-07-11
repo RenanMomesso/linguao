@@ -53,6 +53,10 @@ const SendMessage = ({
   setLoadingMessages,
   loadingMessages,
 }: SendMessageProps) => {
+  const [createAudioMutation] = useMutation<
+    AiReplyMutationMutation,
+    AiReplyMutationMutationVariables
+  >(gql(aiReplyMutation));
   const color: string = useColorScheme() || "light";
   const userId = useAppSelector(state => state.user.user.id);
   const [message, setMessage] = useState("");
@@ -75,28 +79,23 @@ const SendMessage = ({
     try {
       setLoadingMessages(true);
       handleCreateMessage(message, false, MessageType.TEXT, 0);
-      const createAiResponse = await sendMessageToOpenAI(message);
-      if (!createAiResponse) return;
-      const { data, error, loading } = await useTextToSpeechQuery({
+      const { data } = await createAudioMutation({
         variables: {
-          input: {
-            convertTextToSpeech: {
-              text: `${createAiResponse.choices[0].message.content}`,
-              voiceID: "Russell",
-            },
-          },
+          userAudio: message,
         },
       });
-      if (!data?.textToSpeech || error) return;
+      if (!data?.aiReplyMutation.audio) return;
+
+      console.log("🚀 ~ handleCreateMessageTrigger ~ data:", data);
       handleCreateMessage(
-        data?.textToSpeech,
+        data?.aiReplyMutation.audio,
         false,
         MessageType.AUDIO,
         20,
-        createAiResponse.choices[0].message.content,
+        data?.aiReplyMutation.text || "",
         aiId,
       );
-      console.log("CRIOU MENSAGME @@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
       setMessage("");
     } catch (error) {
       Alert.alert("Error", "Error sending message");
@@ -126,12 +125,12 @@ const SendMessage = ({
             input: {
               convertTextToSpeech: {
                 text: `${aiReply.choices[0].message.content}`,
-                voiceID: "Russell",
+                voiceID: "Nicole",
               },
             },
           },
         });
-        if(!data?.textToSpeech) {
+        if (!data?.textToSpeech) {
           return;
         }
         handleCreateMessage(
@@ -176,7 +175,7 @@ const SendMessage = ({
         </AudioRecordingRow>
       ) : (
         <StyledTextInput
-          style={{ height: 40, color: color !== "light" ? "black" : "white" }}
+          style={{ height: 50, color: color !== "light" ? "black" : "white" }}
           value={message}
           onChangeText={text => setMessage(text)}
           multiline
@@ -230,7 +229,7 @@ const StopRecordingButton = styled(Pressable)`
 const StyledTextInput = styled(TextInput)`
   flex: 1;
   align-items: flex-start;
-  max-width: 280px;
+  max-width: 85%;
   border-radius: 10px;
   background-color: ${theme.colors.greyScale100};
 `;

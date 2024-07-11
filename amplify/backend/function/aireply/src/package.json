@@ -5,15 +5,15 @@
   "main": "index.js",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.140"
+    "@types/aws-lambda": "^8.10.140",
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.3"
   },
   "dependencies": {
     "@aws-amplify/api-graphql": "^4.1.7",
     "@types/axios": "^0.14.0",
-    "@types/node": "^20.14.10",
     "aws-sdk": "^2.1656.0",
     "axios": "^1.7.2",
-    "graphql": "^16.9.0",
-    "typescript": "^5.5.3"
+    "graphql": "^16.9.0"
   }
 }
