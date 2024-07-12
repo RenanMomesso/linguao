@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   TextInput,
@@ -10,8 +10,6 @@ import {
 import styled from "styled-components/native";
 import { SendIcon, MicrophoneIcon } from "@/assets/images";
 import { theme } from "@/theme/theme";
-import useRecordAudio from "@/hooks/useRecordAudio";
-import Waveform from "@/pages/Home/components/WaveForm";
 import Text from "@/components/Text";
 import { sendFileToStorage } from "@/services/sendFileToStorage";
 import {
@@ -31,6 +29,16 @@ import {
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { aiReplyMutation } from "@/graphql/mutations";
 import { textToSpeech } from "@/graphql/queries";
+import AudioRecorderPlayer from "react-native-audio-recorder-player";
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { GestureDetector, Gesture } from "react-native-gesture-handler";
+
+const audioRecorderPlayer = new AudioRecorderPlayer();
 
 interface SendMessageProps {
   aiId?: string;
@@ -61,18 +69,65 @@ const SendMessage = ({
   const userId = useAppSelector(state => state.user.user.id);
   const [message, setMessage] = useState("");
   const [showAudioRecording, setShowAudioRecording] = useState(false);
-  const {
-    startRecognizing,
-    stopRecognizing,
-    audioPath,
-    voiceResult,
-    handleResetAudio,
-  } = useRecordAudio();
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingDuration, setRecordingDuration] = useState("00:00");
+  const [audioPath, setAudioPath] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+  const buttonSize = useSharedValue(1);
+  const position = useSharedValue(0);
 
-  const [useTextToSpeechQuery] = useLazyQuery<
-    TextToSpeechQuery,
-    TextToSpeechQueryVariables
-  >(gql(textToSpeech));
+  const startRecognizing = async () => {
+    setIsRecording(true);
+    const path = await audioRecorderPlayer.startRecorder();
+    setAudioPath(path);
+    audioRecorderPlayer.addRecordBackListener(e => {
+      const minutes = Math.floor(e.currentPosition / 60000);
+      const seconds = ((e.currentPosition % 60000) / 1000).toFixed(0);
+      setRecordingDuration(`${minutes}:${+seconds < 10 ? "0" : ""}${seconds}`);
+    });
+  };
+
+  const stopRecognizing = async () => {
+    setIsRecording(false);
+    await audioRecorderPlayer.stopRecorder();
+    audioRecorderPlayer.removeRecordBackListener();
+  };
+
+  const handleSendAudio = async () => {
+    // Implement your audio sending logic here
+  };
+
+  const handleGestureEvent = Gesture.Pan()
+    .onBegin(() => {
+      buttonSize.value = withTiming(1.6);
+      runOnJS(startRecognizing)();
+    })
+    .onUpdate((event: any) => {
+      position.value = event.translationX;
+      if (event.translationX > 100) {
+        runOnJS(stopRecognizing)();
+        runOnJS(setShowAudioRecording)(false);
+      }
+      if (event.translationX < -10) {
+        position.value = withTiming(0);
+      }
+    })
+    .onEnd(() => {
+      buttonSize.value = withTiming(1);
+      position.value = withTiming(0);
+    })
+    .onFinalize(() => {
+      buttonSize.value = withTiming(1);
+    });
+
+  const animatedButtonStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        scale: buttonSize.value,
+      },
+      { translateX: position.value },
+    ],
+  }));
 
   const handleCreateMessageTrigger = async () => {
     if (loadingMessages) return;
@@ -86,7 +141,6 @@ const SendMessage = ({
       });
       if (!data?.aiReplyMutation.audio) return;
 
-      console.log("🚀 ~ handleCreateMessageTrigger ~ data:", data);
       handleCreateMessage(
         data?.aiReplyMutation.audio,
         false,
@@ -104,54 +158,12 @@ const SendMessage = ({
     }
   };
 
-  const handleSendAudio = async () => {
-    if (audioPath) {
-      const audioName = `${userId}/${generateRandomValue(12)}-audio`;
-      const audioUrl = await sendFileToStorage(audioPath, audioName);
-      if (audioUrl) {
-        handleCreateMessage(
-          audioUrl,
-          true,
-          MessageType.AUDIO,
-          voiceResult.duration,
-          "",
-          String(userId),
-        );
-        const text = await convertAudioToText(audioUrl);
-        const aiReply = await sendMessageToOpenAI(text);
-        if (!aiReply) return;
-        const { data } = await useTextToSpeechQuery({
-          variables: {
-            input: {
-              convertTextToSpeech: {
-                text: `${aiReply.choices[0].message.content}`,
-                voiceID: "Nicole",
-              },
-            },
-          },
-        });
-        if (!data?.textToSpeech) {
-          return;
-        }
-        handleCreateMessage(
-          data?.textToSpeech,
-          false,
-          MessageType.AUDIO,
-          20,
-          aiReply.choices[0].message.content,
-          aiId,
-        );
-      }
-    }
-    handleResetAudio();
-  };
-
   return (
-    <Container>
-      {audioPath && !!voiceResult.duration && (
+    <Container style={{ flexDirection: "row", alignItems: "center" }}>
+      {showAudioRecording && (
         <View
           style={{
-            backgroundColor: "red",
+            backgroundColor: "lightblue",
             bottom: 70,
             flex: 1,
             width: "100%",
@@ -159,30 +171,19 @@ const SendMessage = ({
             zIndex: 99,
           }}>
           <Pressable onPress={handleSendAudio}>
-            <Text>Send</Text>
+            <Text>{recordingDuration}</Text>
           </Pressable>
-          <Waveform audioPath={audioPath} duration={voiceResult.duration} />
         </View>
       )}
-      {showAudioRecording ? (
-        <AudioRecordingRow>
-          <StopRecordingButton
-            onPress={() => {
-              setShowAudioRecording(false);
-              stopRecognizing();
-            }}
-          />
-        </AudioRecordingRow>
-      ) : (
-        <StyledTextInput
-          style={{ height: 50, color: color !== "light" ? "black" : "white" }}
-          value={message}
-          onChangeText={text => setMessage(text)}
-          multiline
-          editable={!loadingMessages}
-          placeholder="Type a message"
-        />
-      )}
+      {buttonSize.value === 1.6 && <Text>AQUIAQUIQUIUQIQUIQUIQUI</Text>}
+      <StyledTextInput
+        style={{ height: 50, color: color !== "light" ? "black" : "white" }}
+        value={message}
+        onChangeText={text => setMessage(text)}
+        multiline
+        editable={!loadingMessages}
+        placeholder="Type a message"
+      />
       <SendButton
         onPress={
           !!message.length ? handleCreateMessageTrigger : () => setMessage("")
@@ -191,12 +192,33 @@ const SendMessage = ({
         {!!message.length ? (
           <SendIcon />
         ) : (
-          <MicrophoneIcon
-            onPress={() => {
-              setShowAudioRecording(true);
-              startRecognizing();
-            }}
-          />
+          <GestureDetector gesture={handleGestureEvent}>
+            <Animated.View
+              style={[
+                animatedButtonStyle,
+                {
+                  backgroundColor: theme.colors.greyScale400,
+                  padding: 12,
+                  borderRadius: 50,
+                },
+              ]}>
+              <MicrophoneIcon
+              // onPress={() => {
+              //   startRecognizing();
+              // }}
+              // onPressIn={() => {
+              //   startRecognizing();
+              //   setShowAudioRecording(true);
+              // }}
+              // onPressOut={() => {
+              //   if (!isDragging) {
+              //     stopRecognizing();
+              //     setShowAudioRecording(false);
+              //   }
+              // }}
+              />
+            </Animated.View>
+          </GestureDetector>
         )}
       </SendButton>
     </Container>
@@ -211,19 +233,6 @@ const Container = styled.View`
   margin-bottom: 10px;
   flex-direction: row;
   align-items: flex-end;
-`;
-
-const AudioRecordingRow = styled.View`
-  background-color: lightblue;
-  flex: 1;
-  height: 40px;
-  flex-direction: row;
-`;
-
-const StopRecordingButton = styled(Pressable)`
-  width: 25px;
-  height: 25px;
-  background-color: red;
 `;
 
 const StyledTextInput = styled(TextInput)`

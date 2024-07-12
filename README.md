@@ -73,3 +73,14 @@ Performance Optimization:
 
 Ensure the app runs smoothly on various devices by optimizing performance.
 Use tools like react-native-performance and Flipper for debugging and optimization.
+
+talk with AI => 
+users can
+send mensage
+send audio
+receive message / audio
+translate /transcribe
+share
+save in the flashcard
+delete
+

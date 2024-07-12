@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AudioRecorderPlayer from "react-native-audio-recorder-player";
 import RNFS from "react-native-fs";
 import axios from "axios";
+import SoundRecorder from "react-native-sound-level";
 
 const OpenAI_API_KEY =
   "sk-proj-OfkcEpPiSvQjwDGTs8hxT3BlbkFJFUiXbwvGHXD256DaspJH";
@@ -18,6 +19,8 @@ export interface IVoiceResult {
   isRecording: boolean;
   duration: number;
 }
+
+const MONITOR_INTERVAL = 250;
 
 const useRecordAudio = () => {
   const [voiceResult, setVoiceResult] = useState<IVoiceResult>({
@@ -58,7 +61,6 @@ const useRecordAudio = () => {
       setAudioPath(result);
 
       audioRecorderPlayer.addRecordBackListener(e => {
-        
         console.log("@@@@@@@@@@@@@@@@@@@@@@@Event: ", e);
         setVoiceResult(prevState => ({
           ...prevState,
@@ -145,7 +147,41 @@ const useRecordAudio = () => {
     setAudioPath(null);
     setTranscription(null);
     resetState();
-  }
+  };
+
+  const recordAudio = async () => {
+    try {
+      startRecognizing();
+      await SoundRecorder.start();
+      SoundRecorder.start(MONITOR_INTERVAL);
+
+      SoundRecorder.start({
+        monitoringInterval: MONITOR_INTERVAL,
+        samplingRate: 44100,
+      });
+    } catch (error) {
+      console.error("Error starting sound recording:", error);
+    }
+  };
+
+  const stopRecorder = async () => {
+    try {
+      stopRecognizing();
+      await SoundRecorder.stop();
+    } catch (error) {
+      console.error("Error stopping sound recording:", error);
+    }
+  };
+
+  useEffect(() => {
+    SoundRecorder.onNewFrame = (data: any) => {
+      console.log("🚀 ~ data:", data);
+    };
+
+    return () => {
+      SoundRecorder.stop();
+    };
+  }, []);
 
   return {
     voiceResult,
@@ -156,7 +192,9 @@ const useRecordAudio = () => {
     audioPath,
     convertAudioToText,
     transcription,
-    handleResetAudio
+    handleResetAudio,
+    recordAudio,
+    stopRecorder
   };
 };
 

@@ -8,12 +8,14 @@ import {
   AiReplyMutationMutation,
   AiReplyMutationMutationVariables,
 } from "@/API";
+import useRecordAudio from "@/hooks/useRecordAudio";
 
 const RecordAudio = () => {
   const [useAiReplyMutation] = useMutation<
     AiReplyMutationMutation,
     AiReplyMutationMutationVariables
   >(gql(aiReplyMutation));
+  const { recordAudio, stopRecorder } = useRecordAudio();
 
   const replyPress = async () => {
     try {
@@ -49,6 +51,18 @@ const RecordAudio = () => {
         soundPlaying={false}
         handleSpeak={() => speakerVoiceMessage("Hello World")}
       />
+      <Pressable
+        onPressIn={recordAudio}
+        onPressOut={stopRecorder}
+        style={{
+          backgroundColor: "blue",
+          width: "100%",
+          height: 50,
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
+        <Text style={{ color: "white" }}>Test New Recorder</Text>
+      </Pressable>
     </View>
   );
 };

@@ -14,10 +14,12 @@ import Text from "@/components/Text";
 const { width } = Dimensions.get("window");
 const adjustedWidth = width - 150;
 const audioRecorderPlayer = new AudioRecorderPlayer();
+audioRecorderPlayer.setSubscriptionDuration(0.1);
 
 interface WaveformProps {
   audioPath: string;
-  duration: number | null | string;
+  duration?: number | null | string;
+  audioLength: number;
 }
 
 const calculatePercentage = (current: number, total: number) => {
@@ -26,10 +28,10 @@ const calculatePercentage = (current: number, total: number) => {
 
 const calculateLeftPosition = (percentage: number) => {
   "worklet";
-  return (percentage / 100) * adjustedWidth;
+  return (percentage / 100) * (adjustedWidth - 32);
 };
 
-const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
+const Waveform: React.FC<WaveformProps> = ({ audioPath, audioLength = 0 }) => {
   const AnimatedIndicator = Animated.createAnimatedComponent(WaveformThumb);
   const progress = useSharedValue(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -51,6 +53,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
   const startPlaying = async () => {
     setIsPlaying(true);
     const result = await audioRecorderPlayer.startPlayer(audioPath);
+    console.log("🚀 ~ startPlaying ~ result:", result)
     audioRecorderPlayer.addPlayBackListener(e => {
       setCurrentTime(e.currentPosition);
       setDuration(e.duration);
@@ -108,7 +111,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath }) => {
           position: "absolute",
           top: '100%',
         }}>
-        {formatTime(currentTime)}
+        {formatTime(currentTime) + "/" + formatTime(audioLength)}
       </TimeText>
     </Container>
   );
