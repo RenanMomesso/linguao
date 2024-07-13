@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -72,9 +72,32 @@ const SendMessage = ({
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState("00:00");
   const [audioPath, setAudioPath] = useState("");
-  const [isDragging, setIsDragging] = useState(false);
   const buttonSize = useSharedValue(1);
-  const position = useSharedValue(0);
+  const positionX = useSharedValue(0);
+  const positionY = useSharedValue(0);
+  const buttonPressed = useSharedValue(false);
+  const maxLeftDistance = -100; // Maximum distance to the left
+  const maxUpDistance = -20; // Maximum distance up
+  const maxRightDistance = 1; // Maximum distance to the right
+
+  useEffect(() => {
+    let interval: any;
+    if (isRecording) {
+      interval = setInterval(() => {
+         setRecordingDuration((prev) => {
+          const [minutes, seconds] = prev.split(":");
+          const totalSeconds = parseInt(minutes) * 60 + parseInt(seconds);
+          const newSeconds = totalSeconds + 1;
+          const newMinutes = Math.floor(newSeconds / 60);
+          const remainingSeconds = newSeconds % 60;
+          return `${newMinutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+         });
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isRecording]);
 
   const startRecognizing = async () => {
     setIsRecording(true);
@@ -99,33 +122,32 @@ const SendMessage = ({
 
   const handleGestureEvent = Gesture.Pan()
     .onBegin(() => {
-      buttonSize.value = withTiming(1.6);
+      buttonPressed.value = true;
       runOnJS(startRecognizing)();
     })
-    .onUpdate((event: any) => {
-      position.value = event.translationX;
-      if (event.translationX > 100) {
-        runOnJS(stopRecognizing)();
-        runOnJS(setShowAudioRecording)(false);
-      }
-      if (event.translationX < -10) {
-        position.value = withTiming(0);
-      }
+    .onChange((event: any) => {
+      const newX = Math.max(maxLeftDistance, event.translationX);
+      const newY = Math.min(Math.max(maxUpDistance, event.translationY), 0);
+      positionX.value = newX;
+      positionY.value = newY;
     })
     .onEnd(() => {
-      buttonSize.value = withTiming(1);
-      position.value = withTiming(0);
+      buttonPressed.value = false;
+      positionX.value = withTiming(0);
+      positionY.value = withTiming(0);
     })
     .onFinalize(() => {
-      buttonSize.value = withTiming(1);
+      buttonPressed.value = false;
+      positionX.value = withTiming(0);
+      positionY.value = withTiming(0);
+      runOnJS(stopRecognizing)();
     });
 
   const animatedButtonStyle = useAnimatedStyle(() => ({
     transform: [
-      {
-        scale: buttonSize.value,
-      },
-      { translateX: position.value },
+      { scale: withTiming(buttonPressed.value ? 1.4 : 1) },
+      { translateX: positionX.value },
+      { translateY: positionY.value },
     ],
   }));
 
@@ -160,7 +182,7 @@ const SendMessage = ({
 
   return (
     <Container style={{ flexDirection: "row", alignItems: "center" }}>
-      {showAudioRecording && (
+      {isRecording && (
         <View
           style={{
             backgroundColor: "lightblue",
@@ -175,15 +197,16 @@ const SendMessage = ({
           </Pressable>
         </View>
       )}
-      {buttonSize.value === 1.6 && <Text>AQUIAQUIQUIUQIQUIQUIQUI</Text>}
-      <StyledTextInput
-        style={{ height: 50, color: color !== "light" ? "black" : "white" }}
-        value={message}
-        onChangeText={text => setMessage(text)}
-        multiline
-        editable={!loadingMessages}
-        placeholder="Type a message"
-      />
+      {!isRecording && (
+        <StyledTextInput
+          style={{ height: 50, color: color === "light" ? "black" : "white", fontFamily: theme.fontWeight.semibold}}
+          value={message}
+          onChangeText={text => setMessage(text)}
+          multiline
+          editable={!loadingMessages}
+          placeholder="Type a message"
+        />
+      )}
       <SendButton
         onPress={
           !!message.length ? handleCreateMessageTrigger : () => setMessage("")
@@ -202,21 +225,7 @@ const SendMessage = ({
                   borderRadius: 50,
                 },
               ]}>
-              <MicrophoneIcon
-              // onPress={() => {
-              //   startRecognizing();
-              // }}
-              // onPressIn={() => {
-              //   startRecognizing();
-              //   setShowAudioRecording(true);
-              // }}
-              // onPressOut={() => {
-              //   if (!isDragging) {
-              //     stopRecognizing();
-              //     setShowAudioRecording(false);
-              //   }
-              // }}
-              />
+              <MicrophoneIcon />
             </Animated.View>
           </GestureDetector>
         )}

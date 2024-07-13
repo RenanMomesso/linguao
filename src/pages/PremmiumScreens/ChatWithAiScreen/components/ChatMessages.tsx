@@ -81,6 +81,7 @@ const ChatMessages = ({
     if (item.messageType === "AUDIO" && item.userID === otherUserId) {
       return (
         <ChatMessageItemAiAudio
+          audioPath={item.text}
           setPlayAudio={handlePlayAudio}
           audioIsPlaying={playAudio}
           audioText={item.audioText || ""}

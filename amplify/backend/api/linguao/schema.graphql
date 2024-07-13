@@ -180,10 +180,20 @@ type AiReply {
 }
 
 type Mutation {
-  aiReplyMutation(userAudio: String): AiReply!
-    @function(name: "aireply-${env}")
+  aiReplyMutation(userAudio: String): AiReply! @function(name: "aireply-${env}")
 }
 
 type Query {
   textToSpeech: String @predictions(actions: [convertTextToSpeech])
+}
+
+type FlashCards @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  title: String!
+  description: String
+  imageUrl: String
+  level: EnglishLevel
+  category: Category
+  audioUrl: String
+  
 }

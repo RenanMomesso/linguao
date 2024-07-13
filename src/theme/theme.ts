@@ -68,6 +68,8 @@ export const theme = {
     heading5: scale(20),
     heading6: scale(16),
     text: scale(14),
+    small: scale(12),
+    tiny: scale(10),
   },
 };
 

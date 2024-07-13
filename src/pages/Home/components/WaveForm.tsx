@@ -14,7 +14,6 @@ import Text from "@/components/Text";
 const { width } = Dimensions.get("window");
 const adjustedWidth = width - 150;
 const audioRecorderPlayer = new AudioRecorderPlayer();
-audioRecorderPlayer.setSubscriptionDuration(0.1);
 
 interface WaveformProps {
   audioPath: string;
@@ -53,7 +52,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath, audioLength = 0 }) => {
   const startPlaying = async () => {
     setIsPlaying(true);
     const result = await audioRecorderPlayer.startPlayer(audioPath);
-    console.log("🚀 ~ startPlaying ~ result:", result)
+    console.log("🚀 ~ startPlaying ~ result:", result);
     audioRecorderPlayer.addPlayBackListener(e => {
       setCurrentTime(e.currentPosition);
       setDuration(e.duration);
@@ -63,6 +62,12 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath, audioLength = 0 }) => {
         audioRecorderPlayer.stopPlayer();
       }
     });
+  };
+
+  const getDuration = async () => {
+    const duration = await audioRecorderPlayer.mmss(audioPath);
+
+    setDuration(duration);
   };
 
   const stopPlaying = async () => {
@@ -109,7 +114,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath, audioLength = 0 }) => {
         size="text"
         style={{
           position: "absolute",
-          top: '100%',
+          top: "100%",
         }}>
         {formatTime(currentTime) + "/" + formatTime(audioLength)}
       </TimeText>

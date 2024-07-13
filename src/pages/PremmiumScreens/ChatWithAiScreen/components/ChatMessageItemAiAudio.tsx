@@ -12,9 +12,11 @@ interface ChatMessageItemAiAudio {
   audioIsPlaying: boolean;
   handleLongPress: () => void;
   setPlayAudio: () => void;
+  audioPath: string;
 }
 const ChatMessageItemAiAudio = ({
   handleLongPress,
+  audioPath,
   audioText,
   audioIsPlaying,
   setPlayAudio,
@@ -39,10 +41,7 @@ const ChatMessageItemAiAudio = ({
           <Avatar size="small" />
           {/* <Waveform audioPath={item.text} duration={10} /> */}
           <AudioPlay
-            style={{ width: "100%" }}
-            handleSpeak={setPlayAudio}
-            duration={calculateDuration(audioText!, 1)}
-            soundPlaying={audioIsPlaying}
+            audioPath={audioPath}
           />
         </Row>
         <Row>
