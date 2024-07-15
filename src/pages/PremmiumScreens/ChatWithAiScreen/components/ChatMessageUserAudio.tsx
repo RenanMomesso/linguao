@@ -7,6 +7,7 @@ interface ChatUserAudioProps {
   text: string;
 }
 const ChatUserAudio = ({ text }: ChatUserAudioProps) => {
+  console.log("renderizei")
   return (
     <View
       style={{

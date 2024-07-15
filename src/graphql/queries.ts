@@ -67,6 +67,23 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -158,6 +175,23 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
       nextToken
       __typename
     }
+    flashCards {
+      items {
+        id
+        title
+        description
+        imageUrl
+        audioUrl
+        level
+        category
+        user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -213,6 +247,10 @@ export const listUsers = /* GraphQL */ `query ListUsers(
               nextToken
               __typename
             }
+            flashCards {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -255,6 +293,23 @@ export const listUsers = /* GraphQL */ `query ListUsers(
             chatRoomLastMessageId
             __typename
           }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      flashCards {
+        items {
+          id
+          title
+          description
+          imageUrl
+          audioUrl
+          level
+          category
+          user
           createdAt
           updatedAt
           __typename
@@ -780,6 +835,23 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1003,6 +1075,10 @@ export const listChatRooms = /* GraphQL */ `query ListChatRooms(
             lifetimeexp
             artificialInteligenceUser
             ChatRooms {
+              nextToken
+              __typename
+            }
+            flashCards {
               nextToken
               __typename
             }
@@ -1436,6 +1512,119 @@ export const attachmentsByChatroomID = /* GraphQL */ `query AttachmentsByChatroo
   APITypes.AttachmentsByChatroomIDQueryVariables,
   APITypes.AttachmentsByChatroomIDQuery
 >;
+export const getFlashCards = /* GraphQL */ `query GetFlashCards($id: ID!) {
+  getFlashCards(id: $id) {
+    id
+    title
+    description
+    imageUrl
+    audioUrl
+    level
+    category
+    user
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetFlashCardsQueryVariables,
+  APITypes.GetFlashCardsQuery
+>;
+export const listFlashCards = /* GraphQL */ `query ListFlashCards(
+  $filter: ModelFlashCardsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listFlashCards(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      description
+      imageUrl
+      audioUrl
+      level
+      category
+      user
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListFlashCardsQueryVariables,
+  APITypes.ListFlashCardsQuery
+>;
+export const flashCardsByUser = /* GraphQL */ `query FlashCardsByUser(
+  $user: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelFlashCardsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  flashCardsByUser(
+    user: $user
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      title
+      description
+      imageUrl
+      audioUrl
+      level
+      category
+      user
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.FlashCardsByUserQueryVariables,
+  APITypes.FlashCardsByUserQuery
+>;
+export const getPost = /* GraphQL */ `query GetPost($id: ID!) {
+  getPost(id: $id) {
+    id
+    title
+    content
+    images
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetPostQueryVariables, APITypes.GetPostQuery>;
+export const listPosts = /* GraphQL */ `query ListPosts(
+  $filter: ModelPostFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      content
+      images
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListPostsQueryVariables, APITypes.ListPostsQuery>;
 export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
   getUserChatRoom(id: $id) {
     id
@@ -1484,6 +1673,10 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
               nextToken
               __typename
             }
+            flashCards {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -1526,6 +1719,23 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
             chatRoomLastMessageId
             __typename
           }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      flashCards {
+        items {
+          id
+          title
+          description
+          imageUrl
+          audioUrl
+          level
+          category
+          user
           createdAt
           updatedAt
           __typename
@@ -1601,6 +1811,10 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
             lifetimeexp
             artificialInteligenceUser
             ChatRooms {
+              nextToken
+              __typename
+            }
+            flashCards {
               nextToken
               __typename
             }
@@ -1781,6 +1995,23 @@ export const listUserChatRooms = /* GraphQL */ `query ListUserChatRooms(
               chatRoomLastMessageId
               __typename
             }
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        flashCards {
+          items {
+            id
+            title
+            description
+            imageUrl
+            audioUrl
+            level
+            category
+            user
             createdAt
             updatedAt
             __typename
@@ -2008,6 +2239,23 @@ export const userChatRoomsByUserId = /* GraphQL */ `query UserChatRoomsByUserId(
           nextToken
           __typename
         }
+        flashCards {
+          items {
+            id
+            title
+            description
+            imageUrl
+            audioUrl
+            level
+            category
+            user
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
         createdAt
         updatedAt
         __typename
@@ -2221,6 +2469,23 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `query UserChatRoomsByCha
               chatRoomLastMessageId
               __typename
             }
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        flashCards {
+          items {
+            id
+            title
+            description
+            imageUrl
+            audioUrl
+            level
+            category
+            user
             createdAt
             updatedAt
             __typename

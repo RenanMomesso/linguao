@@ -9,7 +9,7 @@ import { theme } from "@/theme/theme";
 import HeaderChat from "./components/HeaderChat";
 import ChatMessages from "./components/ChatMessages";
 import { Message } from "@/API";
-import SendMessage from "./components/SendMessage";
+import SendMessage from "./components/SendMessage/SendMessage";
 
 const ChatWithAiScreen = () => {
   const {

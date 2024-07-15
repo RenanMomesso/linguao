@@ -44,6 +44,7 @@ type User @model @auth(rules: [{ allow: public }]) {
   lifetimeexp: String
   artificialInteligenceUser: Boolean
   ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
+  flashCards: [FlashCards] @hasMany(indexName: "byFlashcard", fields: ["id"])
 }
 
 enum Language {
@@ -192,8 +193,18 @@ type FlashCards @model @auth(rules: [{ allow: public }]) {
   title: String!
   description: String
   imageUrl: String
+  audioUrl: String
   level: EnglishLevel
   category: Category
-  audioUrl: String
-  
+  user: ID! @index(name: "byFlashcard")
 }
+
+type Post @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  title: String!
+  content: String!
+  images: [String]
+}
+
+# type Report
+# type Kanban

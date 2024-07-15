@@ -60,6 +60,23 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -144,6 +161,23 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
           chatRoomLastMessageId
           __typename
         }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    flashCards {
+      items {
+        id
+        title
+        description
+        imageUrl
+        audioUrl
+        level
+        category
+        user
         createdAt
         updatedAt
         __typename
@@ -212,6 +246,23 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -303,6 +354,23 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
       nextToken
       __typename
     }
+    flashCards {
+      items {
+        id
+        title
+        description
+        imageUrl
+        audioUrl
+        level
+        category
+        user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -357,6 +425,23 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
               id
               userId
               chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
               createdAt
               updatedAt
               __typename
@@ -448,6 +533,23 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
           chatRoomLastMessageId
           __typename
         }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    flashCards {
+      items {
+        id
+        title
+        description
+        imageUrl
+        audioUrl
+        level
+        category
+        user
         createdAt
         updatedAt
         __typename
@@ -978,6 +1080,23 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1207,6 +1326,23 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1429,6 +1565,23 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
               id
               userId
               chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
               createdAt
               updatedAt
               __typename
@@ -1772,6 +1925,114 @@ export const onDeleteAttachment = /* GraphQL */ `subscription OnDeleteAttachment
   APITypes.OnDeleteAttachmentSubscriptionVariables,
   APITypes.OnDeleteAttachmentSubscription
 >;
+export const onCreateFlashCards = /* GraphQL */ `subscription OnCreateFlashCards(
+  $filter: ModelSubscriptionFlashCardsFilterInput
+) {
+  onCreateFlashCards(filter: $filter) {
+    id
+    title
+    description
+    imageUrl
+    audioUrl
+    level
+    category
+    user
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateFlashCardsSubscriptionVariables,
+  APITypes.OnCreateFlashCardsSubscription
+>;
+export const onUpdateFlashCards = /* GraphQL */ `subscription OnUpdateFlashCards(
+  $filter: ModelSubscriptionFlashCardsFilterInput
+) {
+  onUpdateFlashCards(filter: $filter) {
+    id
+    title
+    description
+    imageUrl
+    audioUrl
+    level
+    category
+    user
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateFlashCardsSubscriptionVariables,
+  APITypes.OnUpdateFlashCardsSubscription
+>;
+export const onDeleteFlashCards = /* GraphQL */ `subscription OnDeleteFlashCards(
+  $filter: ModelSubscriptionFlashCardsFilterInput
+) {
+  onDeleteFlashCards(filter: $filter) {
+    id
+    title
+    description
+    imageUrl
+    audioUrl
+    level
+    category
+    user
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteFlashCardsSubscriptionVariables,
+  APITypes.OnDeleteFlashCardsSubscription
+>;
+export const onCreatePost = /* GraphQL */ `subscription OnCreatePost($filter: ModelSubscriptionPostFilterInput) {
+  onCreatePost(filter: $filter) {
+    id
+    title
+    content
+    images
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreatePostSubscriptionVariables,
+  APITypes.OnCreatePostSubscription
+>;
+export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost($filter: ModelSubscriptionPostFilterInput) {
+  onUpdatePost(filter: $filter) {
+    id
+    title
+    content
+    images
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdatePostSubscriptionVariables,
+  APITypes.OnUpdatePostSubscription
+>;
+export const onDeletePost = /* GraphQL */ `subscription OnDeletePost($filter: ModelSubscriptionPostFilterInput) {
+  onDeletePost(filter: $filter) {
+    id
+    title
+    content
+    images
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeletePostSubscriptionVariables,
+  APITypes.OnDeletePostSubscription
+>;
 export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChatRoom(
   $filter: ModelSubscriptionUserChatRoomFilterInput
 ) {
@@ -1822,6 +2083,10 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
               nextToken
               __typename
             }
+            flashCards {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -1864,6 +2129,23 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
             chatRoomLastMessageId
             __typename
           }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      flashCards {
+        items {
+          id
+          title
+          description
+          imageUrl
+          audioUrl
+          level
+          category
+          user
           createdAt
           updatedAt
           __typename
@@ -1939,6 +2221,10 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
             lifetimeexp
             artificialInteligenceUser
             ChatRooms {
+              nextToken
+              __typename
+            }
+            flashCards {
               nextToken
               __typename
             }
@@ -2107,6 +2393,10 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
               nextToken
               __typename
             }
+            flashCards {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2149,6 +2439,23 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
             chatRoomLastMessageId
             __typename
           }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      flashCards {
+        items {
+          id
+          title
+          description
+          imageUrl
+          audioUrl
+          level
+          category
+          user
           createdAt
           updatedAt
           __typename
@@ -2224,6 +2531,10 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
             lifetimeexp
             artificialInteligenceUser
             ChatRooms {
+              nextToken
+              __typename
+            }
+            flashCards {
               nextToken
               __typename
             }
@@ -2392,6 +2703,10 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
               nextToken
               __typename
             }
+            flashCards {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2434,6 +2749,23 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
             chatRoomLastMessageId
             __typename
           }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      flashCards {
+        items {
+          id
+          title
+          description
+          imageUrl
+          audioUrl
+          level
+          category
+          user
           createdAt
           updatedAt
           __typename
@@ -2509,6 +2841,10 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
             lifetimeexp
             artificialInteligenceUser
             ChatRooms {
+              nextToken
+              __typename
+            }
+            flashCards {
               nextToken
               __typename
             }

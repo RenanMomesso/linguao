@@ -27,6 +27,7 @@ import SettingsOutlineIcon from './SettingsOutlineIcon.svg'
 import StartIcon from './StartIcon.svg'
 import PlayIcon from './PlayIcon.svg'
 import PauseIcon from './PauseIcon.svg'
+import ReverseIcon from "./reverseIcon.svg"
 
 
 export const SvgComponent = (props: SvgProps) => (
@@ -84,5 +85,6 @@ export {
   SettingsOutlineIcon,
   StartIcon,
   PlayIcon,
-  PauseIcon
+  PauseIcon,
+  ReverseIcon
 };

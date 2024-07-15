@@ -74,6 +74,23 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -158,6 +175,23 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
           chatRoomLastMessageId
           __typename
         }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    flashCards {
+      items {
+        id
+        title
+        description
+        imageUrl
+        audioUrl
+        level
+        category
+        user
         createdAt
         updatedAt
         __typename
@@ -229,6 +263,23 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -320,6 +371,23 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
       nextToken
       __typename
     }
+    flashCards {
+      items {
+        id
+        title
+        description
+        imageUrl
+        audioUrl
+        level
+        category
+        user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -377,6 +445,23 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
               id
               userId
               chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
               createdAt
               updatedAt
               __typename
@@ -468,6 +553,23 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
           chatRoomLastMessageId
           __typename
         }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    flashCards {
+      items {
+        id
+        title
+        description
+        imageUrl
+        audioUrl
+        level
+        category
+        user
         createdAt
         updatedAt
         __typename
@@ -1037,6 +1139,23 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1269,6 +1388,23 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
             nextToken
             __typename
           }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1494,6 +1630,23 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
               id
               userId
               chatRoomId
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          flashCards {
+            items {
+              id
+              title
+              description
+              imageUrl
+              audioUrl
+              level
+              category
+              user
               createdAt
               updatedAt
               __typename
@@ -1849,6 +2002,126 @@ export const deleteAttachment = /* GraphQL */ `mutation DeleteAttachment(
   APITypes.DeleteAttachmentMutationVariables,
   APITypes.DeleteAttachmentMutation
 >;
+export const createFlashCards = /* GraphQL */ `mutation CreateFlashCards(
+  $input: CreateFlashCardsInput!
+  $condition: ModelFlashCardsConditionInput
+) {
+  createFlashCards(input: $input, condition: $condition) {
+    id
+    title
+    description
+    imageUrl
+    audioUrl
+    level
+    category
+    user
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateFlashCardsMutationVariables,
+  APITypes.CreateFlashCardsMutation
+>;
+export const updateFlashCards = /* GraphQL */ `mutation UpdateFlashCards(
+  $input: UpdateFlashCardsInput!
+  $condition: ModelFlashCardsConditionInput
+) {
+  updateFlashCards(input: $input, condition: $condition) {
+    id
+    title
+    description
+    imageUrl
+    audioUrl
+    level
+    category
+    user
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateFlashCardsMutationVariables,
+  APITypes.UpdateFlashCardsMutation
+>;
+export const deleteFlashCards = /* GraphQL */ `mutation DeleteFlashCards(
+  $input: DeleteFlashCardsInput!
+  $condition: ModelFlashCardsConditionInput
+) {
+  deleteFlashCards(input: $input, condition: $condition) {
+    id
+    title
+    description
+    imageUrl
+    audioUrl
+    level
+    category
+    user
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteFlashCardsMutationVariables,
+  APITypes.DeleteFlashCardsMutation
+>;
+export const createPost = /* GraphQL */ `mutation CreatePost(
+  $input: CreatePostInput!
+  $condition: ModelPostConditionInput
+) {
+  createPost(input: $input, condition: $condition) {
+    id
+    title
+    content
+    images
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreatePostMutationVariables,
+  APITypes.CreatePostMutation
+>;
+export const updatePost = /* GraphQL */ `mutation UpdatePost(
+  $input: UpdatePostInput!
+  $condition: ModelPostConditionInput
+) {
+  updatePost(input: $input, condition: $condition) {
+    id
+    title
+    content
+    images
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdatePostMutationVariables,
+  APITypes.UpdatePostMutation
+>;
+export const deletePost = /* GraphQL */ `mutation DeletePost(
+  $input: DeletePostInput!
+  $condition: ModelPostConditionInput
+) {
+  deletePost(input: $input, condition: $condition) {
+    id
+    title
+    content
+    images
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeletePostMutationVariables,
+  APITypes.DeletePostMutation
+>;
 export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
   $input: CreateUserChatRoomInput!
   $condition: ModelUserChatRoomConditionInput
@@ -1900,6 +2173,10 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
               nextToken
               __typename
             }
+            flashCards {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -1942,6 +2219,23 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
             chatRoomLastMessageId
             __typename
           }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      flashCards {
+        items {
+          id
+          title
+          description
+          imageUrl
+          audioUrl
+          level
+          category
+          user
           createdAt
           updatedAt
           __typename
@@ -2017,6 +2311,10 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
             lifetimeexp
             artificialInteligenceUser
             ChatRooms {
+              nextToken
+              __typename
+            }
+            flashCards {
               nextToken
               __typename
             }
@@ -2186,6 +2484,10 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
               nextToken
               __typename
             }
+            flashCards {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2228,6 +2530,23 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
             chatRoomLastMessageId
             __typename
           }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      flashCards {
+        items {
+          id
+          title
+          description
+          imageUrl
+          audioUrl
+          level
+          category
+          user
           createdAt
           updatedAt
           __typename
@@ -2303,6 +2622,10 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
             lifetimeexp
             artificialInteligenceUser
             ChatRooms {
+              nextToken
+              __typename
+            }
+            flashCards {
               nextToken
               __typename
             }
@@ -2472,6 +2795,10 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
               nextToken
               __typename
             }
+            flashCards {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2514,6 +2841,23 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
             chatRoomLastMessageId
             __typename
           }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      flashCards {
+        items {
+          id
+          title
+          description
+          imageUrl
+          audioUrl
+          level
+          category
+          user
           createdAt
           updatedAt
           __typename
@@ -2589,6 +2933,10 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
             lifetimeexp
             artificialInteligenceUser
             ChatRooms {
+              nextToken
+              __typename
+            }
+            flashCards {
               nextToken
               __typename
             }

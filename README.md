@@ -90,4 +90,31 @@ GAMES =>
 cruzadas
 quiz com tempo
 gramatical
-desafops
+desafios [encontre os sinonimios rapidamente]
+
+
+
+on the website:
+show users
+show graphics
+show analitcs most used pages
+create todo dashboard (scrum)
+show reports and problems
+
+
+
+
+
+features
+lazy loading
+skeleton
+navigation
+graphql
+CI/CD
+typescript
+record audio
+audio play
+animations
+deep linking
+save flashcards
+

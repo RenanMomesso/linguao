@@ -18,7 +18,7 @@ const WaveformThumb = styled(Animated.View)`
   height: 14px;
   width: 14px;
   border-radius: 14px;
-  background-color: royalblue;
+  background-color: white;
   position: absolute;
   aspect-ratio: 2;
   border: 1px solid white;
@@ -30,19 +30,20 @@ const calculateLeftPosition = (percentage, trackWidth) => {
   return (percentage / 100) * trackWidth;
 };
 
-const App = ({ audioPath }) => {
+const AudioPlay = ({ audioPath }: { audioPath: string }) => {
   const AnimatedIndicator = Animated.createAnimatedComponent(WaveformThumb);
   const trackWidth = 180; // Width of the track in pixels
   const progress = useSharedValue(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const soundRef = useRef(null);
+  const soundRef = useRef<Sound>(null);
   const intervalRef = useRef(null);
+  const [speedAudio, setSpeedAudio] = useState(1); // [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
   const [loadingDuration, setLoadingDuration] = useState(true);
 
   useEffect(() => {
     Sound.setCategory("Playback");
-
+    if (audioPath.length === 0 || !audioPath.includes('https://') || !audioPath.includes("http://")) return;
     const sound = new Sound(audioPath, null, error => {
       if (error) {
         console.log("failed to load the sound", error);
@@ -74,6 +75,12 @@ const App = ({ audioPath }) => {
       runOnJS(updateProgress)(0);
     } else {
       console.log("playback failed due to audio decoding errors");
+    }
+  };
+
+  const setAudioSpeed = speed => {
+    if (soundRef.current) {
+      soundRef.current?.setSpeed(speed);
     }
   };
 
@@ -121,12 +128,11 @@ const App = ({ audioPath }) => {
         flexDirection: "row",
         alignItems: "center",
         gap: 10,
-      }}
-      onPress={isPlaying ? stopAudio : playAudio}>
+      }}>
       {isPlaying ? (
-        <PauseIcon color={"white"} width={25} height={25} />
+        <PauseIcon onPress={stopAudio} color={"white"} width={25} height={25} />
       ) : (
-        <PlayIcon color="white" width={25} height={25} />
+        <PlayIcon onPress={playAudio} color="white" width={25} height={25} />
       )}
 
       <View
@@ -142,8 +148,11 @@ const App = ({ audioPath }) => {
       <Text color="white" size="tiny">
         {formatTime(durationToMilliseconds)}
       </Text>
+      <Text onPress={() => setAudioSpeed(2)}>
+        v:{soundRef.current?.getSpeed()}
+      </Text>
     </Pressable>
   );
 };
 
-export default App;
+export default AudioPlay;

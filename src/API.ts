@@ -116,6 +116,7 @@ export type User = {
   lifetimeexp?: string | null,
   artificialInteligenceUser?: boolean | null,
   ChatRooms?: ModelUserChatRoomConnection | null,
+  flashCards?: ModelFlashCardsConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -219,6 +220,45 @@ export enum MessageType {
 }
 
 
+export type ModelFlashCardsConnection = {
+  __typename: "ModelFlashCardsConnection",
+  items:  Array<FlashCards | null >,
+  nextToken?: string | null,
+};
+
+export type FlashCards = {
+  __typename: "FlashCards",
+  id: string,
+  title: string,
+  description?: string | null,
+  imageUrl?: string | null,
+  audioUrl?: string | null,
+  level?: EnglishLevel | null,
+  category?: Category | null,
+  user: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum EnglishLevel {
+  C1 = "C1",
+  C2 = "C2",
+  A1 = "A1",
+  A2 = "A2",
+  B1 = "B1",
+  B2 = "B2",
+}
+
+
+export enum Category {
+  VOCABULARY = "VOCABULARY",
+  GRAMMAR = "GRAMMAR",
+  SPEAKING = "SPEAKING",
+  LISTENING = "LISTENING",
+  UNTITLEDVALUE = "UNTITLEDVALUE",
+}
+
+
 export type UpdateUserInput = {
   id: string,
   name?: string | null,
@@ -260,16 +300,6 @@ export enum Language {
   RUSSIAN = "RUSSIAN",
   SWEDESH = "SWEDESH",
   SPANISH = "SPANISH",
-}
-
-
-export enum EnglishLevel {
-  C1 = "C1",
-  C2 = "C2",
-  A1 = "A1",
-  A2 = "A2",
-  B1 = "B1",
-  B2 = "B2",
 }
 
 
@@ -432,15 +462,6 @@ export type CreateEnglishSentenceInput = {
   category: Category,
   createdAt?: string | null,
 };
-
-export enum Category {
-  VOCABULARY = "VOCABULARY",
-  GRAMMAR = "GRAMMAR",
-  SPEAKING = "SPEAKING",
-  LISTENING = "LISTENING",
-  UNTITLEDVALUE = "UNTITLEDVALUE",
-}
-
 
 export type ModelEnglishSentenceConditionInput = {
   sentence?: ModelStringInput | null,
@@ -784,6 +805,86 @@ export type DeleteAttachmentInput = {
   id: string,
 };
 
+export type CreateFlashCardsInput = {
+  id?: string | null,
+  title: string,
+  description?: string | null,
+  imageUrl?: string | null,
+  audioUrl?: string | null,
+  level?: EnglishLevel | null,
+  category?: Category | null,
+  user: string,
+};
+
+export type ModelFlashCardsConditionInput = {
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  imageUrl?: ModelStringInput | null,
+  audioUrl?: ModelStringInput | null,
+  level?: ModelEnglishLevelInput | null,
+  category?: ModelCategoryInput | null,
+  user?: ModelIDInput | null,
+  and?: Array< ModelFlashCardsConditionInput | null > | null,
+  or?: Array< ModelFlashCardsConditionInput | null > | null,
+  not?: ModelFlashCardsConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type UpdateFlashCardsInput = {
+  id: string,
+  title?: string | null,
+  description?: string | null,
+  imageUrl?: string | null,
+  audioUrl?: string | null,
+  level?: EnglishLevel | null,
+  category?: Category | null,
+  user?: string | null,
+};
+
+export type DeleteFlashCardsInput = {
+  id: string,
+};
+
+export type CreatePostInput = {
+  id?: string | null,
+  title: string,
+  content: string,
+  images?: Array< string | null > | null,
+};
+
+export type ModelPostConditionInput = {
+  title?: ModelStringInput | null,
+  content?: ModelStringInput | null,
+  images?: ModelStringInput | null,
+  and?: Array< ModelPostConditionInput | null > | null,
+  or?: Array< ModelPostConditionInput | null > | null,
+  not?: ModelPostConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type Post = {
+  __typename: "Post",
+  id: string,
+  title: string,
+  content: string,
+  images?: Array< string | null > | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdatePostInput = {
+  id: string,
+  title?: string | null,
+  content?: string | null,
+  images?: Array< string | null > | null,
+};
+
+export type DeletePostInput = {
+  id: string,
+};
+
 export type CreateUserChatRoomInput = {
   id?: string | null,
   userId: string,
@@ -1029,6 +1130,40 @@ export type ModelAttachmentFilterInput = {
   not?: ModelAttachmentFilterInput | null,
 };
 
+export type ModelFlashCardsFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  imageUrl?: ModelStringInput | null,
+  audioUrl?: ModelStringInput | null,
+  level?: ModelEnglishLevelInput | null,
+  category?: ModelCategoryInput | null,
+  user?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelFlashCardsFilterInput | null > | null,
+  or?: Array< ModelFlashCardsFilterInput | null > | null,
+  not?: ModelFlashCardsFilterInput | null,
+};
+
+export type ModelPostFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  content?: ModelStringInput | null,
+  images?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelPostFilterInput | null > | null,
+  or?: Array< ModelPostFilterInput | null > | null,
+  not?: ModelPostFilterInput | null,
+};
+
+export type ModelPostConnection = {
+  __typename: "ModelPostConnection",
+  items:  Array<Post | null >,
+  nextToken?: string | null,
+};
+
 export type ModelUserChatRoomFilterInput = {
   id?: ModelIDInput | null,
   userId?: ModelIDInput | null,
@@ -1247,6 +1382,32 @@ export type ModelSubscriptionAttachmentFilterInput = {
   or?: Array< ModelSubscriptionAttachmentFilterInput | null > | null,
 };
 
+export type ModelSubscriptionFlashCardsFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  imageUrl?: ModelSubscriptionStringInput | null,
+  audioUrl?: ModelSubscriptionStringInput | null,
+  level?: ModelSubscriptionStringInput | null,
+  category?: ModelSubscriptionStringInput | null,
+  user?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionFlashCardsFilterInput | null > | null,
+  or?: Array< ModelSubscriptionFlashCardsFilterInput | null > | null,
+};
+
+export type ModelSubscriptionPostFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  content?: ModelSubscriptionStringInput | null,
+  images?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionPostFilterInput | null > | null,
+  or?: Array< ModelSubscriptionPostFilterInput | null > | null,
+};
+
 export type ModelSubscriptionUserChatRoomFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   userId?: ModelSubscriptionIDInput | null,
@@ -1330,6 +1491,23 @@ export type CreateUserMutation = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -1413,6 +1591,23 @@ export type CreateUserMutation = {
           updatedAt: string,
           chatRoomLastMessageId?: string | null,
         },
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    flashCards?:  {
+      __typename: "ModelFlashCardsConnection",
+      items:  Array< {
+        __typename: "FlashCards",
+        id: string,
+        title: string,
+        description?: string | null,
+        imageUrl?: string | null,
+        audioUrl?: string | null,
+        level?: EnglishLevel | null,
+        category?: Category | null,
+        user: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -1484,6 +1679,23 @@ export type UpdateUserMutation = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -1572,6 +1784,23 @@ export type UpdateUserMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    flashCards?:  {
+      __typename: "ModelFlashCardsConnection",
+      items:  Array< {
+        __typename: "FlashCards",
+        id: string,
+        title: string,
+        description?: string | null,
+        imageUrl?: string | null,
+        audioUrl?: string | null,
+        level?: EnglishLevel | null,
+        category?: Category | null,
+        user: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1633,6 +1862,23 @@ export type DeleteUserMutation = {
               id: string,
               userId: string,
               chatRoomId: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
               createdAt: string,
               updatedAt: string,
             } | null >,
@@ -1721,6 +1967,23 @@ export type DeleteUserMutation = {
           updatedAt: string,
           chatRoomLastMessageId?: string | null,
         },
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    flashCards?:  {
+      __typename: "ModelFlashCardsConnection",
+      items:  Array< {
+        __typename: "FlashCards",
+        id: string,
+        title: string,
+        description?: string | null,
+        imageUrl?: string | null,
+        audioUrl?: string | null,
+        level?: EnglishLevel | null,
+        category?: Category | null,
+        user: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -2272,6 +2535,23 @@ export type CreateChatRoomMutation = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -2503,6 +2783,23 @@ export type UpdateChatRoomMutation = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -2729,6 +3026,23 @@ export type DeleteChatRoomMutation = {
               id: string,
               userId: string,
               chatRoomId: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
               createdAt: string,
               updatedAt: string,
             } | null >,
@@ -3069,6 +3383,120 @@ export type DeleteAttachmentMutation = {
   } | null,
 };
 
+export type CreateFlashCardsMutationVariables = {
+  input: CreateFlashCardsInput,
+  condition?: ModelFlashCardsConditionInput | null,
+};
+
+export type CreateFlashCardsMutation = {
+  createFlashCards?:  {
+    __typename: "FlashCards",
+    id: string,
+    title: string,
+    description?: string | null,
+    imageUrl?: string | null,
+    audioUrl?: string | null,
+    level?: EnglishLevel | null,
+    category?: Category | null,
+    user: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateFlashCardsMutationVariables = {
+  input: UpdateFlashCardsInput,
+  condition?: ModelFlashCardsConditionInput | null,
+};
+
+export type UpdateFlashCardsMutation = {
+  updateFlashCards?:  {
+    __typename: "FlashCards",
+    id: string,
+    title: string,
+    description?: string | null,
+    imageUrl?: string | null,
+    audioUrl?: string | null,
+    level?: EnglishLevel | null,
+    category?: Category | null,
+    user: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteFlashCardsMutationVariables = {
+  input: DeleteFlashCardsInput,
+  condition?: ModelFlashCardsConditionInput | null,
+};
+
+export type DeleteFlashCardsMutation = {
+  deleteFlashCards?:  {
+    __typename: "FlashCards",
+    id: string,
+    title: string,
+    description?: string | null,
+    imageUrl?: string | null,
+    audioUrl?: string | null,
+    level?: EnglishLevel | null,
+    category?: Category | null,
+    user: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreatePostMutationVariables = {
+  input: CreatePostInput,
+  condition?: ModelPostConditionInput | null,
+};
+
+export type CreatePostMutation = {
+  createPost?:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    content: string,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdatePostMutationVariables = {
+  input: UpdatePostInput,
+  condition?: ModelPostConditionInput | null,
+};
+
+export type UpdatePostMutation = {
+  updatePost?:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    content: string,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeletePostMutationVariables = {
+  input: DeletePostInput,
+  condition?: ModelPostConditionInput | null,
+};
+
+export type DeletePostMutation = {
+  deletePost?:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    content: string,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type CreateUserChatRoomMutationVariables = {
   input: CreateUserChatRoomInput,
   condition?: ModelUserChatRoomConditionInput | null,
@@ -3127,6 +3555,10 @@ export type CreateUserChatRoomMutation = {
               __typename: "ModelUserChatRoomConnection",
               nextToken?: string | null,
             } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
+              nextToken?: string | null,
+            } | null,
             createdAt: string,
             updatedAt: string,
           },
@@ -3168,6 +3600,23 @@ export type CreateUserChatRoomMutation = {
             updatedAt: string,
             chatRoomLastMessageId?: string | null,
           },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      flashCards?:  {
+        __typename: "ModelFlashCardsConnection",
+        items:  Array< {
+          __typename: "FlashCards",
+          id: string,
+          title: string,
+          description?: string | null,
+          imageUrl?: string | null,
+          audioUrl?: string | null,
+          level?: EnglishLevel | null,
+          category?: Category | null,
+          user: string,
           createdAt: string,
           updatedAt: string,
         } | null >,
@@ -3245,6 +3694,10 @@ export type CreateUserChatRoomMutation = {
             artificialInteligenceUser?: boolean | null,
             ChatRooms?:  {
               __typename: "ModelUserChatRoomConnection",
+              nextToken?: string | null,
+            } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
               nextToken?: string | null,
             } | null,
             createdAt: string,
@@ -3412,6 +3865,10 @@ export type UpdateUserChatRoomMutation = {
               __typename: "ModelUserChatRoomConnection",
               nextToken?: string | null,
             } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
+              nextToken?: string | null,
+            } | null,
             createdAt: string,
             updatedAt: string,
           },
@@ -3453,6 +3910,23 @@ export type UpdateUserChatRoomMutation = {
             updatedAt: string,
             chatRoomLastMessageId?: string | null,
           },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      flashCards?:  {
+        __typename: "ModelFlashCardsConnection",
+        items:  Array< {
+          __typename: "FlashCards",
+          id: string,
+          title: string,
+          description?: string | null,
+          imageUrl?: string | null,
+          audioUrl?: string | null,
+          level?: EnglishLevel | null,
+          category?: Category | null,
+          user: string,
           createdAt: string,
           updatedAt: string,
         } | null >,
@@ -3530,6 +4004,10 @@ export type UpdateUserChatRoomMutation = {
             artificialInteligenceUser?: boolean | null,
             ChatRooms?:  {
               __typename: "ModelUserChatRoomConnection",
+              nextToken?: string | null,
+            } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
               nextToken?: string | null,
             } | null,
             createdAt: string,
@@ -3697,6 +4175,10 @@ export type DeleteUserChatRoomMutation = {
               __typename: "ModelUserChatRoomConnection",
               nextToken?: string | null,
             } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
+              nextToken?: string | null,
+            } | null,
             createdAt: string,
             updatedAt: string,
           },
@@ -3738,6 +4220,23 @@ export type DeleteUserChatRoomMutation = {
             updatedAt: string,
             chatRoomLastMessageId?: string | null,
           },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      flashCards?:  {
+        __typename: "ModelFlashCardsConnection",
+        items:  Array< {
+          __typename: "FlashCards",
+          id: string,
+          title: string,
+          description?: string | null,
+          imageUrl?: string | null,
+          audioUrl?: string | null,
+          level?: EnglishLevel | null,
+          category?: Category | null,
+          user: string,
           createdAt: string,
           updatedAt: string,
         } | null >,
@@ -3815,6 +4314,10 @@ export type DeleteUserChatRoomMutation = {
             artificialInteligenceUser?: boolean | null,
             ChatRooms?:  {
               __typename: "ModelUserChatRoomConnection",
+              nextToken?: string | null,
+            } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
               nextToken?: string | null,
             } | null,
             createdAt: string,
@@ -3992,6 +4495,23 @@ export type GetUserQuery = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -4080,6 +4600,23 @@ export type GetUserQuery = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    flashCards?:  {
+      __typename: "ModelFlashCardsConnection",
+      items:  Array< {
+        __typename: "FlashCards",
+        id: string,
+        title: string,
+        description?: string | null,
+        imageUrl?: string | null,
+        audioUrl?: string | null,
+        level?: EnglishLevel | null,
+        category?: Category | null,
+        user: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -4141,6 +4678,10 @@ export type ListUsersQuery = {
               __typename: "ModelUserChatRoomConnection",
               nextToken?: string | null,
             } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
+              nextToken?: string | null,
+            } | null,
             createdAt: string,
             updatedAt: string,
           },
@@ -4182,6 +4723,23 @@ export type ListUsersQuery = {
             updatedAt: string,
             chatRoomLastMessageId?: string | null,
           },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      flashCards?:  {
+        __typename: "ModelFlashCardsConnection",
+        items:  Array< {
+          __typename: "FlashCards",
+          id: string,
+          title: string,
+          description?: string | null,
+          imageUrl?: string | null,
+          audioUrl?: string | null,
+          level?: EnglishLevel | null,
+          category?: Category | null,
+          user: string,
           createdAt: string,
           updatedAt: string,
         } | null >,
@@ -4695,6 +5253,23 @@ export type GetChatRoomQuery = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -4919,6 +5494,10 @@ export type ListChatRoomsQuery = {
             artificialInteligenceUser?: boolean | null,
             ChatRooms?:  {
               __typename: "ModelUserChatRoomConnection",
+              nextToken?: string | null,
+            } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
               nextToken?: string | null,
             } | null,
             createdAt: string,
@@ -5315,6 +5894,118 @@ export type AttachmentsByChatroomIDQuery = {
   } | null,
 };
 
+export type GetFlashCardsQueryVariables = {
+  id: string,
+};
+
+export type GetFlashCardsQuery = {
+  getFlashCards?:  {
+    __typename: "FlashCards",
+    id: string,
+    title: string,
+    description?: string | null,
+    imageUrl?: string | null,
+    audioUrl?: string | null,
+    level?: EnglishLevel | null,
+    category?: Category | null,
+    user: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListFlashCardsQueryVariables = {
+  filter?: ModelFlashCardsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListFlashCardsQuery = {
+  listFlashCards?:  {
+    __typename: "ModelFlashCardsConnection",
+    items:  Array< {
+      __typename: "FlashCards",
+      id: string,
+      title: string,
+      description?: string | null,
+      imageUrl?: string | null,
+      audioUrl?: string | null,
+      level?: EnglishLevel | null,
+      category?: Category | null,
+      user: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type FlashCardsByUserQueryVariables = {
+  user: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFlashCardsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FlashCardsByUserQuery = {
+  flashCardsByUser?:  {
+    __typename: "ModelFlashCardsConnection",
+    items:  Array< {
+      __typename: "FlashCards",
+      id: string,
+      title: string,
+      description?: string | null,
+      imageUrl?: string | null,
+      audioUrl?: string | null,
+      level?: EnglishLevel | null,
+      category?: Category | null,
+      user: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetPostQueryVariables = {
+  id: string,
+};
+
+export type GetPostQuery = {
+  getPost?:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    content: string,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListPostsQueryVariables = {
+  filter?: ModelPostFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListPostsQuery = {
+  listPosts?:  {
+    __typename: "ModelPostConnection",
+    items:  Array< {
+      __typename: "Post",
+      id: string,
+      title: string,
+      content: string,
+      images?: Array< string | null > | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetUserChatRoomQueryVariables = {
   id: string,
 };
@@ -5372,6 +6063,10 @@ export type GetUserChatRoomQuery = {
               __typename: "ModelUserChatRoomConnection",
               nextToken?: string | null,
             } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
+              nextToken?: string | null,
+            } | null,
             createdAt: string,
             updatedAt: string,
           },
@@ -5413,6 +6108,23 @@ export type GetUserChatRoomQuery = {
             updatedAt: string,
             chatRoomLastMessageId?: string | null,
           },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      flashCards?:  {
+        __typename: "ModelFlashCardsConnection",
+        items:  Array< {
+          __typename: "FlashCards",
+          id: string,
+          title: string,
+          description?: string | null,
+          imageUrl?: string | null,
+          audioUrl?: string | null,
+          level?: EnglishLevel | null,
+          category?: Category | null,
+          user: string,
           createdAt: string,
           updatedAt: string,
         } | null >,
@@ -5490,6 +6202,10 @@ export type GetUserChatRoomQuery = {
             artificialInteligenceUser?: boolean | null,
             ChatRooms?:  {
               __typename: "ModelUserChatRoomConnection",
+              nextToken?: string | null,
+            } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
               nextToken?: string | null,
             } | null,
             createdAt: string,
@@ -5668,6 +6384,23 @@ export type ListUserChatRoomsQuery = {
               updatedAt: string,
               chatRoomLastMessageId?: string | null,
             },
+            createdAt: string,
+            updatedAt: string,
+          } | null >,
+          nextToken?: string | null,
+        } | null,
+        flashCards?:  {
+          __typename: "ModelFlashCardsConnection",
+          items:  Array< {
+            __typename: "FlashCards",
+            id: string,
+            title: string,
+            description?: string | null,
+            imageUrl?: string | null,
+            audioUrl?: string | null,
+            level?: EnglishLevel | null,
+            category?: Category | null,
+            user: string,
             createdAt: string,
             updatedAt: string,
           } | null >,
@@ -5886,6 +6619,23 @@ export type UserChatRoomsByUserIdQuery = {
           } | null >,
           nextToken?: string | null,
         } | null,
+        flashCards?:  {
+          __typename: "ModelFlashCardsConnection",
+          items:  Array< {
+            __typename: "FlashCards",
+            id: string,
+            title: string,
+            description?: string | null,
+            imageUrl?: string | null,
+            audioUrl?: string | null,
+            level?: EnglishLevel | null,
+            category?: Category | null,
+            user: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null >,
+          nextToken?: string | null,
+        } | null,
         createdAt: string,
         updatedAt: string,
       },
@@ -6099,6 +6849,23 @@ export type UserChatRoomsByChatRoomIdQuery = {
           } | null >,
           nextToken?: string | null,
         } | null,
+        flashCards?:  {
+          __typename: "ModelFlashCardsConnection",
+          items:  Array< {
+            __typename: "FlashCards",
+            id: string,
+            title: string,
+            description?: string | null,
+            imageUrl?: string | null,
+            audioUrl?: string | null,
+            level?: EnglishLevel | null,
+            category?: Category | null,
+            user: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null >,
+          nextToken?: string | null,
+        } | null,
         createdAt: string,
         updatedAt: string,
       },
@@ -6296,6 +7063,23 @@ export type OnCreateUserSubscription = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -6379,6 +7163,23 @@ export type OnCreateUserSubscription = {
           updatedAt: string,
           chatRoomLastMessageId?: string | null,
         },
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    flashCards?:  {
+      __typename: "ModelFlashCardsConnection",
+      items:  Array< {
+        __typename: "FlashCards",
+        id: string,
+        title: string,
+        description?: string | null,
+        imageUrl?: string | null,
+        audioUrl?: string | null,
+        level?: EnglishLevel | null,
+        category?: Category | null,
+        user: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -6449,6 +7250,23 @@ export type OnUpdateUserSubscription = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -6537,6 +7355,23 @@ export type OnUpdateUserSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    flashCards?:  {
+      __typename: "ModelFlashCardsConnection",
+      items:  Array< {
+        __typename: "FlashCards",
+        id: string,
+        title: string,
+        description?: string | null,
+        imageUrl?: string | null,
+        audioUrl?: string | null,
+        level?: EnglishLevel | null,
+        category?: Category | null,
+        user: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -6597,6 +7432,23 @@ export type OnDeleteUserSubscription = {
               id: string,
               userId: string,
               chatRoomId: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
               createdAt: string,
               updatedAt: string,
             } | null >,
@@ -6685,6 +7537,23 @@ export type OnDeleteUserSubscription = {
           updatedAt: string,
           chatRoomLastMessageId?: string | null,
         },
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    flashCards?:  {
+      __typename: "ModelFlashCardsConnection",
+      items:  Array< {
+        __typename: "FlashCards",
+        id: string,
+        title: string,
+        description?: string | null,
+        imageUrl?: string | null,
+        audioUrl?: string | null,
+        level?: EnglishLevel | null,
+        category?: Category | null,
+        user: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -7217,6 +8086,23 @@ export type OnCreateChatRoomSubscription = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -7447,6 +8333,23 @@ export type OnUpdateChatRoomSubscription = {
             } | null >,
             nextToken?: string | null,
           } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
           createdAt: string,
           updatedAt: string,
         },
@@ -7672,6 +8575,23 @@ export type OnDeleteChatRoomSubscription = {
               id: string,
               userId: string,
               chatRoomId: string,
+              createdAt: string,
+              updatedAt: string,
+            } | null >,
+            nextToken?: string | null,
+          } | null,
+          flashCards?:  {
+            __typename: "ModelFlashCardsConnection",
+            items:  Array< {
+              __typename: "FlashCards",
+              id: string,
+              title: string,
+              description?: string | null,
+              imageUrl?: string | null,
+              audioUrl?: string | null,
+              level?: EnglishLevel | null,
+              category?: Category | null,
+              user: string,
               createdAt: string,
               updatedAt: string,
             } | null >,
@@ -8006,6 +8926,114 @@ export type OnDeleteAttachmentSubscription = {
   } | null,
 };
 
+export type OnCreateFlashCardsSubscriptionVariables = {
+  filter?: ModelSubscriptionFlashCardsFilterInput | null,
+};
+
+export type OnCreateFlashCardsSubscription = {
+  onCreateFlashCards?:  {
+    __typename: "FlashCards",
+    id: string,
+    title: string,
+    description?: string | null,
+    imageUrl?: string | null,
+    audioUrl?: string | null,
+    level?: EnglishLevel | null,
+    category?: Category | null,
+    user: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateFlashCardsSubscriptionVariables = {
+  filter?: ModelSubscriptionFlashCardsFilterInput | null,
+};
+
+export type OnUpdateFlashCardsSubscription = {
+  onUpdateFlashCards?:  {
+    __typename: "FlashCards",
+    id: string,
+    title: string,
+    description?: string | null,
+    imageUrl?: string | null,
+    audioUrl?: string | null,
+    level?: EnglishLevel | null,
+    category?: Category | null,
+    user: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteFlashCardsSubscriptionVariables = {
+  filter?: ModelSubscriptionFlashCardsFilterInput | null,
+};
+
+export type OnDeleteFlashCardsSubscription = {
+  onDeleteFlashCards?:  {
+    __typename: "FlashCards",
+    id: string,
+    title: string,
+    description?: string | null,
+    imageUrl?: string | null,
+    audioUrl?: string | null,
+    level?: EnglishLevel | null,
+    category?: Category | null,
+    user: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreatePostSubscriptionVariables = {
+  filter?: ModelSubscriptionPostFilterInput | null,
+};
+
+export type OnCreatePostSubscription = {
+  onCreatePost?:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    content: string,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdatePostSubscriptionVariables = {
+  filter?: ModelSubscriptionPostFilterInput | null,
+};
+
+export type OnUpdatePostSubscription = {
+  onUpdatePost?:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    content: string,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeletePostSubscriptionVariables = {
+  filter?: ModelSubscriptionPostFilterInput | null,
+};
+
+export type OnDeletePostSubscription = {
+  onDeletePost?:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    content: string,
+    images?: Array< string | null > | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type OnCreateUserChatRoomSubscriptionVariables = {
   filter?: ModelSubscriptionUserChatRoomFilterInput | null,
 };
@@ -8063,6 +9091,10 @@ export type OnCreateUserChatRoomSubscription = {
               __typename: "ModelUserChatRoomConnection",
               nextToken?: string | null,
             } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
+              nextToken?: string | null,
+            } | null,
             createdAt: string,
             updatedAt: string,
           },
@@ -8104,6 +9136,23 @@ export type OnCreateUserChatRoomSubscription = {
             updatedAt: string,
             chatRoomLastMessageId?: string | null,
           },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      flashCards?:  {
+        __typename: "ModelFlashCardsConnection",
+        items:  Array< {
+          __typename: "FlashCards",
+          id: string,
+          title: string,
+          description?: string | null,
+          imageUrl?: string | null,
+          audioUrl?: string | null,
+          level?: EnglishLevel | null,
+          category?: Category | null,
+          user: string,
           createdAt: string,
           updatedAt: string,
         } | null >,
@@ -8181,6 +9230,10 @@ export type OnCreateUserChatRoomSubscription = {
             artificialInteligenceUser?: boolean | null,
             ChatRooms?:  {
               __typename: "ModelUserChatRoomConnection",
+              nextToken?: string | null,
+            } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
               nextToken?: string | null,
             } | null,
             createdAt: string,
@@ -8347,6 +9400,10 @@ export type OnUpdateUserChatRoomSubscription = {
               __typename: "ModelUserChatRoomConnection",
               nextToken?: string | null,
             } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
+              nextToken?: string | null,
+            } | null,
             createdAt: string,
             updatedAt: string,
           },
@@ -8388,6 +9445,23 @@ export type OnUpdateUserChatRoomSubscription = {
             updatedAt: string,
             chatRoomLastMessageId?: string | null,
           },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      flashCards?:  {
+        __typename: "ModelFlashCardsConnection",
+        items:  Array< {
+          __typename: "FlashCards",
+          id: string,
+          title: string,
+          description?: string | null,
+          imageUrl?: string | null,
+          audioUrl?: string | null,
+          level?: EnglishLevel | null,
+          category?: Category | null,
+          user: string,
           createdAt: string,
           updatedAt: string,
         } | null >,
@@ -8465,6 +9539,10 @@ export type OnUpdateUserChatRoomSubscription = {
             artificialInteligenceUser?: boolean | null,
             ChatRooms?:  {
               __typename: "ModelUserChatRoomConnection",
+              nextToken?: string | null,
+            } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
               nextToken?: string | null,
             } | null,
             createdAt: string,
@@ -8631,6 +9709,10 @@ export type OnDeleteUserChatRoomSubscription = {
               __typename: "ModelUserChatRoomConnection",
               nextToken?: string | null,
             } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
+              nextToken?: string | null,
+            } | null,
             createdAt: string,
             updatedAt: string,
           },
@@ -8672,6 +9754,23 @@ export type OnDeleteUserChatRoomSubscription = {
             updatedAt: string,
             chatRoomLastMessageId?: string | null,
           },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      flashCards?:  {
+        __typename: "ModelFlashCardsConnection",
+        items:  Array< {
+          __typename: "FlashCards",
+          id: string,
+          title: string,
+          description?: string | null,
+          imageUrl?: string | null,
+          audioUrl?: string | null,
+          level?: EnglishLevel | null,
+          category?: Category | null,
+          user: string,
           createdAt: string,
           updatedAt: string,
         } | null >,
@@ -8749,6 +9848,10 @@ export type OnDeleteUserChatRoomSubscription = {
             artificialInteligenceUser?: boolean | null,
             ChatRooms?:  {
               __typename: "ModelUserChatRoomConnection",
+              nextToken?: string | null,
+            } | null,
+            flashCards?:  {
+              __typename: "ModelFlashCardsConnection",
               nextToken?: string | null,
             } | null,
             createdAt: string,

@@ -3,11 +3,13 @@ import { TypedUseSelectorHook, useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import userReducer from "./reducer/userReducer";
 import uiReducer from "./reducer/uiReducer";
+import chatMessageReducer from "./reducer/chatMessageReducer";
 
 const store = configureStore({
   reducer: {
     user: userReducer,
     ui: uiReducer,
+    chatMessageReducer: chatMessageReducer,
   },
 });
 

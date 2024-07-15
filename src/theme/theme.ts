@@ -5,6 +5,7 @@ const scale = (size: number) => Math.ceil((width / 375) * size);
 
 export const theme = {
   colors: {
+    black:"#191919",
     primary: "#6949FF",
     primary400: "#876DFF",
     primary300: "#A592FF",

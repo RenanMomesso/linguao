@@ -1,16 +1,21 @@
-import { Pressable, Alert } from "react-native";
-import React from "react";
+import { Pressable, Alert, View } from "react-native";
+import React, { useState, useCallback, useRef } from "react";
 import calculateDuration from "@/utils/calculateDurationAudio";
-import { Row } from "@/theme/GlobalComponents";
+import { Column, Row } from "@/theme/GlobalComponents";
 import Avatar from "@/components/Avatar/Avatar";
 import Button from "@/components/Button/Button";
 import AudioPlay from "@/components/AudioPlay/AudioPlay";
 import Text from "@/components/Text";
+import BottomSheet, {
+  BottomSheetRefProps,
+} from "@/components/BottomSheet/BottomSheet";
+import { SettingsIcon } from "@/assets/images";
+import { Message } from "../../../../API";
 
 interface ChatMessageItemAiAudio {
   audioText: string;
   audioIsPlaying: boolean;
-  handleLongPress: () => void;
+  handleLongPress?: () => void;
   setPlayAudio: () => void;
   audioPath: string;
 }
@@ -23,6 +28,7 @@ const ChatMessageItemAiAudio = ({
 }: ChatMessageItemAiAudio) => {
   const [showTranslate, setShowTranslate] = React.useState(false);
   const [showTranscribe, setShowTranscribe] = React.useState(false);
+  const ref = React.useRef<BottomSheetRefProps>(null);
 
   const handlePressTranscribe = () => {
     setShowTranscribe(!showTranscribe);
@@ -30,36 +36,38 @@ const ChatMessageItemAiAudio = ({
 
   return (
     <>
-      <Pressable onLongPress={handleLongPress} style={{ zIndex: 1 }}>
+      <Pressable onLongPress={handleLongPress} style={{ zIndex: 1, gap: 10 }}>
         <Row
           style={{
-            padding: 10,
             borderRadius: 12,
             alignSelf: "flex-start",
             width: 300,
           }}>
-          <Avatar size="small" />
-          {/* <Waveform audioPath={item.text} duration={10} /> */}
-          <AudioPlay
-            audioPath={audioPath}
-          />
+          <AudioPlay audioPath={audioPath} />
         </Row>
-        <Row>
+        <Column style={{ alignItems: "flex-start" }}>
           <Button
+            icon={<SettingsIcon />}
+            fullWidth
+            buttonSize="small"
             backgroundColor="primary"
-            buttonText="Translate"
+            buttonText="Menu"
             onPressButton={() => {
-              Alert.alert("Translate", "Translate");
+              handleLongPress && handleLongPress();
             }}
             textColor="white"
           />
+        </Column>
+        {/* <Row>
+          
           <Button
+            buttonSize="small"
             backgroundColor="primary"
             buttonText="Transcribe"
             onPressButton={handlePressTranscribe}
             textColor="white"
           />
-        </Row>
+        </Row> */}
       </Pressable>
       {showTranscribe && (
         <Text size="text" align="left">

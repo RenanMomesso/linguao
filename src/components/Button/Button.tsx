@@ -13,6 +13,9 @@ export interface ButtonProps extends TouchableOpacityProps {
   onPressButton: () => void;
   backgroundColor: keyof typeof theme.colors;
   textColor: keyof typeof theme.colors;
+  buttonSize?: "small" | "medium" | "large";
+  fullWidth?: boolean;
+  icon?: React.ReactNode;
 }
 
 const Button = ({
@@ -20,22 +23,36 @@ const Button = ({
   onPressButton,
   backgroundColor,
   textColor,
+  buttonSize = "medium",
+  fullWidth = false,
+  icon,
   ...rest
 }: ButtonProps) => {
   return (
     <TouchableOpacity
       id="custom-button"
       testID="custom-button"
-      
       activeOpacity={0.9}
       {...rest}
       onPress={onPressButton}
       style={{
+        flex: fullWidth ? 1 : 0,
         backgroundColor: theme.colors[backgroundColor].toString(),
-        padding: 16,
+        padding: buttonSize === "small" ? 5 : buttonSize === "medium" ? 10 : 15,
         borderRadius: 8,
         alignItems: "center",
+        flexDirection: "row",
+        width: fullWidth
+          ? "100%"
+          : buttonSize === "small"
+          ? 100
+          : buttonSize === "medium"
+          ? 150
+          : 200,
+        height: buttonSize === "small" ? 40 : buttonSize === "medium" ? 50 : 60,
+        justifyContent: "center",
       }}>
+      {icon && <View style={{ marginRight: 10 }}>{icon}</View>}
       <TextComponent color={textColor} weight="bold">
         {buttonText}
       </TextComponent>

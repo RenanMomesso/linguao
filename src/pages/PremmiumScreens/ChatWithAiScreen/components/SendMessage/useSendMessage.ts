@@ -1,49 +1,30 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  TextInput,
-  Alert,
-  TouchableOpacity,
-  Pressable,
-  useColorScheme,
-} from "react-native";
-import styled from "styled-components/native";
-import { SendIcon, MicrophoneIcon } from "@/assets/images";
-import { theme } from "@/theme/theme";
-import Text from "@/components/Text";
-import { sendFileToStorage } from "@/services/sendFileToStorage";
 import {
   AiReplyMutationMutation,
   AiReplyMutationMutationVariables,
   MessageType,
-  TextToSpeechQuery,
-  TextToSpeechQueryVariables,
-} from "../../../../API";
-import { useAppSelector } from "@/store";
-import { generateRandomValue } from "@/utils/generateRandomValue";
-import {
-  convertAudioToText,
-  generateSpeechAndUploadToS3,
-  sendMessageToOpenAI,
-} from "@/services/openAi.service";
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
+} from "@/API";
 import { aiReplyMutation } from "@/graphql/mutations";
-import { textToSpeech } from "@/graphql/queries";
+import { useAppSelector } from "@/store";
+import { gql, useMutation } from "@apollo/client";
+import { useEffect, useState } from "react";
+import { Alert, useColorScheme } from "react-native";
 import AudioRecorderPlayer from "react-native-audio-recorder-player";
-import Animated, {
+import { Gesture } from "react-native-gesture-handler";
+import {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { GestureDetector, Gesture } from "react-native-gesture-handler";
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
-interface SendMessageProps {
-  aiId?: string;
+const useSendMessage = ({
+  loadingMessages,
+  handleCreateMessage,
+  aiId,
+}: {
   loadingMessages: boolean;
-  setLoadingMessages: (loading: boolean) => void;
   handleCreateMessage: (
     text: string,
     showMenu: boolean,
@@ -53,14 +34,8 @@ interface SendMessageProps {
     userSender?: string,
     userName?: string,
   ) => void;
-}
-
-const SendMessage = ({
-  handleCreateMessage,
-  aiId,
-  setLoadingMessages,
-  loadingMessages,
-}: SendMessageProps) => {
+  aiId?: string;
+}) => {
   const [createAudioMutation] = useMutation<
     AiReplyMutationMutation,
     AiReplyMutationMutationVariables
@@ -84,14 +59,16 @@ const SendMessage = ({
     let interval: any;
     if (isRecording) {
       interval = setInterval(() => {
-         setRecordingDuration((prev) => {
+        setRecordingDuration(prev => {
           const [minutes, seconds] = prev.split(":");
           const totalSeconds = parseInt(minutes) * 60 + parseInt(seconds);
           const newSeconds = totalSeconds + 1;
           const newMinutes = Math.floor(newSeconds / 60);
           const remainingSeconds = newSeconds % 60;
-          return `${newMinutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
-         });
+          return `${newMinutes}:${
+            remainingSeconds < 10 ? "0" : ""
+          }${remainingSeconds}`;
+        });
       }, 1000);
     } else {
       clearInterval(interval);
@@ -154,7 +131,6 @@ const SendMessage = ({
   const handleCreateMessageTrigger = async () => {
     if (loadingMessages) return;
     try {
-      setLoadingMessages(true);
       handleCreateMessage(message, false, MessageType.TEXT, 0);
       const { data } = await createAudioMutation({
         variables: {
@@ -176,83 +152,34 @@ const SendMessage = ({
     } catch (error) {
       Alert.alert("Error", "Error sending message");
     } finally {
-      setLoadingMessages(false);
+      //   setLoadingMessages(false);
     }
   };
-
-  return (
-    <Container style={{ flexDirection: "row", alignItems: "center" }}>
-      {isRecording && (
-        <View
-          style={{
-            backgroundColor: "lightblue",
-            bottom: 70,
-            flex: 1,
-            width: "100%",
-            position: "absolute",
-            zIndex: 99,
-          }}>
-          <Pressable onPress={handleSendAudio}>
-            <Text>{recordingDuration}</Text>
-          </Pressable>
-        </View>
-      )}
-      {!isRecording && (
-        <StyledTextInput
-          style={{ height: 50, color: color === "light" ? "black" : "white", fontFamily: theme.fontWeight.semibold}}
-          value={message}
-          onChangeText={text => setMessage(text)}
-          multiline
-          editable={!loadingMessages}
-          placeholder="Type a message"
-        />
-      )}
-      <SendButton
-        onPress={
-          !!message.length ? handleCreateMessageTrigger : () => setMessage("")
-        }
-        disabled={loadingMessages}>
-        {!!message.length ? (
-          <SendIcon />
-        ) : (
-          <GestureDetector gesture={handleGestureEvent}>
-            <Animated.View
-              style={[
-                animatedButtonStyle,
-                {
-                  backgroundColor: theme.colors.greyScale400,
-                  padding: 12,
-                  borderRadius: 50,
-                },
-              ]}>
-              <MicrophoneIcon />
-            </Animated.View>
-          </GestureDetector>
-        )}
-      </SendButton>
-    </Container>
-  );
+  return {
+    message,
+    setMessage,
+    showAudioRecording,
+    setShowAudioRecording,
+    isRecording,
+    setIsRecording,
+    recordingDuration,
+    setRecordingDuration,
+    audioPath,
+    setAudioPath,
+    buttonSize,
+    positionX,
+    positionY,
+    buttonPressed,
+    maxLeftDistance,
+    maxUpDistance,
+    maxRightDistance,
+    startRecognizing,
+    stopRecognizing,
+    handleSendAudio,
+    handleGestureEvent,
+    animatedButtonStyle,
+    handleCreateMessageTrigger,
+  };
 };
 
-export default SendMessage;
-
-const Container = styled.View`
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  flex-direction: row;
-  align-items: flex-end;
-`;
-
-const StyledTextInput = styled(TextInput)`
-  flex: 1;
-  align-items: flex-start;
-  max-width: 85%;
-  border-radius: 10px;
-  background-color: ${theme.colors.greyScale100};
-`;
-
-const SendButton = styled(TouchableOpacity)`
-  margin-left: auto;
-  padding: 10px;
-`;
+export default useSendMessage;
