@@ -48,12 +48,14 @@ const WelcomeScreen = () => {
           onPressButton={navigateToSelectLanguageScreen}
           backgroundColor="primary"
           textColor="white"
+          fullWidth
         />
         <Button
           buttonText="I ALREADY HAVE AN ACCOUNT"
           onPressButton={() => {
             navigation.navigate("SigninScreen");
           }}
+          fullWidth
           backgroundColor="primary100"
           textColor="primary"
         />

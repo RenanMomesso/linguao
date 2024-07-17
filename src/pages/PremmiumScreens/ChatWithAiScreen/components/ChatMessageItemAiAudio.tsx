@@ -1,5 +1,5 @@
 import { Pressable, Alert, View } from "react-native";
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, memo } from "react";
 import calculateDuration from "@/utils/calculateDurationAudio";
 import { Column, Row } from "@/theme/GlobalComponents";
 import Avatar from "@/components/Avatar/Avatar";
@@ -78,4 +78,4 @@ const ChatMessageItemAiAudio = ({
   );
 };
 
-export default ChatMessageItemAiAudio;
+export default memo(ChatMessageItemAiAudio);

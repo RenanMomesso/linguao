@@ -37,12 +37,13 @@ const SendMessage = ({
     isRecording,
     message,
     recordingDuration,
+    audioPath,
     setMessage,
   } = useSendMessage({ loadingMessages, handleCreateMessage, aiId });
 
   return (
     <Container style={{ flexDirection: "row", alignItems: "center" }}>
-      {isRecording && (
+      {isRecording || audioPath && (
         <View
           style={{
             backgroundColor: "lightblue",
@@ -58,19 +59,22 @@ const SendMessage = ({
         </View>
       )}
       {!isRecording && (
-        <StyledTextInput
-          style={{
-            height: 50,
-            color: deviceColorSchema === "light" ? "black" : "white",
-            fontFamily: theme.fontWeight.semibold,
-            borderRadius:50
-          }}
-          value={message}
-          onChangeText={text => setMessage(text)}
-          multiline
-          editable={!loadingMessages}
-          placeholder="Type a message"
-        />
+        <>
+          <StyledTextInput
+            style={{
+              height: 50,
+              color: deviceColorSchema === "light" ? "black" : "white",
+              fontFamily: theme.fontWeight.semibold,
+              borderRadius: 50,
+            }}
+            value={message}
+            onChangeText={text => setMessage(text)}
+            multiline
+            editable={!loadingMessages}
+            placeholder="Type a message"
+          />
+          <Text onPress={handleCreateMessageTrigger}>{audioPath}</Text>
+        </>
       )}
       <SendButton
         onPress={
@@ -93,7 +97,7 @@ const SendMessage = ({
                   alignItems: "center",
                 },
               ]}>
-              <MicrophoneIcon color="white" height={25}/>
+              <MicrophoneIcon color="white" height={25} />
             </Animated.View>
           </GestureDetector>
         )}

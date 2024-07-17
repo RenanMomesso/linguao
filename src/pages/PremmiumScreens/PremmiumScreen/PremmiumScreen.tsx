@@ -47,6 +47,7 @@ const PremmiumScreen = () => {
         <PressableCard
           imgUrl={require("@/assets/images/chatWithAI.webp")}
           title="Flashcards"
+          navigationTo="MyFlashCardsScreen"
         />
         <PressableCard
           imgUrl={require("@/assets/images/chatWithAI.webp")}

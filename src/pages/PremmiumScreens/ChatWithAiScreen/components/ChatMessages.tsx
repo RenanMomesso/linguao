@@ -105,7 +105,7 @@ const ChatMessages = ({
             alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
           }}>
           <Text weight="semibold" size="text" color="black" align="justify">
-            {item.text}
+            {item.text}asdasd 
           </Text>
         </Row>
       );
@@ -119,7 +119,6 @@ const ChatMessages = ({
   const onPress = useCallback((messageItem: Message) => {
     const isActive = ref?.current?.isActive();
     if (isActive) {
-      
       ref?.current?.scrollTo(0);
       dispatch(setChatMessage({} as Message));
     } else {
@@ -128,11 +127,8 @@ const ChatMessages = ({
     }
   }, []);
 
-  const {id} = useAppSelector(state => state.chatMessageReducer.messages)
-
   return (
     <>
-      <Text>{JSON.stringify(id, undefined,3)}</Text>
       <BottomSheet ref={ref}>
         <View style={{ flex: 1, backgroundColor: "orange" }}>
           <BottomSheetContent />

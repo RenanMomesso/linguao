@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   TouchableWithoutFeedback,
   StyleSheet,
   TextInput,
   TouchableOpacity,
   Alert,
+  Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ReverseIcon } from "@/assets/images";
@@ -23,10 +23,36 @@ import {
   CreateFlashCardsMutation,
   CreateFlashCardsMutationVariables,
   EnglishLevel,
-} from "@/API";
+} from "../../../API";
 import { createFlashCards } from "@/graphql/mutations";
+import Text from "@/components/Text";
+import { Column } from "@/theme/GlobalComponents";
+import { theme } from "@/theme/theme";
 
-const CreateFlashCardModal = () => {
+interface FlashCardModalProps {
+  route: {
+    params: {
+      title: string;
+      description: string;
+      audioUrl: string;
+      imageUrl: string;
+    };
+  };
+}
+
+const CreateFlashCardModal = ({ route }: FlashCardModalProps) => {
+  const cardInfo = route?.params;
+  const title = cardInfo?.title;
+  const description = cardInfo?.description;
+  const audioUrl = cardInfo?.audioUrl;
+  const imageUrl = cardInfo?.imageUrl;
+  const [cardInput, setCardInput] = useState({
+    title,
+    description,
+    audioUrl,
+    imageUrl,
+  });
+
   const { user } = useAppSelector(state => state.user);
   const [CreateFlashCardsDocument] = useMutation<
     CreateFlashCardsMutation,
@@ -35,7 +61,6 @@ const CreateFlashCardModal = () => {
   const navigation = useNavigation();
   const [isFlipped, setIsFlipped] = useState(false);
   const cardAnimatedValue = useSharedValue(0);
-  const chatMessageState = useAppSelector(state => state.chatMessageReducer);
 
   const cardInterpolateStyle = useAnimatedStyle(() => {
     return {
@@ -61,10 +86,10 @@ const CreateFlashCardModal = () => {
       const { data, errors } = await CreateFlashCardsDocument({
         variables: {
           input: {
-            title: chatMessageState.messages.audioText?.slice(0, 25) || "",
+            title: cardInput.title || "",
             user: String(user.id),
-            audioUrl: chatMessageState.messages.text || "",
-            description: chatMessageState.messages.audioText || "",
+            audioUrl: cardInput.description || "",
+            description: cardInput.description || "",
             category: Category.LISTENING,
             imageUrl: "",
             level: EnglishLevel.C2,
@@ -75,6 +100,7 @@ const CreateFlashCardModal = () => {
         console.log(errors);
         return;
       }
+      console.log("🚀 ~ handleSaveFlashCard ~ data:", data);
       Alert.alert("Flash card created successfully");
     } catch (error) {
       console.log(error);
@@ -84,21 +110,26 @@ const CreateFlashCardModal = () => {
   return (
     <TouchableWithoutFeedback onPress={handleClose}>
       <View style={styles.overlay}>
+        <Pressable
+          onPress={handleClose}
+          style={{
+            borderWidth: 1,
+            borderRadius: 50,
+            padding: 1,
+            paddingHorizontal: 5,
+            backgroundColor: "white",
+            position: "absolute",
+            top: 20,
+            right: 20,
+          }}>
+          <Text size="heading4" weight="black">
+            X
+          </Text>
+        </Pressable>
         <TouchableWithoutFeedback>
           <Animated.View style={[styles.modal, cardInterpolateStyle]}>
             {isFlipped ? (
               <>
-                <TouchableOpacity
-                  onPress={handleClose}
-                  style={styles.closeButton}>
-                  <Text>X</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={flipCard} style={styles.flipButton}>
-                  <Text style={styles.flipText}>
-                    {/* <ReverseIcon width={25} height={25} /> */}
-                    reverse
-                  </Text>
-                </TouchableOpacity>
                 <View
                   style={[
                     styles.cardContainer,
@@ -108,21 +139,13 @@ const CreateFlashCardModal = () => {
                     <TextInput
                       style={styles.input}
                       placeholder="Title"
-                      defaultValue={chatMessageState.messages.audioText?.slice(
-                        0,
-                        25,
-                      )}
+                      defaultValue={cardInput.title}
                     />
                   </Animated.View>
                 </View>
               </>
             ) : (
               <>
-                <TouchableOpacity
-                  onPress={handleClose}
-                  style={styles.closeButton}>
-                    <Text>X</Text>
-                </TouchableOpacity>
                 <View
                   style={[
                     styles.cardContainer,
@@ -135,51 +158,59 @@ const CreateFlashCardModal = () => {
                   <Animated.View style={[styles.card, styles.cardFront]}>
                     <TextInput
                       style={styles.input}
-                      placeholder="Title"
-                      defaultValue={chatMessageState.messages.audioText?.slice(
-                        0,
-                        25,
-                      )}
+                      maxLength={25}
+                      placeholder="Title of your flashcard"
+                      defaultValue={cardInput.title?.slice(0, 25)}
                     />
                     <TextInput
                       style={[styles.input, styles.description]}
-                      placeholder="Description"
+                      placeholder="Brief description"
+                      maxLength={150}
                       multiline
-                      defaultValue={chatMessageState.messages.audioText || ""}
+                      defaultValue={cardInput.description || ""}
                     />
-                    <TouchableOpacity
-                      onPress={flipCard}
-                      style={styles.flipButton}>
-                      <Text style={styles.flipText}>
-                        {/* <ReverseIcon width={25} height={25} /> */}
-                        reverse
-                      </Text>
-                    </TouchableOpacity>
-                    <Button
-                      backgroundColor="primary"
-                      buttonText="Save"
-                      onPressButton={handleSaveFlashCard}
-                      textColor="white"
-                      buttonSize="medium"
-                    />
-                  </Animated.View>
-                  <Animated.View style={[styles.card, styles.cardBack]}>
-                    <TextInput
-                      style={[styles.input, styles.description]}
-                      placeholder="Write behind the card"
-                      multiline
-                    />
-                    <TouchableOpacity
-                      onPress={flipCard}
-                      style={styles.flipButton}>
-                      <Text style={styles.flipText}>Flip to front</Text>
-                    </TouchableOpacity>
                   </Animated.View>
                 </View>
               </>
             )}
           </Animated.View>
         </TouchableWithoutFeedback>
+        <Column style={{ flex: 1, width: "90%" }}>
+          <Pressable
+            onPress={flipCard}
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              height: 50,
+              borderRadius: 18,
+              backgroundColor: "white",
+              width: "100%",
+              flex: 1,
+              maxHeight: 50,
+              elevation: 6,
+            }}>
+            <Text size="heading4" weight="black">
+              Flip to answer
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={handleSaveFlashCard}
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              height: 50,
+              borderRadius: 18,
+              backgroundColor: theme.colors.primary,
+              width: "100%",
+              flex: 1,
+              maxHeight: 50,
+              elevation: 6,
+            }}>
+            <Text size="heading4" weight="black" color="white">
+              Save
+            </Text>
+          </Pressable>
+        </Column>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -188,12 +219,12 @@ const CreateFlashCardModal = () => {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
     alignItems: "center",
   },
   modal: {
     backgroundColor: "white",
+    marginTop: 100,
     height: 400,
     margin: 20,
     borderRadius: 20,
@@ -209,13 +240,16 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     padding: 10,
-    borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
     marginVertical: 10,
+    fontFamily: theme.fontWeight.semibold,
+    fontSize: 16,
   },
   description: {
-    height: 100,
+    fontFamily: theme.fontWeight.black,
+    fontSize: 18,
+    minHeight: "50%",
   },
   flipButton: {
     marginTop: 20,
@@ -239,7 +273,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-    justifyContent: "center",
     alignItems: "center",
   },
   cardFront: {

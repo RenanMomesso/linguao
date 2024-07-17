@@ -1,10 +1,13 @@
+import { convertAudioToText } from "@/services/openAi.service";
 import {
   AiReplyMutationMutation,
   AiReplyMutationMutationVariables,
   MessageType,
-} from "@/API";
+} from "../../../../../API";
 import { aiReplyMutation } from "@/graphql/mutations";
+import { sendFileToStorage } from "@/services/sendFileToStorage";
 import { useAppSelector } from "@/store";
+import { generateRandomValue } from "@/utils/generateRandomValue";
 import { gql, useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { Alert, useColorScheme } from "react-native";
@@ -94,7 +97,38 @@ const useSendMessage = ({
   };
 
   const handleSendAudio = async () => {
-    // Implement your audio sending logic here
+    if (audioPath) {
+      console.log("🚀 ~ handleSendAudio ~ audioPath:", audioPath)
+      const audioName = `${userId}/${generateRandomValue(12)}-audio`;
+      const audioUrl = await sendFileToStorage(audioPath, audioName);
+      console.log("🚀 ~ handleSendAudio ~ audioUrl:", audioUrl)
+      console.log("🚀 ~ handleSendAudio ~ audioName:", audioName)
+      if (audioUrl) {
+        handleCreateMessage(
+          audioUrl,
+          true,
+          MessageType.AUDIO,
+          20,
+          "",
+          String(userId),
+        );
+        const text = await convertAudioToText(audioUrl);
+        const { data } = await createAudioMutation({
+          variables: {
+            userAudio: text,
+          },
+        });
+        console.log("@@@@@@@@@@@@@@@ create audio mutation", data);
+        handleCreateMessage(
+          data?.aiReplyMutation.audio || "",
+          false,
+          MessageType.AUDIO,
+          20,
+          data?.aiReplyMutation.text || "",
+          aiId,
+        );
+      }
+    }
   };
 
   const handleGestureEvent = Gesture.Pan()
@@ -137,6 +171,7 @@ const useSendMessage = ({
           userAudio: message,
         },
       });
+      console.log("🚀 ~ handleCreateMessageTrigger ~ data:", data);
       if (!data?.aiReplyMutation.audio) return;
 
       handleCreateMessage(
@@ -155,6 +190,7 @@ const useSendMessage = ({
       //   setLoadingMessages(false);
     }
   };
+  
   return {
     message,
     setMessage,

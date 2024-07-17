@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, memo, useCallback } from "react";
 import { View, Pressable } from "react-native";
 import Animated, {
   useSharedValue,
@@ -41,9 +41,9 @@ const AudioPlay = ({ audioPath }: { audioPath: string }) => {
   const [speedAudio, setSpeedAudio] = useState(1); // [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
   const [loadingDuration, setLoadingDuration] = useState(true);
 
-  useEffect(() => {
-    Sound.setCategory("Playback");
-    if (audioPath.length === 0 || !audioPath.includes('https://') || !audioPath.includes("http://")) return;
+  Sound.setCategory("Playback");
+
+  const getDurationSound = useCallback(() => {
     const sound = new Sound(audioPath, null, error => {
       if (error) {
         console.log("failed to load the sound", error);
@@ -51,8 +51,14 @@ const AudioPlay = ({ audioPath }: { audioPath: string }) => {
       }
       setDuration(sound.getDuration());
       soundRef.current = sound;
-      setLoadingDuration(false);
     });
+  }, [
+    
+    
+  ]);
+
+  useEffect(() => {
+    getDurationSound();
 
     return () => {
       if (soundRef.current) {
@@ -155,4 +161,4 @@ const AudioPlay = ({ audioPath }: { audioPath: string }) => {
   );
 };
 
-export default AudioPlay;
+export default memo(AudioPlay);

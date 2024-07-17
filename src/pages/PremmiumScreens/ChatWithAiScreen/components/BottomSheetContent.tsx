@@ -8,17 +8,33 @@ import {
   CreateFlashCardsMutationVariables,
 } from "@/API";
 import { useNavigation } from "@react-navigation/native";
+import { useAppSelector } from "@/store";
+import { MessageType } from "../../../../API";
 
 const BottomSheetContent = () => {
-  const navigation = useNavigation<any>()
+  const navigation = useNavigation<any>();
   const [mutationFlashCard] = useMutation<
     CreateFlashCardsMutation,
     CreateFlashCardsMutationVariables
   >(gql(createFlashCards));
 
+  const selectedChatMessageReducer = useAppSelector(
+    state => state.chatMessageReducer.messages,
+  );
+
   const handleSaveContentToFlashcard = async () => {
     console.log("Save content to flashcard");
-    navigation.navigate("CreateFlashCardModal");
+    const description = selectedChatMessageReducer.text;
+    const title = selectedChatMessageReducer.text;
+    const audioUrl =
+      selectedChatMessageReducer.messageType === MessageType.AUDIO
+        ? selectedChatMessageReducer.text
+        : "";
+    navigation.navigate("CreateFlashCardModal", {
+      description,
+      audioUrl,
+      title,
+    });
   };
 
   return (

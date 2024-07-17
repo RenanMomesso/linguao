@@ -46,6 +46,8 @@ export type PremmiumStackProps = {
   Premium: undefined;
   ChatWithAi: undefined;
   InstantaneousTranslationScreen: undefined;
+  MyFlashCardsScreen: undefined;
+  
 };
 
 export type TrainingStackProps = {

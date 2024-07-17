@@ -8,6 +8,7 @@ import PremmiumScreen from "@/pages/PremmiumScreens/PremmiumScreen/PremmiumScree
 import ChatWithAiScreen from "@/pages/PremmiumScreens/ChatWithAiScreen/ChatWithAiScreen";
 import InstantaneousTranslationScreen from "@/pages/PremmiumScreens/InstantaneousTranslationScreen/InstantaneousTranslationScreen";
 import CreateFlashCardModal from "@/pages/PremmiumScreens/CreateFlashCardModal/CreateFlashCardModal";
+import MyFlashCardScreen from "@/pages/PremmiumScreens/MyFlashCardScreen/MyFlashCardScreen";
 
 const PremiumStack = createStackNavigator();
 const premmiumNavigationOptions: StackNavigationOptions = {
@@ -23,6 +24,10 @@ const PremmiumNavigation = () => {
         component={InstantaneousTranslationScreen}
       />
       <PremiumStack.Screen
+        name="MyFlashCardsScreen"
+        component={MyFlashCardScreen}
+      />
+      <PremiumStack.Screen
         options={{
           headerShown: false,
           presentation: "modal",
@@ -32,6 +37,7 @@ const PremmiumNavigation = () => {
         name="CreateFlashCardModal"
         component={CreateFlashCardModal}
       />
+
     </PremiumStack.Navigator>
   );
 };

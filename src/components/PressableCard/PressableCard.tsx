@@ -6,6 +6,8 @@ import {
   PremmiumStack,
   PremmiumStackProps,
 } from "@/interface/navigation.interface";
+import { useAppDispatch } from "@/store";
+import { toggleBottomNavigation } from "@/store/reducer/uiReducer";
 
 interface PressableCardProps {
   imgUrl: ImageRequireSource;
@@ -19,8 +21,10 @@ const PressableCard = ({
   navigationTo = "ChatWithAi",
 }: PressableCardProps) => {
   const navigation = useNavigation<PremmiumStack>();
+  const appDispatch = useAppDispatch();
   const handlePressItem = () => {
     navigation.navigate(navigationTo);
+    appDispatch(toggleBottomNavigation(false));
   };
   return (
     <Pressable

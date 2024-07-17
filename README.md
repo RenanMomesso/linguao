@@ -117,4 +117,7 @@ audio play
 animations
 deep linking
 save flashcards
+APK development
+APK Stagging
+
 

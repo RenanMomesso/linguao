@@ -102,9 +102,9 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath, audioLength = 0 }) => {
   return (
     <Container>
       {isPlaying ? (
-        <PauseIcon onPress={handlePlayPause} height={25} width={25} />
+        <PauseIcon color="black" onPress={handlePlayPause} height={25} width={25} />
       ) : (
-        <PlayIcon onPress={handlePlayPause} height={25} width={25} />
+        <PlayIcon color="black" onPress={handlePlayPause} height={25} width={25} />
       )}
       <WaveformContainer>
         <WaveformTrack />
