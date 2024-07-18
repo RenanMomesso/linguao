@@ -23,6 +23,7 @@ import BottomSheet, {
 import BottomSheetContent from "./BottomSheetContent";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { setChatMessage } from "@/store/reducer/chatMessageReducer";
+import ChatMessageItem from "./ChatMessageItem";
 
 interface ChatMessagesProps {
   messages: Message[] | null;
@@ -41,6 +42,7 @@ const ChatMessages = ({
   flatListRef,
   loadingNewMessage = false,
 }: ChatMessagesProps) => {
+  const [playAudio, setPlayAudio] = React.useState(false);
   const dispatch = useAppDispatch();
   const sortMessages = messages?.length
     ? [...messages]?.sort((a, b) => {
@@ -55,77 +57,31 @@ const ChatMessages = ({
 
   const [selectedItem, setSelectedItem] = React.useState("");
 
-  const RenderItem = ({
-    item,
-    setSelectedItem,
-    onPress,
-  }: {
-    item: Message;
-    setSelectedItem: (id: string) => void;
-    selectedItem: string;
-    onPress: (messageItem: Message) => void;
-  }) => {
-    const [transpile, setTranspile] = React.useState(false);
-    const [playAudio, setPlayAudio] = React.useState(false);
-
-    const handlePlayAudio = () => {
-      if (playAudio) {
-        setPlayAudio(false);
-        stopSpeakerVoice();
-        return;
-      }
-      setSelectedItem("");
-      setPlayAudio(true);
-      speakerVoiceMessage(item.audioText || "");
-    };
-
-    if (item.messageType === "AUDIO" && item.userID !== otherUserId)
-      return <ChatUserAudio text={item.text} />;
-
-    if (item.messageType === "AUDIO" && item.userID === otherUserId) {
-      return (
-        <ChatMessageItemAiAudio
-          audioPath={item.text}
-          setPlayAudio={handlePlayAudio}
-          audioIsPlaying={playAudio}
-          audioText={item.audioText || ""}
-          handleLongPress={() => onPress(item)}
-        />
-      );
-    }
-
-    if (item?.messageType === "TEXT") {
-      return (
-        <Row
-          style={{
-            backgroundColor:
-              item?.userID === otherUserId ? theme.colors.white : "lightgreen",
-            padding: 10,
-            borderRadius: 12,
-            alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
-          }}>
-          <Text weight="semibold" size="text" color="black" align="justify">
-            {item.text}asdasd 
-          </Text>
-        </Row>
-      );
-    }
-
-    return <></>;
-  };
-
   const ref = React.useRef<BottomSheetRefProps>(null);
 
   const onPress = useCallback((messageItem: Message) => {
+    console.log("🚀 ~ onPress ~ messageItem:", messageItem)
     const isActive = ref?.current?.isActive();
     if (isActive) {
       ref?.current?.scrollTo(0);
-      dispatch(setChatMessage({} as Message));
     } else {
       dispatch(setChatMessage(messageItem));
       ref?.current?.scrollTo(-300);
     }
   }, []);
+
+  const handlePlayAudio = (audioText: string) => {
+    if (playAudio) {
+      setPlayAudio(false);
+      stopSpeakerVoice();
+      return;
+    }
+    setSelectedItem("");
+    setPlayAudio(true);
+    speakerVoiceMessage(audioText || "");
+  };
+
+  const keyExtractor = useCallback((item: Message) => item.id.toString(), []);
 
   return (
     <>
@@ -158,13 +114,17 @@ const ChatMessages = ({
           showsVerticalScrollIndicator={false}
           ref={flatListRef}
           data={sortMessages}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={keyExtractor}
           renderItem={({ item, separators }) => (
-            <RenderItem
+            <ChatMessageItem
               item={item}
               setSelectedItem={setSelectedItem}
               selectedItem={selectedItem}
               onPress={onPress}
+              handlePlayAudio={handlePlayAudio}
+              playAudio={playAudio}
+              otherUserId={otherUserId}
+
             />
           )}
         />

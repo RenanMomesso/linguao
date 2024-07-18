@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { memo } from "react";
 import Waveform from "@/pages/Home/components/WaveForm";
 import calculateDuration from "@/utils/calculateDurationAudio";
 
@@ -21,4 +21,4 @@ const ChatUserAudio = ({ text }: ChatUserAudioProps) => {
   );
 };
 
-export default ChatUserAudio;
+export default memo(ChatUserAudio);

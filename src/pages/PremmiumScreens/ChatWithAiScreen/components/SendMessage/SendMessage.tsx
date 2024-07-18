@@ -4,10 +4,12 @@ import { SendIcon, MicrophoneIcon } from "@/assets/images";
 import { deviceColorSchema, theme } from "@/theme/theme";
 import Text from "@/components/Text";
 import { MessageType } from "../../../../../API";
-import Animated from "react-native-reanimated";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Container, SendButton, StyledTextInput } from "./SendMessage.styles";
 import useSendMessage from "./useSendMessage";
+import Waveform from "@/pages/Home/components/WaveForm";
+import { Row } from "@/theme/GlobalComponents";
 
 interface SendMessageProps {
   aiId?: string;
@@ -39,30 +41,33 @@ const SendMessage = ({
     recordingDuration,
     audioPath,
     setMessage,
+    positionX,
   } = useSendMessage({ loadingMessages, handleCreateMessage, aiId });
+  const animatedTextStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: positionX.value }],
+  }));
 
   return (
     <Container style={{ flexDirection: "row", alignItems: "center" }}>
-      {isRecording || audioPath && (
-        <View
-          style={{
-            backgroundColor: "lightblue",
-            bottom: 70,
-            flex: 1,
-            width: "100%",
-            position: "absolute",
-            zIndex: 99,
-          }}>
-          <Pressable onPress={handleSendAudio}>
-            <Text>{recordingDuration}</Text>
-          </Pressable>
-        </View>
-      )}
-      {!isRecording && (
+      {isRecording ? (
+        <Row>
+          <View
+            style={{
+              backgroundColor: "lightblue",
+            }}>
+            <Pressable onPress={handleSendAudio}>
+              <Text>{recordingDuration}</Text>
+            </Pressable>
+          </View>
+          <Animated.Text style={[animatedTextStyle, {marginLeft:50}]}>
+            Arraste para a esquerda
+          </Animated.Text>
+        </Row>
+      ) : (
         <>
           <StyledTextInput
             style={{
-              height: 50,
+              minHeight: 50,
               color: deviceColorSchema === "light" ? "black" : "white",
               fontFamily: theme.fontWeight.semibold,
               borderRadius: 50,
@@ -73,9 +78,9 @@ const SendMessage = ({
             editable={!loadingMessages}
             placeholder="Type a message"
           />
-          <Text onPress={handleCreateMessageTrigger}>{audioPath}</Text>
         </>
       )}
+
       <SendButton
         onPress={
           !!message.length ? handleCreateMessageTrigger : () => setMessage("")

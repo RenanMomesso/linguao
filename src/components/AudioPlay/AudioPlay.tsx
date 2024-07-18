@@ -123,6 +123,7 @@ const AudioPlay = ({ audioPath }: { audioPath: string }) => {
   }));
 
   const durationToMilliseconds = duration * 1000;
+  
 
   return (
     <Pressable
@@ -161,4 +162,4 @@ const AudioPlay = ({ audioPath }: { audioPath: string }) => {
   );
 };
 
-export default memo(AudioPlay);
+export default (AudioPlay);

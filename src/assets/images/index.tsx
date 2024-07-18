@@ -28,6 +28,8 @@ import StartIcon from './StartIcon.svg'
 import PlayIcon from './PlayIcon.svg'
 import PauseIcon from './PauseIcon.svg'
 import ReverseIcon from "./reverseIcon.svg"
+import MenuIcon from "./MenuIcon.svg"
+
 
 
 export const SvgComponent = (props: SvgProps) => (
@@ -86,5 +88,6 @@ export {
   StartIcon,
   PlayIcon,
   PauseIcon,
-  ReverseIcon
+  ReverseIcon,
+  MenuIcon
 };

@@ -12,7 +12,7 @@ import { gql, useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { Alert, useColorScheme } from "react-native";
 import AudioRecorderPlayer from "react-native-audio-recorder-player";
-import { Gesture } from "react-native-gesture-handler";
+import { Gesture, GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   runOnJS,
   useAnimatedStyle,
@@ -90,10 +90,18 @@ const useSendMessage = ({
     });
   };
 
+  const cancelRecording = async () => {
+    
+    setIsRecording(false);
+    await audioRecorderPlayer.stopRecorder();
+    audioRecorderPlayer.removeRecordBackListener();
+  }
+
   const stopRecognizing = async () => {
     setIsRecording(false);
     await audioRecorderPlayer.stopRecorder();
     audioRecorderPlayer.removeRecordBackListener();
+    await handleSendAudio();
   };
 
   const handleSendAudio = async () => {
@@ -139,6 +147,11 @@ const useSendMessage = ({
     .onChange((event: any) => {
       const newX = Math.max(maxLeftDistance, event.translationX);
       const newY = Math.min(Math.max(maxUpDistance, event.translationY), 0);
+      if(positionX.value <= -100) {
+        runOnJS(cancelRecording)();
+        positionX.value = withTiming(0);
+        
+      }
       positionX.value = newX;
       positionY.value = newY;
     })
@@ -151,7 +164,6 @@ const useSendMessage = ({
       buttonPressed.value = false;
       positionX.value = withTiming(0);
       positionY.value = withTiming(0);
-      runOnJS(stopRecognizing)();
     });
 
   const animatedButtonStyle = useAnimatedStyle(() => ({
@@ -163,16 +175,20 @@ const useSendMessage = ({
   }));
 
   const handleCreateMessageTrigger = async () => {
-    if (loadingMessages) return;
-    try {
+    // if (loadingMessages) return;
+    // try {
+    // console.log('sending message')
       handleCreateMessage(message, false, MessageType.TEXT, 0);
+    //   console.log('msg sent')
       const { data } = await createAudioMutation({
         variables: {
           userAudio: message,
         },
       });
-      console.log("🚀 ~ handleCreateMessageTrigger ~ data:", data);
-      if (!data?.aiReplyMutation.audio) return;
+    //   console.log("🚀 ~ handleCreateMessageTrigger ~ data:", data);
+      console.log("REPLY AUDIO: @@@@@@@@@@@@@@@@@@2", data?.aiReplyMutation.audio)
+      console.log("REPLY text: @@@@@@@@@@@@@@@@@@2", data?.aiReplyMutation.text)
+    if (!data?.aiReplyMutation.audio) return;
 
       handleCreateMessage(
         data?.aiReplyMutation.audio,
@@ -184,11 +200,11 @@ const useSendMessage = ({
       );
 
       setMessage("");
-    } catch (error) {
-      Alert.alert("Error", "Error sending message");
-    } finally {
-      //   setLoadingMessages(false);
-    }
+    // } catch (error) {
+    //   Alert.alert("Error", "Error sending message");
+    // } finally {
+    //   //   setLoadingMessages(false);
+    // }
   };
   
   return {

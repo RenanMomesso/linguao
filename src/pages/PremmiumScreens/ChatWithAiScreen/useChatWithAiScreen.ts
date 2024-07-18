@@ -12,13 +12,17 @@ import {
   ListUsersQuery,
   ListUsersQueryVariables,
   MenuType,
+  MessagesByChatroomIDQuery,
+  MessagesByChatroomIDQueryVariables,
   MessageType,
+  ModelSortDirection,
 } from "../../../API";
 import {
   listChatRooms,
   listMessages,
   listUserChatRooms,
   listUsers,
+  messagesByChatroomID,
 } from "../../../graphql/queries";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useAppSelector } from "@/store";
@@ -117,6 +121,7 @@ const useChatWithAiScreen = () => {
     gql(listMessages),
     {
       variables: {
+        limit: 20,
         filter: {
           chatroomID: {
             eq: firstChatRoomInfo?.id!,
@@ -126,6 +131,21 @@ const useChatWithAiScreen = () => {
     },
   );
 
+  const { data, error, loading } = useQuery<
+    MessagesByChatroomIDQuery,
+    MessagesByChatroomIDQueryVariables
+  >(gql(messagesByChatroomID), {
+    variables: {
+      chatroomID: firstChatRoomInfo?.id!,
+      sortDirection: ModelSortDirection.DESC,
+    },
+  });
+
+  console.log({firstChatRoomInfo: firstChatRoomInfo?.id})
+  console.log({error, loading})
+
+  const messagesItems = data?.messagesByChatroomID?.items.map(item => item?.text)
+  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ msg items", messagesItems)
   const listAiUsers = listAiUsersQuery?.listUsers?.items;
   const artificialInteligenceUserId = String(listAiUsers?.[0]?.id);
 
@@ -236,7 +256,8 @@ const useChatWithAiScreen = () => {
       },
     });
 
-    console.log("DATA CREATE MESSAGE", JSON.stringify(data, undefined, 4));
+    console.log("create chat message", data?.createMessage?.id);
+    console.log("create chat message", data?.createMessage?.text);
     if (userSender !== artificialInteligenceUserId) {
       const response = await sendMessageToOpenAI(
         messageType === MessageType.AUDIO ? audioMessage! : text,
@@ -259,7 +280,8 @@ const useChatWithAiScreen = () => {
         dataResponse = createChatRoomMessageData;
         console.log(
           "🚀 ~ useChatWithAiScreen ~ createChatRoomMessageData:",
-          createChatRoomMessageData,
+          createChatRoomMessageData?.createMessage?.id,
+          createChatRoomMessageData?.createMessage?.text,
         );
       }
     }

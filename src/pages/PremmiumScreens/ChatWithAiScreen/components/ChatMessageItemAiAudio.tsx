@@ -1,5 +1,5 @@
 import { Pressable, Alert, View } from "react-native";
-import React, { useState, useCallback, useRef, memo } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import calculateDuration from "@/utils/calculateDurationAudio";
 import { Column, Row } from "@/theme/GlobalComponents";
 import Avatar from "@/components/Avatar/Avatar";
@@ -9,7 +9,7 @@ import Text from "@/components/Text";
 import BottomSheet, {
   BottomSheetRefProps,
 } from "@/components/BottomSheet/BottomSheet";
-import { SettingsIcon } from "@/assets/images";
+import { MenuIcon, SettingsIcon } from "@/assets/images";
 import { Message } from "../../../../API";
 
 interface ChatMessageItemAiAudio {
@@ -26,14 +26,8 @@ const ChatMessageItemAiAudio = ({
   audioIsPlaying,
   setPlayAudio,
 }: ChatMessageItemAiAudio) => {
-  const [showTranslate, setShowTranslate] = React.useState(false);
-  const [showTranscribe, setShowTranscribe] = React.useState(false);
-  const ref = React.useRef<BottomSheetRefProps>(null);
 
-  const handlePressTranscribe = () => {
-    setShowTranscribe(!showTranscribe);
-  };
-
+ 
   return (
     <>
       <Pressable onLongPress={handleLongPress} style={{ zIndex: 1, gap: 10 }}>
@@ -47,7 +41,7 @@ const ChatMessageItemAiAudio = ({
         </Row>
         <Column style={{ alignItems: "flex-start" }}>
           <Button
-            icon={<SettingsIcon />}
+            icon={<MenuIcon color="white" width={20} />}
             fullWidth
             buttonSize="small"
             backgroundColor="primary"
@@ -69,7 +63,7 @@ const ChatMessageItemAiAudio = ({
           />
         </Row> */}
       </Pressable>
-      {showTranscribe && (
+      {true && (
         <Text size="text" align="left">
           {audioText}
         </Text>
@@ -78,4 +72,4 @@ const ChatMessageItemAiAudio = ({
   );
 };
 
-export default memo(ChatMessageItemAiAudio);
+export default ChatMessageItemAiAudio;

@@ -42,6 +42,7 @@ interface FlashCardModalProps {
 
 const CreateFlashCardModal = ({ route }: FlashCardModalProps) => {
   const cardInfo = route?.params;
+  console.log("🚀 ~ CreateFlashCardModal ~ cardInfo:", JSON.stringify(cardInfo, undefined,3))
   const title = cardInfo?.title;
   const description = cardInfo?.description;
   const audioUrl = cardInfo?.audioUrl;

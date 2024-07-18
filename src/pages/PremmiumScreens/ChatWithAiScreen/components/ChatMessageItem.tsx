@@ -1,30 +1,30 @@
-import { stopSpeakerVoice } from "@/utils/speakerVoice";
+import { speakerVoiceMessage, stopSpeakerVoice } from "@/utils/speakerVoice";
 import { Message } from "../../../../API";
 import React from "react";
+import ChatUserAudio from "./ChatMessageUserAudio";
+import ChatMessageItemAiAudio from "./ChatMessageItemAiAudio";
+import { Row } from "@/theme/GlobalComponents";
+import { theme } from "@/theme/theme";
+import Text from "@/components/Text";
+import Animated, { FadeIn } from "react-native-reanimated";
 
 const ChatMessageItem = ({
   item,
   setSelectedItem,
   onPress,
+  otherUserId,
+  handlePlayAudio,
+  playAudio,
+  selectedItem,
 }: {
   item: Message;
   setSelectedItem: (id: string) => void;
   selectedItem: string;
   onPress: (messageItem: Message) => void;
+  otherUserId: string;
+  handlePlayAudio: (audioText:string) => void;
+  playAudio: boolean;
 }) => {
-  const [playAudio, setPlayAudio] = React.useState(false);
-
-  const handlePlayAudio = () => {
-    if (playAudio) {
-      setPlayAudio(false);
-      stopSpeakerVoice();
-      return;
-    }
-    setSelectedItem("");
-    setPlayAudio(true);
-    speakerVoiceMessage(item.audioText || "");
-  };
-
   if (item.messageType === "AUDIO" && item.userID !== otherUserId)
     return <ChatUserAudio text={item.text} />;
 
@@ -32,7 +32,7 @@ const ChatMessageItem = ({
     return (
       <ChatMessageItemAiAudio
         audioPath={item.text}
-        setPlayAudio={handlePlayAudio}
+        setPlayAudio={() => handlePlayAudio(item.audioText || "")}
         audioIsPlaying={playAudio}
         audioText={item.audioText || ""}
         handleLongPress={() => onPress(item)}
@@ -42,7 +42,7 @@ const ChatMessageItem = ({
 
   if (item?.messageType === "TEXT") {
     return (
-      <Row
+      <Animated.View entering={FadeIn.duration(2000)}
         style={{
           backgroundColor:
             item?.userID === otherUserId ? theme.colors.white : "lightgreen",
@@ -53,7 +53,7 @@ const ChatMessageItem = ({
         <Text weight="semibold" size="text" color="black" align="justify">
           {item.text}
         </Text>
-      </Row>
+      </Animated.View>
     );
   }
 
