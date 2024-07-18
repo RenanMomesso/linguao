@@ -1284,15 +1284,17 @@ export const listMessages = /* GraphQL */ `query ListMessages(
   APITypes.ListMessagesQueryVariables,
   APITypes.ListMessagesQuery
 >;
-export const messagesByChatroomID = /* GraphQL */ `query MessagesByChatroomID(
+export const messagesByChatRoom = /* GraphQL */ `query MessagesByChatRoom(
   $chatroomID: ID!
+  $createdAt: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelMessageFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  messagesByChatroomID(
+  messagesByChatRoom(
     chatroomID: $chatroomID
+    createdAt: $createdAt
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -1337,8 +1339,8 @@ export const messagesByChatroomID = /* GraphQL */ `query MessagesByChatroomID(
   }
 }
 ` as GeneratedQuery<
-  APITypes.MessagesByChatroomIDQueryVariables,
-  APITypes.MessagesByChatroomIDQuery
+  APITypes.MessagesByChatRoomQueryVariables,
+  APITypes.MessagesByChatRoomQuery
 >;
 export const messagesByUserID = /* GraphQL */ `query MessagesByUserID(
   $userID: ID!

@@ -11,18 +11,13 @@ import {
   ListUserChatRoomsQueryVariables,
   ListUsersQuery,
   ListUsersQueryVariables,
-  MenuType,
-  MessagesByChatroomIDQuery,
-  MessagesByChatroomIDQueryVariables,
   MessageType,
-  ModelSortDirection,
 } from "../../../API";
 import {
   listChatRooms,
   listMessages,
   listUserChatRooms,
   listUsers,
-  messagesByChatroomID,
 } from "../../../graphql/queries";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useAppSelector } from "@/store";
@@ -34,19 +29,14 @@ import {
 } from "@/graphql/mutations";
 import { FlatList } from "react-native-gesture-handler";
 import useKeyboard from "@/hooks/useKeyboard";
-import {
-  convertAudioToText,
-  sendMessageToOpenAI,
-} from "@/services/openAi.service";
 
 const useChatWithAiScreen = () => {
   const abortController = new AbortController();
   const userID = useAppSelector(state => state.user.user.id);
+  console.log("🚀 ~ useChatWithAiScreen ~ userID:", userID);
   const myUserName = useAppSelector(state => state.user.user.name);
   const mountedRef = useRef(false);
   const flatListRef = useRef<FlatList>(null);
-
-  const [reRenderChatMessages, setReRenderChatMessages] = useState(false);
 
   const [createChatRoomMutation] = useMutation<
     CreateChatRoomMutation,
@@ -102,13 +92,13 @@ const useChatWithAiScreen = () => {
     },
   );
 
-  const firstChatRoomInfo =
+  const firstChatRoomWithMyUserAndAi =
     listUserChatRoomsQuery?.listUserChatRooms?.items.find(
       item => !!item?.chatRoom?.artificialInteligenceRoom,
     )?.chatRoom;
 
   //return the first chat room that has an AI user with my user
-  const aiChatInfo = firstChatRoomInfo?.users?.items.find(
+  const aiChatInfo = firstChatRoomWithMyUserAndAi?.users?.items.find(
     item => !!item?.user?.artificialInteligenceUser,
   );
   console.log("🚀 ~ useChatWithAiScreen ~ aiChatInfo:", !!aiChatInfo);
@@ -121,31 +111,15 @@ const useChatWithAiScreen = () => {
     gql(listMessages),
     {
       variables: {
-        limit: 20,
         filter: {
           chatroomID: {
-            eq: firstChatRoomInfo?.id!,
+            eq: firstChatRoomWithMyUserAndAi?.id!,
           },
         },
       },
     },
   );
 
-  const { data, error, loading } = useQuery<
-    MessagesByChatroomIDQuery,
-    MessagesByChatroomIDQueryVariables
-  >(gql(messagesByChatroomID), {
-    variables: {
-      chatroomID: firstChatRoomInfo?.id!,
-      sortDirection: ModelSortDirection.DESC,
-    },
-  });
-
-  console.log({firstChatRoomInfo: firstChatRoomInfo?.id})
-  console.log({error, loading})
-
-  const messagesItems = data?.messagesByChatroomID?.items.map(item => item?.text)
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ msg items", messagesItems)
   const listAiUsers = listAiUsersQuery?.listUsers?.items;
   const artificialInteligenceUserId = String(listAiUsers?.[0]?.id);
 
@@ -181,6 +155,10 @@ const useChatWithAiScreen = () => {
       return;
     }
 
+    console.log(
+      "CREATING CHAT ROOM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+    );
+
     const { data: createdChatRoomMutation } = await createChatRoomMutation({
       variables: {
         input: {
@@ -191,6 +169,11 @@ const useChatWithAiScreen = () => {
     });
 
     const chatRoomID = createdChatRoomMutation?.createChatRoom?.id;
+    console.log("🚀 ~ createChatRoomFunction ~ chatRoomID:", chatRoomID);
+    console.log(
+      "🚀 ~ createChatRoomFunction ~ createdChatRoomMutation:",
+      createdChatRoomMutation,
+    );
     if (!chatRoomID || !artificialInteligenceUserId || !userID) return;
 
     await createUserChatRoomMutation({
@@ -244,7 +227,7 @@ const useChatWithAiScreen = () => {
     const { data, errors } = await createChatRoomMessage({
       variables: {
         input: {
-          chatroomID: firstChatRoomInfo?.id!,
+          chatroomID: firstChatRoomWithMyUserAndAi?.id!,
           text,
           userID: String(userSender),
           showMenu,
@@ -256,49 +239,24 @@ const useChatWithAiScreen = () => {
       },
     });
 
-    console.log("create chat message", data?.createMessage?.id);
-    console.log("create chat message", data?.createMessage?.text);
-    if (userSender !== artificialInteligenceUserId) {
-      const response = await sendMessageToOpenAI(
-        messageType === MessageType.AUDIO ? audioMessage! : text,
-      );
-      let dataResponse = undefined;
-      if (response?.id) {
-        const { data: createChatRoomMessageData } = await createChatRoomMessage(
-          {
-            variables: {
-              input: {
-                chatroomID: firstChatRoomInfo?.id!,
-                text: response.choices[0].message.content,
-                userID: artificialInteligenceUserId,
-                showMenu: false,
-                userName: aiInfo?.user?.name!,
-              },
-            },
-          },
-        );
-        dataResponse = createChatRoomMessageData;
-        console.log(
-          "🚀 ~ useChatWithAiScreen ~ createChatRoomMessageData:",
-          createChatRoomMessageData?.createMessage?.id,
-          createChatRoomMessageData?.createMessage?.text,
-        );
-      }
-    }
-
     refetchListMessages();
-    setReRenderChatMessages(!reRenderChatMessages);
-    // if (createChatRoomMessageData?.createMessage?.showMenu) {
-    //   handleCreateMessage("Menu", false, artificialInteligenceUserId, "AI");
-    // }
   };
 
   useEffect(() => {
     if (!mountedRef.current) return;
-    if (!checkIfUserHasAiChatRoom && !loadingListUserhatRoomsQuery) {
+    if (
+      !checkIfUserHasAiChatRoom &&
+      !loadingListUserhatRoomsQuery &&
+      !firstChatRoomWithMyUserAndAi
+    ) {
+      console.log("entrou em criar funcao");
       createChatRoomFunction();
     }
-  }, [mountedRef.current, loadingListUserhatRoomsQuery]);
+  }, [
+    mountedRef.current,
+    loadingListUserhatRoomsQuery,
+    firstChatRoomWithMyUserAndAi,
+  ]);
 
   return {
     data: listUserChatRoomsQuery,

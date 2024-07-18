@@ -151,7 +151,13 @@ type ChatRoom @model @auth(rules: [{ allow: public }]) {
 type Message @model @auth(rules: [{ allow: public }]) {
   id: ID!
   text: String!
-  chatroomID: ID! @index(name: "byChatRoom")
+
+  chatroomID: ID!
+    @index(
+      name: "byChatRoom"
+      queryField: "messagesByChatRoom"
+      sortKeyFields: ["createdAt"]
+    )
   userID: ID! @index(name: "byUser")
   userName: String
   images: [String]
@@ -162,6 +168,7 @@ type Message @model @auth(rules: [{ allow: public }]) {
   messageType: MessageType
   audioDuration: Int
   audioText: String
+  createdAt: String
 }
 
 type Attachment @model @auth(rules: [{ allow: public }]) {

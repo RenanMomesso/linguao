@@ -22,7 +22,7 @@ const ChatMessageItem = ({
   selectedItem: string;
   onPress: (messageItem: Message) => void;
   otherUserId: string;
-  handlePlayAudio: (audioText:string) => void;
+  handlePlayAudio: (audioText: string) => void;
   playAudio: boolean;
 }) => {
   if (item.messageType === "AUDIO" && item.userID !== otherUserId)
@@ -40,24 +40,21 @@ const ChatMessageItem = ({
     );
   }
 
-  if (item?.messageType === "TEXT") {
-    return (
-      <Animated.View entering={FadeIn.duration(2000)}
-        style={{
-          backgroundColor:
-            item?.userID === otherUserId ? theme.colors.white : "lightgreen",
-          padding: 10,
-          borderRadius: 12,
-          alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
-        }}>
-        <Text weight="semibold" size="text" color="black" align="justify">
-          {item.text}
-        </Text>
-      </Animated.View>
-    );
-  }
-
-  return <></>;
+  return (
+    <Animated.View
+      entering={FadeIn.duration(2000)}
+      style={{
+        backgroundColor:
+          item?.userID === otherUserId ? theme.colors.white : "lightgreen",
+        padding: 10,
+        borderRadius: 12,
+        alignSelf: item?.userID === otherUserId ? "flex-start" : "flex-end",
+      }}>
+      <Text weight="semibold" size="text" color="black" align="justify">
+        {item.text}
+      </Text>
+    </Animated.View>
+  );
 };
 
 export default ChatMessageItem;

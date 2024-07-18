@@ -81,7 +81,7 @@ const ChatMessages = ({
     speakerVoiceMessage(audioText || "");
   };
 
-  const keyExtractor = useCallback((item: Message) => item.id.toString(), []);
+  const keyExtractor = (item: Message) => item?.id || "";
 
   return (
     <>

@@ -21,4 +21,4 @@ const ChatUserAudio = ({ text }: ChatUserAudioProps) => {
   );
 };
 
-export default memo(ChatUserAudio);
+export default (ChatUserAudio);
