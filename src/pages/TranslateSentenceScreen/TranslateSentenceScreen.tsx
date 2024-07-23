@@ -30,6 +30,8 @@ const TranslateSentenceScreen = () => {
     imgUrl,
   } = useTranslationSentence();
 
+  
+
   if (loadingQuery || !wordsExample?.length || !wordsExample)
     return <LoadingIcon />;
 
@@ -65,15 +67,16 @@ const TranslateSentenceScreen = () => {
         wordsExample={wordsExample}
         disableGesture={showAnswer}
         ref={wordsRef}
-        buttonDisable={() => {}}
+        buttonDisable={handleChangeButtonDisable}
       />
       <BottomContainer>
         <Button
-          backgroundColor={"primary"}
+          backgroundColor={buttonIsDisabled ? "disabled" : "primary"}
           buttonText="Check Answers"
           textColor="white"
-          disabled={false}
+          disabled={buttonIsDisabled}
           onPressButton={handleShowAnswer}
+          fullWidth
         />
       </BottomContainer>
       {showAnswer && (

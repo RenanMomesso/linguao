@@ -24,7 +24,7 @@ const Button = ({
   backgroundColor,
   textColor,
   buttonSize = "medium",
-  fullWidth = false,
+  fullWidth = true,
   icon,
   ...rest
 }: ButtonProps) => {

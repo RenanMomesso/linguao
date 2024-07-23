@@ -89,7 +89,7 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
       } as any;
     }, []);
 
-    console.log("{renderizou o componente}");
+    console.log("{renderizou o componente bottom sheet}");
 
     return (
       <>

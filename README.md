@@ -71,6 +71,11 @@ Design intuitive and engaging interfaces with tools like React Native Paper or N
 Use animations and transitions to enhance user experience.
 Performance Optimization:
 
+Find people
+talk with people
+forum
+
+
 Ensure the app runs smoothly on various devices by optimizing performance.
 Use tools like react-native-performance and Flipper for debugging and optimization.
 

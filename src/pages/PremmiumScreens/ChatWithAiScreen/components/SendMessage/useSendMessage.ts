@@ -107,11 +107,8 @@ const useSendMessage = ({
 
   const handleSendAudio = async () => {
     if (audioPath) {
-      console.log("🚀 ~ handleSendAudio ~ audioPath:", audioPath);
       const audioName = `${userId}/${generateRandomValue(12)}-audio`;
       const audioUrl = await sendFileToStorage(audioPath, audioName);
-      console.log("🚀 ~ handleSendAudio ~ audioUrl:", audioUrl);
-      console.log("🚀 ~ handleSendAudio ~ audioName:", audioName);
       if (audioUrl) {
         handleCreateMessage(
           audioUrl,
@@ -159,11 +156,13 @@ const useSendMessage = ({
       buttonPressed.value = false;
       positionX.value = withTiming(0);
       positionY.value = withTiming(0);
+      runOnJS(stopRecognizing)();
     })
     .onFinalize(() => {
       buttonPressed.value = false;
       positionX.value = withTiming(0);
       positionY.value = withTiming(0);
+      runOnJS(stopRecognizing)();
     });
 
   const animatedButtonStyle = useAnimatedStyle(() => ({

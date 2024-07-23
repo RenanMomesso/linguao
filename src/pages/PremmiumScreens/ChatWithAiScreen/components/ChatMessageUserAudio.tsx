@@ -7,7 +7,7 @@ interface ChatUserAudioProps {
   text: string;
 }
 const ChatUserAudio = ({ text }: ChatUserAudioProps) => {
-  console.log("renderizei")
+  console.log("renderizei user chat audio")
   return (
     <View
       style={{
@@ -21,4 +21,4 @@ const ChatUserAudio = ({ text }: ChatUserAudioProps) => {
   );
 };
 
-export default (ChatUserAudio);
+export default memo(ChatUserAudio);

@@ -11,6 +11,7 @@ import BottomSheet, {
 } from "@/components/BottomSheet/BottomSheet";
 import { MenuIcon, SettingsIcon } from "@/assets/images";
 import { Message } from "../../../../API";
+import { theme } from "@/theme/theme";
 
 interface ChatMessageItemAiAudio {
   audioText: string;
@@ -27,10 +28,13 @@ const ChatMessageItemAiAudio = ({
   setPlayAudio,
 }: ChatMessageItemAiAudio) => {
   return (
-    <View style={{
-      backgroundColor:"white",
-      borderRadius:6,
-    }}>
+    <View
+      style={{
+        backgroundColor: theme.colors.greyScale100,
+        borderRadius: 6,
+        elevation:6,
+        padding:6
+      }}>
       <Pressable onLongPress={handleLongPress} style={{ zIndex: 1, gap: 10 }}>
         <Row
           style={{
@@ -39,6 +43,7 @@ const ChatMessageItemAiAudio = ({
             width: 300,
           }}>
           <AudioPlay audioPath={audioPath} />
+            <MenuIcon color="primary" width={20} height={20} />
         </Row>
         {/* <Row>
           <Button
@@ -70,11 +75,11 @@ const ChatMessageItemAiAudio = ({
           />
         </Column>
       </Pressable>
-      {false && (
+      {/* {false && (
         <Text size="text" align="left">
           {audioText}
         </Text>
-      )}
+      )} */}
     </View>
   );
 };

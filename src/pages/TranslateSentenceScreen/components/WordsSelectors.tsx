@@ -14,6 +14,7 @@ const WordsSelectors = forwardRef<DuoDragDropRef, WordsSelectorsProps>(
         ref={ref}
         gesturesDisabled={props.disableGesture}
         onDrop={word => {
+          props.buttonDisable(ref?.current?.getWords()?.answered?.length === 0);
         }}
         renderWord={(word, index) => {
           return (

@@ -7,6 +7,10 @@ import { ExercisesStack } from "@/interface/navigation.interface";
 import { speakerVoiceMessage } from "@/utils/speakerVoice";
 import { imgToBase64 } from "@/utils/imgToBase64";
 import { generateRandomInt } from "@/utils/maths";
+import {
+  ListEnglishSentencesQuery,
+  ListEnglishSentencesQueryVariables,
+} from "@/API";
 
 const useTranslationSentence = () => {
   const wordsRef = useRef<DuoDragDropRef>(null);
@@ -17,7 +21,10 @@ const useTranslationSentence = () => {
   const [correctlyAnswered, setCorrectlyAnswered] = useState(false);
   const [img, setImg] = useState("");
 
-  const { data, loading, error } = useQuery(englishSentenceQuery, {
+  const { data, loading, error } = useQuery<
+    ListEnglishSentencesQuery,
+    ListEnglishSentencesQueryVariables
+  >(englishSentenceQuery, {
     fetchPolicy: "cache-and-network",
     onCompleted(data) {
       try {
@@ -35,24 +42,25 @@ const useTranslationSentence = () => {
     },
   });
 
+  console.log(
+    "🚀 ~ useTranslationSentence ~ data:",
+    data?.listEnglishSentences?.items.length,
+  );
+
   const generateRandomIntNumber = useMemo(() => {
-    return generateRandomInt(data?.listEnglishSentences?.items.length);
+    return generateRandomInt(data?.listEnglishSentences?.items.length!);
   }, [data]);
 
-  const sentence =
-    data?.listEnglishSentences?.items[generateRandomIntNumber]?.sentence;
-  const audioUrl =
-    data?.listEnglishSentences?.items[generateRandomIntNumber]?.audioUrl;
+  const sentence = data?.listEnglishSentences?.items[generateRandomIntNumber]?.sentence;
+  const imgUrl = data?.listEnglishSentences?.items[generateRandomIntNumber]?.imageUrl;
+  const translation = data?.listEnglishSentences?.items[generateRandomIntNumber]?.translation;
 
-  const translation =
-    data?.listEnglishSentences?.items[generateRandomIntNumber]?.translation;
   const splitWordsTranslation = useMemo(() => {
     return translation?.split(" ")?.sort(() => Math.random() - 0.5);
-  }, [translation]);
+  }, [translation]) as string[];
 
-  const wordsExample = data?.listEnglishSentences?.items[0]?.fakeWords.concat(
-    splitWordsTranslation,
-  );
+  const wordsExample = data?.listEnglishSentences?.items[0]?.fakeWords.concat(splitWordsTranslation);
+
   const navigation = useNavigation<ExercisesStack>();
 
   const handleNavigation = useCallback(() => {
@@ -60,7 +68,7 @@ const useTranslationSentence = () => {
     setSoundPlaying(false);
     setShowAnswer(false);
     setButtonIsDisabled(true);
-  }, []);
+  }, [navigation]);
 
   const handleShowAnswer = () => {
     const answeredWords = wordsRef.current?.getAnsweredWords();
@@ -71,20 +79,17 @@ const useTranslationSentence = () => {
   };
 
   const handleSpeak = useCallback(() => {
+    if (!sentence) return;
     speakerVoiceMessage(sentence);
     setSoundPlaying(playingSound => !playingSound);
   }, [sentence]);
 
-  const handleChangeButtonDisable = (value: boolean) => {
-    setButtonIsDisabled(value);
-  };
-
-  useEffect(() => {
-    if (audioUrl) {
-      // getImgUrlToBase64();
-    }
-    setImg(audioUrl);
-  }, [audioUrl]);
+  const handleChangeButtonDisable = useCallback(
+    (value: boolean) => {
+      setButtonIsDisabled(value);
+    },
+    [setButtonIsDisabled],
+  );
 
   return {
     wordsRef,
@@ -100,7 +105,7 @@ const useTranslationSentence = () => {
     correctlyAnswered,
     translation,
     handleNavigation,
-    imgUrl: audioUrl,
+    imgUrl,
     img,
   };
 };

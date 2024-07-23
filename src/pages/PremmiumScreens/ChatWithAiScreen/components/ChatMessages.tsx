@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { Container } from "@/theme/GlobalComponents";
 import { Message } from "@/API";
 import { FlatList } from "react-native-gesture-handler";
@@ -125,4 +125,4 @@ const ChatMessages = ({
   );
 };
 
-export default ChatMessages;
+export default memo(ChatMessages);

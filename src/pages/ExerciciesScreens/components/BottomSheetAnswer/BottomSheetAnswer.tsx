@@ -21,6 +21,8 @@ const BottomSheetAnswer: React.FC<BottomSheetAnswerProps> = ({
   handleSave = () => {},
   handleAlert = () => {},
 }) => {
+
+  console.log("Renderizou obttomheet answer")
   return (
     <AnimatedBottom
       height={correctlyAnswered ? 160 : 190}
@@ -60,6 +62,7 @@ const BottomSheetAnswer: React.FC<BottomSheetAnswerProps> = ({
         buttonText="Continue"
         textColor={correctlyAnswered ? "success" : "error"}
         onPressButton={handleClickContinue}
+        fullWidth
       />
     </AnimatedBottom>
   );

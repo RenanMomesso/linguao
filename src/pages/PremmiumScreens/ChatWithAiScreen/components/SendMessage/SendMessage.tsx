@@ -30,7 +30,7 @@ const SendMessage = ({
   handleCreateMessage,
   aiId,
   loadingMessages,
-  setLoadingMessages
+  setLoadingMessages,
 }: SendMessageProps) => {
   const {
     animatedButtonStyle,
@@ -43,7 +43,12 @@ const SendMessage = ({
     audioPath,
     setMessage,
     positionX,
-  } = useSendMessage({ loadingMessages, handleCreateMessage, aiId,setLoadingMessages });
+  } = useSendMessage({
+    loadingMessages,
+    handleCreateMessage,
+    aiId,
+    setLoadingMessages,
+  });
   const animatedTextStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: positionX.value }],
   }));
@@ -60,7 +65,7 @@ const SendMessage = ({
               <Text>{recordingDuration}</Text>
             </Pressable>
           </View>
-          <Animated.Text style={[animatedTextStyle, {marginLeft:50}]}>
+          <Animated.Text style={[animatedTextStyle, { marginLeft: 50 }]}>
             Arraste para a esquerda
           </Animated.Text>
         </Row>

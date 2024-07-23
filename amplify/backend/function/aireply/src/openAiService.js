@@ -10,7 +10,7 @@ const sendMessageToOpenAI = async text => {
 
   const url = "https://api.openai.com/v1/chat/completions";
   const data = {
-    model: "gpt-3.5-turbo",
+    model: "ft:gpt-3.5-turbo-1106:renandev::9oCSvKd7:ckpt-step-80",
     messages: [
       {
         role: "system",
