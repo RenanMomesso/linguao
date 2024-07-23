@@ -30,10 +30,10 @@ const ChatMessageItemAiAudio = ({
   return (
     <View
       style={{
-        backgroundColor: theme.colors.greyScale100,
+        backgroundColor: "white",
         borderRadius: 6,
-        elevation:6,
-        padding:6
+        elevation: 6,
+        padding: 6,
       }}>
       <Pressable onLongPress={handleLongPress} style={{ zIndex: 1, gap: 10 }}>
         <Row
@@ -41,45 +41,25 @@ const ChatMessageItemAiAudio = ({
             borderRadius: 12,
             alignSelf: "flex-start",
             width: 300,
+            gap: 4,
+            maxHeight: 40,
           }}>
+          <Avatar size="small" />
           <AudioPlay audioPath={audioPath} />
-            <MenuIcon color="primary" width={20} height={20} />
+          <Pressable
+            onPress={handleLongPress}
+            style={{
+              backgroundColor: theme.colors.primary,
+              height: "100%",
+              width: 40,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 8,
+            }}>
+            <MenuIcon color="white" width={20} height={20} />
+          </Pressable>
         </Row>
-        {/* <Row>
-          <Button
-            buttonSize="small"
-            backgroundColor="primary"
-            buttonText="Transcribe"
-            onPressButton={() => {}}
-            textColor="white"
-          />
-          <Button
-            buttonSize="small"
-            backgroundColor="primary"
-            buttonText="Transcribe"
-            onPressButton={() => {}}
-            textColor="white"
-          />
-        </Row> */}
-        <Column style={{ alignItems: "flex-start" }}>
-          <Button
-            icon={<MenuIcon color="white" width={20} />}
-            fullWidth
-            buttonSize="small"
-            backgroundColor="primary"
-            buttonText="Menu"
-            onPressButton={() => {
-              handleLongPress && handleLongPress();
-            }}
-            textColor="white"
-          />
-        </Column>
       </Pressable>
-      {/* {false && (
-        <Text size="text" align="left">
-          {audioText}
-        </Text>
-      )} */}
     </View>
   );
 };

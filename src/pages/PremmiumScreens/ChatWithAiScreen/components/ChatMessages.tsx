@@ -20,8 +20,9 @@ interface ChatMessagesProps {
   messages: Message[] | null;
   otherUserId: string;
   otherUserName: string;
-  flatListRef: React.RefObject<FlatList<Message>>;
+  flatListRef?: React.RefObject<FlatList<Message>>;
   loadingNewMessage: boolean;
+  fetchMoreMessages?: () => void;
 }
 
 
@@ -31,6 +32,7 @@ const ChatMessages = ({
   otherUserName = "",
   flatListRef,
   loadingNewMessage = false,
+  fetchMoreMessages
 }: ChatMessagesProps) => {
   console.log("🚀 ~ loadingNewMessage:", loadingNewMessage);
   const [playAudio, setPlayAudio] = React.useState(false);
@@ -108,6 +110,7 @@ const ChatMessages = ({
           ref={flatListRef}
           data={sortMessages}
           keyExtractor={keyExtractor}
+          onEndReached={fetchMoreMessages}
           renderItem={({ item }) => (
             <ChatMessageItem
               item={item}

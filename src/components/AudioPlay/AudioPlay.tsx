@@ -127,7 +127,7 @@ const AudioPlay = ({ audioPath }: { audioPath: string }) => {
           padding: 10,
           borderRadius: 50,
           backgroundColor: theme.colors.primary,
-          width: "100%",
+          width: "85%",
           flexDirection: "row",
           alignItems: "center",
           gap: 10,

@@ -44,7 +44,9 @@ const useSendMessage = ({
   const [createAudioMutation] = useMutation<
     AiReplyMutationMutation,
     AiReplyMutationMutationVariables
-  >(gql(aiReplyMutation));
+  >(gql(aiReplyMutation),{
+    refetchQueries: ["listMessages"],
+  });
   const color: string = useColorScheme() || "light";
   const userId = useAppSelector(state => state.user.user.id);
   const [message, setMessage] = useState("");
@@ -99,10 +101,13 @@ const useSendMessage = ({
   };
 
   const stopRecognizing = async () => {
+    if(loadingMessages) return;
+    setLoadingMessages(true);
     setIsRecording(false);
     await audioRecorderPlayer.stopRecorder();
     audioRecorderPlayer.removeRecordBackListener();
     await handleSendAudio();
+    setLoadingMessages(false);
   };
 
   const handleSendAudio = async () => {

@@ -1,3 +1,18 @@
+import { useQuery, gql, useMutation } from "@apollo/client";
+import { useAppSelector } from "@/store";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FlatList, Alert } from "react-native";
+import {
+  createChatRoom,
+  createMessage,
+  createUserChatRoom,
+} from "@/graphql/mutations";
+import {
+  listMessages,
+  listUserChatRooms,
+  listUsers,
+  messagesByChatRoom,
+} from "../../../graphql/queries";
 import {
   CreateChatRoomMutation,
   CreateChatRoomMutationVariables,
@@ -14,24 +29,10 @@ import {
   MessagesByChatRoomQuery,
   MessagesByChatRoomQueryVariables,
   MessageType,
+  Message,
+  ModelSortDirection,
 } from "../../../API";
-import {
-  listMessages,
-  listUserChatRooms,
-  listUsers,
-  messagesByChatRoom,
-} from "../../../graphql/queries";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { useAppSelector } from "@/store";
-import { useEffect, useRef, useState } from "react";
-import {
-  createChatRoom,
-  createMessage,
-  createUserChatRoom,
-} from "@/graphql/mutations";
-import { FlatList } from "react-native-gesture-handler";
 import useKeyboard from "@/hooks/useKeyboard";
-import { Alert } from "react-native";
 
 const useChatWithAiScreen = () => {
   const abortController = new AbortController();
@@ -94,55 +95,59 @@ const useChatWithAiScreen = () => {
     },
   );
 
- 
-
   const firstChatRoomWithMyUserAndAi =
     listUserChatRoomsQuery?.listUserChatRooms?.items.find(
       item => !!item?.chatRoom?.artificialInteligenceRoom,
     )?.chatRoom;
 
-    
-
-  //return the first chat room that has an AI user with my user
   const aiChatInfo = firstChatRoomWithMyUserAndAi?.users?.items.find(
     item => !!item?.user?.artificialInteligenceUser,
   );
 
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [nextToken, setNextToken] = useState<string | null>(null);
   const {
-    data: listMessagesQuery,
+    data,
     refetch: refetchListMessages,
-    loading: loadingListMessagesQuery,
-  } = useQuery<ListMessagesQuery, ListMessagesQueryVariables>(
-    gql(listMessages),
+    fetchMore,
+  } = useQuery<MessagesByChatRoomQuery, MessagesByChatRoomQueryVariables>(
+    gql(messagesByChatRoom),
     {
       variables: {
-        filter: {
-          chatroomID: {
-            eq: firstChatRoomWithMyUserAndAi?.id!,
-          },
-        },
+        chatroomID: firstChatRoomWithMyUserAndAi?.id!,
+        sortDirection: ModelSortDirection.DESC,
+        limit: 15,
+      },
+      onCompleted: data => {
+        setMessages(data?.messagesByChatRoom?.items as Message[]);
+        setNextToken(data?.messagesByChatRoom?.nextToken || null);
       },
     },
   );
 
+  const fetchMoreMessages = async () => {
+    if (!nextToken) return;
+
+    const { data: moreData } = await fetchMore({
+      variables: {
+        chatroomID: firstChatRoomWithMyUserAndAi?.id!,
+        sortDirection: ModelSortDirection.DESC,
+        limit: 10,
+        nextToken,
+      },
+    });
+
+    if (moreData) {
+      setMessages(prevMessages => [
+        ...prevMessages,
+        ...(moreData?.messagesByChatRoom?.items as Message[]),
+      ]);
+      setNextToken(moreData?.messagesByChatRoom?.nextToken || null);
+    }
+  };
+
   const listAiUsers = listAiUsersQuery?.listUsers?.items;
   const artificialInteligenceUserId = String(listAiUsers?.[0]?.id);
-
-  const isKeyboardVisible = useKeyboard();
-  useEffect(() => {
-    mountedRef.current = true;
-    if (listMessagesQuery?.listMessages?.items?.length) {
-      // flatListRef.current?.scrollToEnd({ animated: true });
-    }
-    return () => {
-      mountedRef.current = false;
-    };
-  }, [
-    loadingListMessagesQuery,
-    mountedRef.current,
-    listMessagesQuery?.listMessages?.items?.length,
-    isKeyboardVisible,
-  ]);
 
   useEffect(() => {
     return () => {
@@ -160,10 +165,6 @@ const useChatWithAiScreen = () => {
       return;
     }
 
-    console.log(
-      "CREATING CHAT ROOM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-    );
-
     const { data: createdChatRoomMutation } = await createChatRoomMutation({
       variables: {
         input: {
@@ -174,11 +175,6 @@ const useChatWithAiScreen = () => {
     });
 
     const chatRoomID = createdChatRoomMutation?.createChatRoom?.id;
-    console.log("🚀 ~ createChatRoomFunction ~ chatRoomID:", chatRoomID);
-    console.log(
-      "🚀 ~ createChatRoomFunction ~ createdChatRoomMutation:",
-      createdChatRoomMutation,
-    );
     if (!chatRoomID || !artificialInteligenceUserId || !userID) return;
 
     await createUserChatRoomMutation({
@@ -220,7 +216,7 @@ const useChatWithAiScreen = () => {
         user: listAiUsers?.[0],
       };
 
-  const handleCreateMessage = async (
+  const handleCreateMessage = useCallback(async (
     text: string,
     showMenu: boolean,
     messageType: MessageType = MessageType.TEXT,
@@ -244,13 +240,15 @@ const useChatWithAiScreen = () => {
       },
     });
 
-    if(errors) {
+    setMessages(prevMessages => [].concat(data?.createMessage, prevMessages));
+
+    if (errors) {
       Alert.alert("Error", "An error occurred while sending the message");
       return;
     }
 
     refetchListMessages();
-  };
+  }, [createChatRoomMessage, firstChatRoomWithMyUserAndAi?.id, userID, myUserName, refetchListMessages]);
 
   useEffect(() => {
     if (!mountedRef.current) return;
@@ -259,7 +257,6 @@ const useChatWithAiScreen = () => {
       !loadingListUserhatRoomsQuery &&
       !firstChatRoomWithMyUserAndAi
     ) {
-      console.log("entrou em criar funcao");
       createChatRoomFunction();
     }
   }, [
@@ -271,10 +268,11 @@ const useChatWithAiScreen = () => {
   return {
     data: listUserChatRoomsQuery,
     aiChatInfo: aiInfo,
-    messages: listMessagesQuery,
+    messages,
     handleCreateMessage,
     flatListRef,
     loadingNewMessage,
+    fetchMoreMessages,
   };
 };
 

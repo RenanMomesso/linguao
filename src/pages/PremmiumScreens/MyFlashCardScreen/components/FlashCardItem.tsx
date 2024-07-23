@@ -35,7 +35,7 @@ const FlashCardItem = ({
         padding: 10,
         borderRadius: 12,
         overflow: "hidden",
-        minHeight: 210,
+        height:210
       }}>
       <View style={{ height: "50%" }}>
         <Text align="left" size="heading5" weight="bold">

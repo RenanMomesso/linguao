@@ -4,8 +4,6 @@ import { Container, Row } from "@/theme/GlobalComponents";
 import { useAppDispatch } from "@/store";
 import { toggleBottomNavigation } from "@/store/reducer/uiReducer";
 import useChatWithAiScreen from "./useChatWithAiScreen";
-import Avatar from "@/components/Avatar/Avatar";
-import { theme } from "@/theme/theme";
 import HeaderChat from "./components/HeaderChat";
 import ChatMessages from "./components/ChatMessages";
 import { Message } from "@/API";
@@ -18,6 +16,7 @@ const ChatWithAiScreen = () => {
     handleCreateMessage,
     flatListRef,
     loadingNewMessage,
+    fetchMoreMessages
   } = useChatWithAiScreen();
   const dispatch = useAppDispatch();
 
@@ -35,11 +34,11 @@ const ChatWithAiScreen = () => {
       />
 
       <ChatMessages
-        messages={(messages?.listMessages?.items as Message[]) || null}
+        messages={messages || null}
         otherUserId={aiChatInfo?.user?.id || ""}
         otherUserName={aiChatInfo?.user?.name || ""}
-        flatListRef={flatListRef}
         loadingNewMessage={loadingMessages}
+        fetchMoreMessages={fetchMoreMessages}
       />
       <SendMessage
         handleCreateMessage={handleCreateMessage}
