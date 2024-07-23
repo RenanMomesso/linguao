@@ -22,15 +22,13 @@ import ChatAiIcon from "./ChatAiIcon.svg";
 import AlertIcon from "./AlertIcon.svg";
 import BaloonMsgIcon from "./BaloonMsgIcon.svg";
 import MicrophoneIcon from "./MicrophoneIcon.svg";
-import SendIcon from './SendIcon.svg'
-import SettingsOutlineIcon from './SettingsOutlineIcon.svg'
-import StartIcon from './StartIcon.svg'
-import PlayIcon from './PlayIcon.svg'
-import PauseIcon from './PauseIcon.svg'
-import ReverseIcon from "./reverseIcon.svg"
-import MenuIcon from "./MenuIcon.svg"
-
-
+import SendIcon from "./SendIcon.svg";
+import SettingsOutlineIcon from "./SettingsOutlineIcon.svg";
+import StartIcon from "./StartIcon.svg";
+import PlayIcon from "./PlayIcon.svg";
+import PauseIcon from "./PauseIcon.svg";
+import ReverseIcon from "./reverseIcon.svg";
+import MenuIcon from "./MenuIcon.svg";
 
 export const SvgComponent = (props: SvgProps) => (
   <Svg width={60} height={60} fill="none" {...props}>
@@ -60,16 +58,8 @@ export const SvgComponent = (props: SvgProps) => (
   </Svg>
 );
 
-export const ForwardedLoadingIcon = React.forwardRef(
-  (props: SvgProps & { ref: React.Ref<unknown> }, ref) => {
-    // Pass the ref and props down to the SVG component
-    return <LoadingIconSvg {...props} ref={ref} />;
-  },
-);
-
-
 export {
-  ForwardedLoadingIcon as LoadingIcon,
+  LoadingIconSvg,
   SettingsIcon,
   ShareIcon,
   LinguaoIconSmall,
@@ -89,5 +79,5 @@ export {
   PlayIcon,
   PauseIcon,
   ReverseIcon,
-  MenuIcon
+  MenuIcon,
 };

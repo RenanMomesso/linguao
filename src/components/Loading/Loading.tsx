@@ -6,11 +6,9 @@ import Animated, {
   withTiming,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { ForwardedLoadingIcon } from "@/assets/images";
+import { LoadingIconSvg } from "@/assets/images";
 import { View } from "react-native";
 
-const AnimatedLoadingIcon =
-  Animated.createAnimatedComponent(ForwardedLoadingIcon);
 
 const LoadingIcon = () => {
   const rotation = useSharedValue(0);
@@ -46,7 +44,9 @@ const LoadingIcon = () => {
         backgroundColor: "rgba(0,0,0,0.5)",
         width: "100%",
       }}>
-      <AnimatedLoadingIcon style={animatedStyle} />
+      <Animated.View style={animatedStyle}>
+        <LoadingIconSvg />
+      </Animated.View>
     </View>
   );
 };
