@@ -30,6 +30,7 @@ const SendMessage = ({
   handleCreateMessage,
   aiId,
   loadingMessages,
+  setLoadingMessages
 }: SendMessageProps) => {
   const {
     animatedButtonStyle,
@@ -42,7 +43,7 @@ const SendMessage = ({
     audioPath,
     setMessage,
     positionX,
-  } = useSendMessage({ loadingMessages, handleCreateMessage, aiId });
+  } = useSendMessage({ loadingMessages, handleCreateMessage, aiId,setLoadingMessages });
   const animatedTextStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: positionX.value }],
   }));

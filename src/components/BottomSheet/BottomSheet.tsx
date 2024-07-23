@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-import React, { useCallback, useEffect, useImperativeHandle } from "react";
+import React, { useCallback, useEffect, useImperativeHandle, memo } from "react";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   Extrapolate,
@@ -89,6 +89,8 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
       } as any;
     }, []);
 
+    console.log("{renderizou o componente}");
+
     return (
       <>
         <Animated.View
@@ -126,7 +128,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: SCREEN_HEIGHT,
     borderRadius: 25,
-    
     zIndex: 1001,
   },
   line: {
@@ -139,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomSheet;
+export default memo(BottomSheet);

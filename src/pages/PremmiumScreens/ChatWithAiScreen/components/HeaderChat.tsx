@@ -1,17 +1,16 @@
-import React from "react";
+import React, { memo } from "react";
 import { Row } from "@/theme/GlobalComponents";
 import { theme } from "@/theme/theme";
 import GoBack from "@/components/GoBack/GoBack";
 import Avatar from "@/components/Avatar/Avatar";
 import Text from "@/components/Text";
-import { View } from "react-native";
 import { SettingsOutlineIcon } from "@/assets/images";
-
 interface HeaderChatProps {
   aiName: string;
   aiAvatar: string;
 }
 const HeaderChat = ({ aiName, aiAvatar }: HeaderChatProps) => {
+  
   return (
     <Row
       style={{
@@ -31,4 +30,4 @@ const HeaderChat = ({ aiName, aiAvatar }: HeaderChatProps) => {
   );
 };
 
-export default HeaderChat;
+export default memo(HeaderChat);

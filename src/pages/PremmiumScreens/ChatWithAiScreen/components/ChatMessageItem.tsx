@@ -1,12 +1,12 @@
 import { speakerVoiceMessage, stopSpeakerVoice } from "@/utils/speakerVoice";
 import { Message } from "../../../../API";
-import React from "react";
+import React, { memo } from "react";
 import ChatUserAudio from "./ChatMessageUserAudio";
 import ChatMessageItemAiAudio from "./ChatMessageItemAiAudio";
 import { Row } from "@/theme/GlobalComponents";
 import { theme } from "@/theme/theme";
 import Text from "@/components/Text";
-import Animated, { FadeIn } from "react-native-reanimated";
+import Animated, { FadeIn, FadeInLeft } from "react-native-reanimated";
 
 const ChatMessageItem = ({
   item,
@@ -42,7 +42,7 @@ const ChatMessageItem = ({
 
   return (
     <Animated.View
-      entering={FadeIn.duration(2000)}
+      entering={FadeIn.duration(600)}
       style={{
         backgroundColor:
           item?.userID === otherUserId ? theme.colors.white : "lightgreen",
@@ -57,4 +57,4 @@ const ChatMessageItem = ({
   );
 };
 
-export default ChatMessageItem;
+export default memo(ChatMessageItem);

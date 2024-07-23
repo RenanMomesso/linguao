@@ -11,13 +11,15 @@ import {
   ListUserChatRoomsQueryVariables,
   ListUsersQuery,
   ListUsersQueryVariables,
+  MessagesByChatRoomQuery,
+  MessagesByChatRoomQueryVariables,
   MessageType,
 } from "../../../API";
 import {
-  listChatRooms,
   listMessages,
   listUserChatRooms,
   listUsers,
+  messagesByChatRoom,
 } from "../../../graphql/queries";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useAppSelector } from "@/store";
@@ -29,11 +31,11 @@ import {
 } from "@/graphql/mutations";
 import { FlatList } from "react-native-gesture-handler";
 import useKeyboard from "@/hooks/useKeyboard";
+import { Alert } from "react-native";
 
 const useChatWithAiScreen = () => {
   const abortController = new AbortController();
   const userID = useAppSelector(state => state.user.user.id);
-  console.log("🚀 ~ useChatWithAiScreen ~ userID:", userID);
   const myUserName = useAppSelector(state => state.user.user.name);
   const mountedRef = useRef(false);
   const flatListRef = useRef<FlatList>(null);
@@ -92,16 +94,19 @@ const useChatWithAiScreen = () => {
     },
   );
 
+ 
+
   const firstChatRoomWithMyUserAndAi =
     listUserChatRoomsQuery?.listUserChatRooms?.items.find(
       item => !!item?.chatRoom?.artificialInteligenceRoom,
     )?.chatRoom;
 
+    
+
   //return the first chat room that has an AI user with my user
   const aiChatInfo = firstChatRoomWithMyUserAndAi?.users?.items.find(
     item => !!item?.user?.artificialInteligenceUser,
   );
-  console.log("🚀 ~ useChatWithAiScreen ~ aiChatInfo:", !!aiChatInfo);
 
   const {
     data: listMessagesQuery,
@@ -238,6 +243,11 @@ const useChatWithAiScreen = () => {
         },
       },
     });
+
+    if(errors) {
+      Alert.alert("Error", "An error occurred while sending the message");
+      return;
+    }
 
     refetchListMessages();
   };

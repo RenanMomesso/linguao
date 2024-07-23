@@ -1,22 +1,12 @@
-import { Alert, ListRenderItem, Pressable, View } from "react-native";
-import React, { memo, useCallback } from "react";
-import { Container, Row } from "@/theme/GlobalComponents";
-import { MenuType, Message, MessageType } from "@/API";
+import { View } from "react-native";
+import React, { useCallback } from "react";
+import { Container } from "@/theme/GlobalComponents";
+import { Message } from "@/API";
 import { FlatList } from "react-native-gesture-handler";
-import Animated, { FadeIn } from "react-native-reanimated";
-import { theme, windowWidth } from "@/theme/theme";
-import Text from "@/components/Text";
-import Button from "@/components/Button/Button";
+import Animated from "react-native-reanimated";
+
 import { speakerVoiceMessage, stopSpeakerVoice } from "@/utils/speakerVoice";
-import SpeakerWithBars from "@/pages/ExerciciesScreens/SelectCorrectlyAudioScreen/SpeakerWithBars";
-import Waveform from "@/pages/Home/components/WaveForm";
-import SpeakerButton from "@/components/SpeakerButton/SpeakerButton";
-import Avatar from "@/components/Avatar/Avatar";
-import AudioPlay from "@/components/AudioPlay/AudioPlay";
-import calculateDuration from "@/utils/calculateDurationAudio";
-import ChatMessageAiAudio from "./ChatMessageUserAudio";
-import ChatMessageItemAiAudio from "./ChatMessageItemAiAudio";
-import ChatUserAudio from "./ChatMessageUserAudio";
+
 import BottomSheet, {
   BottomSheetRefProps,
 } from "@/components/BottomSheet/BottomSheet";
@@ -24,6 +14,7 @@ import BottomSheetContent from "./BottomSheetContent";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { setChatMessage } from "@/store/reducer/chatMessageReducer";
 import ChatMessageItem from "./ChatMessageItem";
+import LoadingNewMessageItem from "./LoadingNewMessageItem";
 
 interface ChatMessagesProps {
   messages: Message[] | null;
@@ -33,7 +24,6 @@ interface ChatMessagesProps {
   loadingNewMessage: boolean;
 }
 
-const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
 const ChatMessages = ({
   messages,
@@ -42,6 +32,7 @@ const ChatMessages = ({
   flatListRef,
   loadingNewMessage = false,
 }: ChatMessagesProps) => {
+  console.log("🚀 ~ loadingNewMessage:", loadingNewMessage);
   const [playAudio, setPlayAudio] = React.useState(false);
   const dispatch = useAppDispatch();
   const sortMessages = messages?.length
@@ -59,16 +50,18 @@ const ChatMessages = ({
 
   const ref = React.useRef<BottomSheetRefProps>(null);
 
-  const onPress = useCallback((messageItem: Message) => {
-    console.log("🚀 ~ onPress ~ messageItem:", messageItem)
-    const isActive = ref?.current?.isActive();
-    if (isActive) {
-      ref?.current?.scrollTo(0);
-    } else {
+  const onPress = useCallback(
+    (messageItem: Message) => {
       dispatch(setChatMessage(messageItem));
-      ref?.current?.scrollTo(-300);
-    }
-  }, []);
+      const isActive = ref?.current?.isActive();
+      if (isActive) {
+        ref?.current?.scrollTo(0);
+      } else {
+        ref?.current?.scrollTo(-300);
+      }
+    },
+    [dispatch],
+  );
 
   const handlePlayAudio = (audioText: string) => {
     if (playAudio) {
@@ -90,9 +83,8 @@ const ChatMessages = ({
           <BottomSheetContent />
         </View>
       </BottomSheet>
-      <AnimatedContainer
+      <Container
         padding={5}
-        entering={FadeIn.duration(500)}
         style={{
           borderRadius: 12,
           flex: 1,
@@ -100,22 +92,23 @@ const ChatMessages = ({
         backgroundColor={"greyScale400"}>
         <FlatList
           inverted
-          ListHeaderComponent={() => {
-            return loadingNewMessage ? (
-              <View style={{ padding: 10 }}>
-                <Text size="text" align="center" color="greyScale900">
-                  Loading new messages...
-                </Text>
-              </View>
-            ) : null;
-          }}
+          ListHeaderComponent={
+            loadingNewMessage ? (
+              <LoadingNewMessageItem />
+            ) : (
+              <View style={{ height: 10 }} />
+            )
+          }
           automaticallyAdjustContentInsets
+          contentContainerStyle={{
+            paddingHorizontal: 6,
+          }}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           showsVerticalScrollIndicator={false}
           ref={flatListRef}
           data={sortMessages}
           keyExtractor={keyExtractor}
-          renderItem={({ item, separators }) => (
+          renderItem={({ item }) => (
             <ChatMessageItem
               item={item}
               setSelectedItem={setSelectedItem}
@@ -124,13 +117,12 @@ const ChatMessages = ({
               handlePlayAudio={handlePlayAudio}
               playAudio={playAudio}
               otherUserId={otherUserId}
-
             />
           )}
         />
-      </AnimatedContainer>
+      </Container>
     </>
   );
 };
 
-export default memo(ChatMessages);
+export default ChatMessages;

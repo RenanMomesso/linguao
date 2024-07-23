@@ -26,6 +26,7 @@ const useSendMessage = ({
   loadingMessages,
   handleCreateMessage,
   aiId,
+  setLoadingMessages,
 }: {
   loadingMessages: boolean;
   handleCreateMessage: (
@@ -37,6 +38,7 @@ const useSendMessage = ({
     userSender?: string,
     userName?: string,
   ) => void;
+  setLoadingMessages: (loading: boolean) => void;
   aiId?: string;
 }) => {
   const [createAudioMutation] = useMutation<
@@ -91,11 +93,10 @@ const useSendMessage = ({
   };
 
   const cancelRecording = async () => {
-    
     setIsRecording(false);
     await audioRecorderPlayer.stopRecorder();
     audioRecorderPlayer.removeRecordBackListener();
-  }
+  };
 
   const stopRecognizing = async () => {
     setIsRecording(false);
@@ -106,11 +107,11 @@ const useSendMessage = ({
 
   const handleSendAudio = async () => {
     if (audioPath) {
-      console.log("🚀 ~ handleSendAudio ~ audioPath:", audioPath)
+      console.log("🚀 ~ handleSendAudio ~ audioPath:", audioPath);
       const audioName = `${userId}/${generateRandomValue(12)}-audio`;
       const audioUrl = await sendFileToStorage(audioPath, audioName);
-      console.log("🚀 ~ handleSendAudio ~ audioUrl:", audioUrl)
-      console.log("🚀 ~ handleSendAudio ~ audioName:", audioName)
+      console.log("🚀 ~ handleSendAudio ~ audioUrl:", audioUrl);
+      console.log("🚀 ~ handleSendAudio ~ audioName:", audioName);
       if (audioUrl) {
         handleCreateMessage(
           audioUrl,
@@ -147,10 +148,9 @@ const useSendMessage = ({
     .onChange((event: any) => {
       const newX = Math.max(maxLeftDistance, event.translationX);
       const newY = Math.min(Math.max(maxUpDistance, event.translationY), 0);
-      if(positionX.value <= -100) {
+      if (positionX.value <= -100) {
         runOnJS(cancelRecording)();
         positionX.value = withTiming(0);
-        
       }
       positionX.value = newX;
       positionY.value = newY;
@@ -175,20 +175,20 @@ const useSendMessage = ({
   }));
 
   const handleCreateMessageTrigger = async () => {
-    // if (loadingMessages) return;
-    // try {
-    // console.log('sending message')
+    if (loadingMessages) return;
+    try {
+      // try {
+      // console.log('sending message')
+      setLoadingMessages(true);
       handleCreateMessage(message, false, MessageType.TEXT, 0);
-    //   console.log('msg sent')
+      setMessage("");
+      //   console.log('msg sent')
       const { data } = await createAudioMutation({
         variables: {
           userAudio: message,
         },
       });
-    //   console.log("🚀 ~ handleCreateMessageTrigger ~ data:", data);
-      console.log("REPLY AUDIO: @@@@@@@@@@@@@@@@@@2", data?.aiReplyMutation.audio)
-      console.log("REPLY text: @@@@@@@@@@@@@@@@@@2", data?.aiReplyMutation.text)
-    if (!data?.aiReplyMutation.audio) return;
+      if (!data?.aiReplyMutation.audio) return;
 
       handleCreateMessage(
         data?.aiReplyMutation.audio,
@@ -198,15 +198,13 @@ const useSendMessage = ({
         data?.aiReplyMutation.text || "",
         aiId,
       );
-
-      setMessage("");
-    // } catch (error) {
-    //   Alert.alert("Error", "Error sending message");
-    // } finally {
-    //   //   setLoadingMessages(false);
-    // }
+    } catch (error) {
+      Alert.alert("Error", "Error sending message");
+    } finally {
+      setLoadingMessages(false);
+    }
   };
-  
+
   return {
     message,
     setMessage,

@@ -39,13 +39,13 @@ const ChatWithAiScreen = () => {
         otherUserId={aiChatInfo?.user?.id || ""}
         otherUserName={aiChatInfo?.user?.name || ""}
         flatListRef={flatListRef}
-        loadingNewMessage={loadingNewMessage}
+        loadingNewMessage={loadingMessages}
       />
       <SendMessage
         handleCreateMessage={handleCreateMessage}
         aiId={aiChatInfo.user?.id}
         setLoadingMessages={setLoadingMessages}
-        loadingMessages={loadingNewMessage}
+        loadingMessages={loadingMessages}
       />
     </Container>
   );

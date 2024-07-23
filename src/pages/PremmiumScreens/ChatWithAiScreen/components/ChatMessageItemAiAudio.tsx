@@ -26,10 +26,11 @@ const ChatMessageItemAiAudio = ({
   audioIsPlaying,
   setPlayAudio,
 }: ChatMessageItemAiAudio) => {
-
- 
   return (
-    <>
+    <View style={{
+      backgroundColor:"white",
+      borderRadius:6,
+    }}>
       <Pressable onLongPress={handleLongPress} style={{ zIndex: 1, gap: 10 }}>
         <Row
           style={{
@@ -39,6 +40,22 @@ const ChatMessageItemAiAudio = ({
           }}>
           <AudioPlay audioPath={audioPath} />
         </Row>
+        {/* <Row>
+          <Button
+            buttonSize="small"
+            backgroundColor="primary"
+            buttonText="Transcribe"
+            onPressButton={() => {}}
+            textColor="white"
+          />
+          <Button
+            buttonSize="small"
+            backgroundColor="primary"
+            buttonText="Transcribe"
+            onPressButton={() => {}}
+            textColor="white"
+          />
+        </Row> */}
         <Column style={{ alignItems: "flex-start" }}>
           <Button
             icon={<MenuIcon color="white" width={20} />}
@@ -52,23 +69,13 @@ const ChatMessageItemAiAudio = ({
             textColor="white"
           />
         </Column>
-        {/* <Row>
-          
-          <Button
-            buttonSize="small"
-            backgroundColor="primary"
-            buttonText="Transcribe"
-            onPressButton={handlePressTranscribe}
-            textColor="white"
-          />
-        </Row> */}
       </Pressable>
-      {true && (
+      {false && (
         <Text size="text" align="left">
           {audioText}
         </Text>
       )}
-    </>
+    </View>
   );
 };
 

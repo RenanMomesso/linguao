@@ -52,10 +52,7 @@ const AudioPlay = ({ audioPath }: { audioPath: string }) => {
       setDuration(sound.getDuration());
       soundRef.current = sound;
     });
-  }, [
-    
-    
-  ]);
+  }, []);
 
   useEffect(() => {
     getDurationSound();
@@ -123,43 +120,47 @@ const AudioPlay = ({ audioPath }: { audioPath: string }) => {
   }));
 
   const durationToMilliseconds = duration * 1000;
-  
 
   return (
-    <Pressable
-      style={{
-        padding: 10,
-        borderRadius: 50,
-        backgroundColor: theme.colors.primary,
-        width: "100%",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-      }}>
-      {isPlaying ? (
-        <PauseIcon onPress={stopAudio} color={"white"} width={25} height={25} />
-      ) : (
-        <PlayIcon onPress={playAudio} color="white" width={25} height={25} />
-      )}
-
-      <View
+      <Pressable
         style={{
-          flex: 1,
-          backgroundColor: "white",
-          height: 2,
-          position: "relative",
-          width: trackWidth,
+          padding: 10,
+          borderRadius: 50,
+          backgroundColor: theme.colors.primary,
+          width: "100%",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 10,
         }}>
-        <AnimatedIndicator style={animatedIndicatorStyle} />
-      </View>
-      <Text color="white" size="tiny">
-        {formatTime(durationToMilliseconds)}
-      </Text>
-      <Text onPress={() => setAudioSpeed(2)}>
-        v:{soundRef.current?.getSpeed()}
-      </Text>
-    </Pressable>
+        {isPlaying ? (
+          <PauseIcon
+            onPress={stopAudio}
+            color={"white"}
+            width={25}
+            height={25}
+          />
+        ) : (
+          <PlayIcon onPress={playAudio} color="white" width={25} height={25} />
+        )}
+
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "white",
+            height: 2,
+            position: "relative",
+            width: trackWidth,
+          }}>
+          <AnimatedIndicator style={animatedIndicatorStyle} />
+        </View>
+        <Text color="white" size="tiny">
+          {formatTime(durationToMilliseconds)}
+        </Text>
+        <Text color="white" size="tiny" onPress={() => setAudioSpeed(2)}>
+          {speedAudio}x
+        </Text>
+      </Pressable>
   );
 };
 
-export default (AudioPlay);
+export default AudioPlay;

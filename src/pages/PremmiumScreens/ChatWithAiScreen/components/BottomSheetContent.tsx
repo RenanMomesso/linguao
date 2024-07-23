@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import { Column } from "@/theme/GlobalComponents";
 import Text from "@/components/Text";
 import { useNavigation } from "@react-navigation/native";
@@ -6,31 +6,49 @@ import { useAppSelector } from "@/store";
 import { MessageType } from "../../../../API";
 
 const BottomSheetContent = () => {
+  console.log("Aqui tbm renderizou")
   const navigation = useNavigation<any>();
-
   const selectedChatMessageReducer = useAppSelector(
     state => state.chatMessageReducer.messages,
   );
 
-  const handleSaveContentToFlashcard = async () => {
-    if (!selectedChatMessageReducer || !selectedChatMessageReducer.id) {
+  const selectedChatMessageReducerRef = useRef(selectedChatMessageReducer);
+
+  useEffect(() => {
+    selectedChatMessageReducerRef.current = selectedChatMessageReducer;
+  }, [selectedChatMessageReducer]);
+
+  const handleSaveContentToFlashcard = useCallback(() => {
+    const currentSelectedChatMessageReducer =
+      selectedChatMessageReducerRef.current;
+
+    console.log({ currentSelectedChatMessageReducer });
+
+    if (
+      !currentSelectedChatMessageReducer ||
+      !currentSelectedChatMessageReducer.id
+    ) {
       console.log("No message selected or message id is undefined");
       return;
     }
 
-    const description = selectedChatMessageReducer.text;
-    const title = selectedChatMessageReducer.text;
-    const audioUrl =
-      selectedChatMessageReducer.messageType === MessageType.AUDIO
-        ? selectedChatMessageReducer.text
-        : "";
+    const isAudio =
+      currentSelectedChatMessageReducer.messageType === MessageType.AUDIO;
+
+    const description = isAudio
+      ? currentSelectedChatMessageReducer.audioText
+      : currentSelectedChatMessageReducer.text;
+    const title = isAudio
+      ? currentSelectedChatMessageReducer.audioText
+      : currentSelectedChatMessageReducer.text;
+    const audioUrl = isAudio ? currentSelectedChatMessageReducer.text : "";
 
     navigation.navigate("CreateFlashCardModal", {
       description,
       audioUrl,
       title,
     });
-  };
+  }, [navigation]);
 
   const handleTranscribe = () => {
     console.log("Transcribe");
@@ -60,4 +78,4 @@ const BottomSheetContent = () => {
   );
 };
 
-export default BottomSheetContent
+export default memo(BottomSheetContent);
