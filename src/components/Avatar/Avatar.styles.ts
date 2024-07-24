@@ -6,10 +6,11 @@ const AvatarContainer = styled.View`
   border-radius: 75px;
   align-self: center;
   /* margin-top: 30px; */
-`;
+  `;
 
 const AvatarImage = styled.Image`
   border: 1px solid lightgray;
+  background-color: white;
   width: 120px;
   height: 120px;
   border-radius: 75px;

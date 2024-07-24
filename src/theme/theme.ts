@@ -16,6 +16,7 @@ export const theme = {
     secondary300: "#FFE082",
     secondary200: "#FFECB3",
     secondary100: "#FFF9C4",
+    lightgreen: "#12D18E",
     success: "#12D18E",
     info: "#6949FF",
     warning: "##FACC15",

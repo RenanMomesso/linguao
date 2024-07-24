@@ -15,6 +15,9 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { setChatMessage } from "@/store/reducer/chatMessageReducer";
 import ChatMessageItem from "./ChatMessageItem";
 import LoadingNewMessageItem from "./LoadingNewMessageItem";
+import { LoadingIconSvg } from "@/assets/images";
+import LottieView from "lottie-react-native";
+import { LoadingCircle } from "@/assets/json";
 
 interface ChatMessagesProps {
   messages: Message[] | null;
@@ -23,8 +26,9 @@ interface ChatMessagesProps {
   flatListRef?: React.RefObject<FlatList<Message>>;
   loadingNewMessage: boolean;
   fetchMoreMessages?: () => void;
+  avatarUrlAi?: string;
+  loadMoreMessages?: boolean;
 }
-
 
 const ChatMessages = ({
   messages,
@@ -32,7 +36,9 @@ const ChatMessages = ({
   otherUserName = "",
   flatListRef,
   loadingNewMessage = false,
-  fetchMoreMessages
+  avatarUrlAi,
+  loadMoreMessages,
+  fetchMoreMessages,
 }: ChatMessagesProps) => {
   console.log("🚀 ~ loadingNewMessage:", loadingNewMessage);
   const [playAudio, setPlayAudio] = React.useState(false);
@@ -48,13 +54,15 @@ const ChatMessages = ({
       })
     : [];
 
-  const [selectedItem, setSelectedItem] = React.useState("");
+  const [selectedItem, setSelectedItem] = React.useState<Message>(
+    {} as Message,
+  );
 
   const ref = React.useRef<BottomSheetRefProps>(null);
 
   const onPress = useCallback(
     (messageItem: Message) => {
-      dispatch(setChatMessage(messageItem));
+      setSelectedItem(messageItem);
       const isActive = ref?.current?.isActive();
       if (isActive) {
         ref?.current?.scrollTo(0);
@@ -65,13 +73,17 @@ const ChatMessages = ({
     [dispatch],
   );
 
+  const handleCloseBottomSheet = () => {
+    ref.current?.scrollTo(0);
+  };
+
   const handlePlayAudio = (audioText: string) => {
     if (playAudio) {
       setPlayAudio(false);
       stopSpeakerVoice();
       return;
     }
-    setSelectedItem("");
+    setSelectedItem({} as Message);
     setPlayAudio(true);
     speakerVoiceMessage(audioText || "");
   };
@@ -82,7 +94,11 @@ const ChatMessages = ({
     <>
       <BottomSheet ref={ref}>
         <View style={{ flex: 1, backgroundColor: "orange" }}>
-          <BottomSheetContent />
+          <BottomSheetContent
+            selectedChatMessage={selectedItem}
+            setSelectedItem={setSelectedItem}
+            handleCloseBottomSheet={handleCloseBottomSheet}
+          />
         </View>
       </BottomSheet>
       <Container
@@ -98,14 +114,26 @@ const ChatMessages = ({
             loadingNewMessage ? (
               <LoadingNewMessageItem />
             ) : (
-              <View style={{ height: 10 }} />
+              <View style={{ height: 20 }} />
             )
           }
           automaticallyAdjustContentInsets
           contentContainerStyle={{
             paddingHorizontal: 6,
           }}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          ListFooterComponent={
+            loadMoreMessages ? (
+              <LottieView
+                source={LoadingCircle}
+                autoPlay
+                loop
+                style={{ height: 100, width: 100 }}
+              />
+            ) : (
+              () => <View style={{ height: 20 }} />
+            )
+          }
+          ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
           showsVerticalScrollIndicator={false}
           ref={flatListRef}
           data={sortMessages}
@@ -113,6 +141,7 @@ const ChatMessages = ({
           onEndReached={fetchMoreMessages}
           renderItem={({ item }) => (
             <ChatMessageItem
+              avatarUrlAi={avatarUrlAi || ""}
               item={item}
               setSelectedItem={setSelectedItem}
               selectedItem={selectedItem}

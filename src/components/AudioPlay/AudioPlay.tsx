@@ -30,7 +30,13 @@ const calculateLeftPosition = (percentage, trackWidth) => {
   return (percentage / 100) * trackWidth;
 };
 
-const AudioPlay = ({ audioPath }: { audioPath: string }) => {
+const AudioPlay = ({
+  audioPath,
+  otherUser = false,
+}: {
+  audioPath: string;
+  otherUser?: boolean;
+}) => {
   const AnimatedIndicator = Animated.createAnimatedComponent(WaveformThumb);
   const trackWidth = 180; // Width of the track in pixels
   const progress = useSharedValue(0);
@@ -122,44 +128,56 @@ const AudioPlay = ({ audioPath }: { audioPath: string }) => {
   const durationToMilliseconds = duration * 1000;
 
   return (
-      <Pressable
-        style={{
-          padding: 10,
-          borderRadius: 50,
-          backgroundColor: theme.colors.primary,
-          width: "85%",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 10,
-        }}>
-        {isPlaying ? (
-          <PauseIcon
-            onPress={stopAudio}
-            color={"white"}
-            width={25}
-            height={25}
-          />
-        ) : (
-          <PlayIcon onPress={playAudio} color="white" width={25} height={25} />
-        )}
+    <Pressable
+      style={{
+        padding: 10,
+        borderRadius: 50,
+        backgroundColor: otherUser ? "lightgreen" : theme.colors.primary,
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        elevation: 6,
+        zIndex: 2,
+      }}>
+      {isPlaying ? (
+        <PauseIcon
+          onPress={stopAudio}
+          color={otherUser ? theme.colors.greyScale800 : "white"}
+          width={25}
+          height={25}
+        />
+      ) : (
+        <PlayIcon
+          onPress={playAudio}
+          color={otherUser ? theme.colors.greyScale800 : "white"}
+          width={25}
+          height={25}
+        />
+      )}
 
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "white",
-            height: 2,
-            position: "relative",
-            width: trackWidth,
-          }}>
-          <AnimatedIndicator style={animatedIndicatorStyle} />
-        </View>
-        <Text color="white" size="tiny">
-          {formatTime(durationToMilliseconds)}
-        </Text>
-        <Text color="white" size="tiny" onPress={() => setAudioSpeed(2)}>
-          {speedAudio}x
-        </Text>
-      </Pressable>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: otherUser ? theme.colors.greyScale800 : "white",
+          height: 2,
+          position: "relative",
+          width: trackWidth,
+        }}>
+        <AnimatedIndicator style={[animatedIndicatorStyle, {
+          backgroundColor: otherUser ? theme.colors.greyScale800 : "white",
+        }]} />
+      </View>
+      <Text color={otherUser ? 'greyScale800' : "white"} size="tiny">
+        {formatTime(durationToMilliseconds)}
+      </Text>
+      <Text
+        color={otherUser ? 'greyScale800' : "white"}
+        size="tiny"
+        onPress={() => setAudioSpeed(2)}>
+        {speedAudio}x
+      </Text>
+    </Pressable>
   );
 };
 

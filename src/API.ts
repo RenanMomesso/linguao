@@ -175,6 +175,7 @@ export type Message = {
   audioText?: string | null,
   createdAt?: string | null,
   updatedAt: string,
+  transcribe?: boolean | null,
 };
 
 export type ModelAttachmentConnection = {

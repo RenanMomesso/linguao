@@ -16,7 +16,8 @@ const ChatWithAiScreen = () => {
     handleCreateMessage,
     flatListRef,
     loadingNewMessage,
-    fetchMoreMessages
+    loadMoreMessages,
+    fetchMoreMessages,
   } = useChatWithAiScreen();
   const dispatch = useAppDispatch();
 
@@ -36,9 +37,11 @@ const ChatWithAiScreen = () => {
       <ChatMessages
         messages={messages || null}
         otherUserId={aiChatInfo?.user?.id || ""}
+        avatarUrlAi={aiChatInfo?.user?.avatar || ""}
         otherUserName={aiChatInfo?.user?.name || ""}
         loadingNewMessage={loadingMessages}
         fetchMoreMessages={fetchMoreMessages}
+        loadMoreMessages={loadMoreMessages}
       />
       <SendMessage
         handleCreateMessage={handleCreateMessage}

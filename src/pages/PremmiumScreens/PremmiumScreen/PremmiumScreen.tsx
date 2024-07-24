@@ -33,6 +33,14 @@ const PremmiumScreen = () => {
         />
         <PressableCard
           imgUrl={require("@/assets/images/chatWithAI.webp")}
+          title="Community"
+        />
+        <PressableCard
+          imgUrl={require("@/assets/images/chatWithAI.webp")}
+          title="Find a partner"
+        />
+        <PressableCard
+          imgUrl={require("@/assets/images/chatWithAI.webp")}
           title="Translation"
           navigationTo={"InstantaneousTranslationScreen"}
         />
@@ -56,10 +64,6 @@ const PremmiumScreen = () => {
         <PressableCard
           imgUrl={require("@/assets/images/chatWithAI.webp")}
           title="Challenges"
-        />
-        <PressableCard
-          imgUrl={require("@/assets/images/chatWithAI.webp")}
-          title="Community"
         />
       </Row>
     </PremmiumLayout>

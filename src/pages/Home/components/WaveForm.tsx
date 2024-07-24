@@ -10,6 +10,7 @@ import styled from "styled-components/native";
 
 import { PauseIcon, PlayIcon } from "@/assets/images";
 import Text from "@/components/Text";
+import { theme } from "@/theme/theme";
 
 const { width } = Dimensions.get("window");
 const adjustedWidth = width - 150;
@@ -27,7 +28,7 @@ const calculatePercentage = (current: number, total: number) => {
 
 const calculateLeftPosition = (percentage: number) => {
   "worklet";
-  return (percentage / 100) * (adjustedWidth - 32);
+  return (percentage / 100) * (adjustedWidth - 12);
 };
 
 const Waveform: React.FC<WaveformProps> = ({ audioPath, audioLength = 0 }) => {
@@ -102,9 +103,19 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath, audioLength = 0 }) => {
   return (
     <Container>
       {isPlaying ? (
-        <PauseIcon color="black" onPress={handlePlayPause} height={25} width={25} />
+        <PauseIcon
+          color={theme.colors.greyScale800}
+          onPress={handlePlayPause}
+          height={25}
+          width={25}
+        />
       ) : (
-        <PlayIcon color="black" onPress={handlePlayPause} height={25} width={25} />
+        <PlayIcon
+          color={theme.colors.greyScale800}
+          onPress={handlePlayPause}
+          height={25}
+          width={25}
+        />
       )}
       <WaveformContainer>
         <WaveformTrack />
@@ -116,7 +127,7 @@ const Waveform: React.FC<WaveformProps> = ({ audioPath, audioLength = 0 }) => {
           position: "absolute",
           top: "100%",
         }}>
-        {formatTime(currentTime) + "/" + formatTime(audioLength)}
+        {formatTime(currentTime)}
       </TimeText>
     </Container>
   );
@@ -126,37 +137,37 @@ export default Waveform;
 
 const Container = styled.View`
   align-items: center;
-  background-color: white;
+  background-color: lightgreen;
   flex-direction: row;
   elevation: 6;
   gap: 6px;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 18px;
 `;
 
 const WaveformContainer = styled.View`
-  height: 30px;
+  height: 20px;
   flex: 1;
   justify-content: center;
   overflow: hidden;
 `;
 
 const WaveformTrack = styled.View`
-  height: 3px;
-  background-color: gainsboro;
+  height: 2px;
+  background-color: ${({ theme }) => theme.colors.greyScale800};
 `;
 
 const WaveformThumb = styled(Animated.View)`
   height: 14px;
   width: 14px;
   border-radius: 14px;
-  background-color: royalblue;
+  background-color: ${({ theme }) => theme.colors.greyScale800};
   position: absolute;
   aspect-ratio: 2;
 `;
 
 const TimeText = styled(Text)`
   font-size: 12px;
-  color: black;
-  right: 20px;
+  color: ${({ theme }) => theme.colors.greyScale800};
+  right: 10px;
 `;

@@ -2,15 +2,22 @@ import React, { memo, useCallback, useEffect, useRef } from "react";
 import { Column } from "@/theme/GlobalComponents";
 import Text from "@/components/Text";
 import { useNavigation } from "@react-navigation/native";
-import { useAppSelector } from "@/store";
-import { MessageType } from "../../../../API";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { MessageType, Message } from "../../../../API";
 
-const BottomSheetContent = () => {
-  console.log("Aqui tbm renderizou")
+const BottomSheetContent = ({
+  selectedChatMessage,
+  setSelectedItem,
+  handleCloseBottomSheet,
+}: {
+  selectedChatMessage: Message;
+  setSelectedItem: (message: Message) => void;
+  handleCloseBottomSheet: () => void;
+}) => {
+  console.log("Aqui tbm renderizou");
   const navigation = useNavigation<any>();
-  const selectedChatMessageReducer = useAppSelector(
-    state => state.chatMessageReducer.messages,
-  );
+  const selectedChatMessageReducer = selectedChatMessage;
+  console.log("🚀 ~ selectedChatMessageReducer:", selectedChatMessageReducer);
 
   const selectedChatMessageReducerRef = useRef(selectedChatMessageReducer);
 
@@ -21,8 +28,6 @@ const BottomSheetContent = () => {
   const handleSaveContentToFlashcard = useCallback(() => {
     const currentSelectedChatMessageReducer =
       selectedChatMessageReducerRef.current;
-
-    console.log({ currentSelectedChatMessageReducer });
 
     if (
       !currentSelectedChatMessageReducer ||
@@ -50,8 +55,12 @@ const BottomSheetContent = () => {
     });
   }, [navigation]);
 
-  const handleTranscribe = () => {
-    console.log("Transcribe");
+  const handleTranscribeAudioMessage = () => {
+    setSelectedItem({
+      ...selectedChatMessageReducerRef.current,
+      transcribe: true,
+    });
+    handleCloseBottomSheet();
   };
 
   return (
@@ -59,20 +68,14 @@ const BottomSheetContent = () => {
       <Text onPress={handleSaveContentToFlashcard} size="text" weight="bold">
         Save in the flashcard
       </Text>
-      <Text size="text" weight="bold" onPress={handleTranscribe}>
+      <Text size="text" weight="bold" onPress={handleTranscribeAudioMessage}>
         Transcribe
-      </Text>
-      <Text size="text" weight="bold">
-        Translate (transcribe first)
       </Text>
       <Text size="text" weight="bold">
         Report message
       </Text>
       <Text size="text" weight="bold">
         Share
-      </Text>
-      <Text size="text" weight="bold">
-        Copy
       </Text>
     </Column>
   );

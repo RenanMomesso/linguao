@@ -40,6 +40,7 @@ const useChatWithAiScreen = () => {
   const myUserName = useAppSelector(state => state.user.user.name);
   const mountedRef = useRef(false);
   const flatListRef = useRef<FlatList>(null);
+  const [loadMoreMessages, setLoadMoreMessages] = useState(false);
 
   const [createChatRoomMutation] = useMutation<
     CreateChatRoomMutation,
@@ -126,7 +127,9 @@ const useChatWithAiScreen = () => {
   );
 
   const fetchMoreMessages = async () => {
+    if (loadMoreMessages) return;
     if (!nextToken) return;
+    setLoadMoreMessages(true);
 
     const { data: moreData } = await fetchMore({
       variables: {
@@ -144,6 +147,7 @@ const useChatWithAiScreen = () => {
       ]);
       setNextToken(moreData?.messagesByChatRoom?.nextToken || null);
     }
+    setLoadMoreMessages(false);
   };
 
   const listAiUsers = listAiUsersQuery?.listUsers?.items;
@@ -216,39 +220,48 @@ const useChatWithAiScreen = () => {
         user: listAiUsers?.[0],
       };
 
-  const handleCreateMessage = useCallback(async (
-    text: string,
-    showMenu: boolean,
-    messageType: MessageType = MessageType.TEXT,
-    audioDuration: number = 0,
-    audioMessage?: string,
-    userSender: string = String(userID),
-    userName = myUserName,
-  ) => {
-    const { data, errors } = await createChatRoomMessage({
-      variables: {
-        input: {
-          chatroomID: firstChatRoomWithMyUserAndAi?.id!,
-          text,
-          userID: String(userSender),
-          showMenu,
-          userName: userName,
-          messageType,
-          audioDuration: audioDuration,
-          audioText: audioMessage,
+  const handleCreateMessage = useCallback(
+    async (
+      text: string,
+      showMenu: boolean,
+      messageType: MessageType = MessageType.TEXT,
+      audioDuration: number = 0,
+      audioMessage?: string,
+      userSender: string = String(userID),
+      userName = myUserName,
+    ) => {
+      const { data, errors } = await createChatRoomMessage({
+        variables: {
+          input: {
+            chatroomID: firstChatRoomWithMyUserAndAi?.id!,
+            text,
+            userID: String(userSender),
+            showMenu,
+            userName: userName,
+            messageType,
+            audioDuration: audioDuration,
+            audioText: audioMessage,
+          },
         },
-      },
-    });
+      });
 
-    setMessages(prevMessages => [].concat(data?.createMessage, prevMessages));
+      setMessages(prevMessages => [].concat(data?.createMessage, prevMessages));
 
-    if (errors) {
-      Alert.alert("Error", "An error occurred while sending the message");
-      return;
-    }
+      if (errors) {
+        Alert.alert("Error", "An error occurred while sending the message");
+        return;
+      }
 
-    refetchListMessages();
-  }, [createChatRoomMessage, firstChatRoomWithMyUserAndAi?.id, userID, myUserName, refetchListMessages]);
+      refetchListMessages();
+    },
+    [
+      createChatRoomMessage,
+      firstChatRoomWithMyUserAndAi?.id,
+      userID,
+      myUserName,
+      refetchListMessages,
+    ],
+  );
 
   useEffect(() => {
     if (!mountedRef.current) return;
@@ -273,6 +286,7 @@ const useChatWithAiScreen = () => {
     flatListRef,
     loadingNewMessage,
     fetchMoreMessages,
+    loadMoreMessages
   };
 };
 
