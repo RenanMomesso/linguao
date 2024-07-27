@@ -30,7 +30,6 @@ const bottomTabNavigationOptions: BottomTabNavigationOptions = {
     backgroundColor: "white",
     // Max Height...
     height: 70,
-    borderRadius: 10,
     // Shadow...
     shadowColor: "#000",
     shadowOpacity: 0.06,

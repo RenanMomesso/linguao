@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { Container, Row } from "@/theme/GlobalComponents";
 import Text from "@/components/Text";
 import FeedPostItem from "./components/FeedPostItem/FeedPostItem";
 import { FlatList } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { PostStack } from "@/interface/navigation.interface";
 import useShowBottomNavigation from "@/hooks/useShowBottomNavigation";
 
 const WorldConnectionHomeScreen = () => {
+  const flatListRef = React.useRef<FlatList>(null);
   useShowBottomNavigation();
   const navigation = useNavigation<PostStack>();
   const createPost = () => {
     navigation.navigate("CreatePost");
   };
+
   return (
     <Container padding={20} backgroundColor="white">
       <Row style={{ marginBottom: 30 }}>
