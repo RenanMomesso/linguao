@@ -47,7 +47,14 @@ export type PremmiumStackProps = {
   ChatWithAi: undefined;
   InstantaneousTranslationScreen: undefined;
   MyFlashCardsScreen: undefined;
-  
+};
+
+export type PostStackProps = {
+  WorldConnectionHomeScreen: undefined;
+  PostDetails: {
+    postId: string;
+  };
+  CreatePost: undefined;
 };
 
 export type TrainingStackProps = {
@@ -64,6 +71,8 @@ export type TrainingStackProps = {
     videoUrl: string;
   };
 };
+
+export type PostStack = StackNavigationProp<PostStackProps>;
 
 export type TrainingStack = StackNavigationProp<TrainingStackProps>;
 export type ExercisesStack = StackNavigationProp<ExercisesStackProps>;

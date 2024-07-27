@@ -91,6 +91,39 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -113,6 +146,7 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -149,6 +183,7 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -192,6 +227,54 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
         level
         category
         user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Posts {
+      items {
+        id
+        content
+        audioUrl
+        videoUrl
+        numberOfLikes
+        numberOfComments
+        numbsOfViews
+        images
+        userID
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
         createdAt
         updatedAt
         __typename
@@ -280,6 +363,39 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -302,6 +418,7 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -338,6 +455,7 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -381,6 +499,54 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
         level
         category
         user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Posts {
+      items {
+        id
+        content
+        audioUrl
+        videoUrl
+        numberOfLikes
+        numberOfComments
+        numbsOfViews
+        images
+        userID
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
         createdAt
         updatedAt
         __typename
@@ -469,6 +635,39 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -491,6 +690,7 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -527,6 +727,7 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -570,6 +771,54 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
         level
         category
         user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Posts {
+      items {
+        id
+        content
+        audioUrl
+        videoUrl
+        numberOfLikes
+        numberOfComments
+        numbsOfViews
+        images
+        userID
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
         createdAt
         updatedAt
         __typename
@@ -649,7 +898,7 @@ export const createWord = /* GraphQL */ `mutation CreateWord(
 ) {
   createWord(input: $input, condition: $condition) {
     id
-    languange
+    language
     word
     translatedWord
     wordlistID
@@ -668,7 +917,7 @@ export const updateWord = /* GraphQL */ `mutation UpdateWord(
 ) {
   updateWord(input: $input, condition: $condition) {
     id
-    languange
+    language
     word
     translatedWord
     wordlistID
@@ -687,7 +936,7 @@ export const deleteWord = /* GraphQL */ `mutation DeleteWord(
 ) {
   deleteWord(input: $input, condition: $condition) {
     id
-    languange
+    language
     word
     translatedWord
     wordlistID
@@ -711,7 +960,7 @@ export const createWordList = /* GraphQL */ `mutation CreateWordList(
     Words {
       items {
         id
-        languange
+        language
         word
         translatedWord
         wordlistID
@@ -742,7 +991,7 @@ export const updateWordList = /* GraphQL */ `mutation UpdateWordList(
     Words {
       items {
         id
-        languange
+        language
         word
         translatedWord
         wordlistID
@@ -773,7 +1022,7 @@ export const deleteWordList = /* GraphQL */ `mutation DeleteWordList(
     Words {
       items {
         id
-        languange
+        language
         word
         translatedWord
         wordlistID
@@ -1099,6 +1348,7 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -1156,6 +1406,39 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1178,6 +1461,7 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -1214,6 +1498,7 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -1278,6 +1563,7 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1348,6 +1634,7 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -1405,6 +1692,39 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1427,6 +1747,7 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -1463,6 +1784,7 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -1527,6 +1849,7 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1597,6 +1920,7 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -1654,6 +1978,39 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1676,6 +2033,7 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -1712,6 +2070,7 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -1776,6 +2135,7 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1842,6 +2202,7 @@ export const createMessage = /* GraphQL */ `mutation CreateMessage(
     audioDuration
     audioText
     createdAt
+    deleted
     updatedAt
     __typename
   }
@@ -1885,6 +2246,7 @@ export const updateMessage = /* GraphQL */ `mutation UpdateMessage(
     audioDuration
     audioText
     createdAt
+    deleted
     updatedAt
     __typename
   }
@@ -1928,6 +2290,7 @@ export const deleteMessage = /* GraphQL */ `mutation DeleteMessage(
     audioDuration
     audioText
     createdAt
+    deleted
     updatedAt
     __typename
   }
@@ -2068,15 +2431,95 @@ export const deleteFlashCards = /* GraphQL */ `mutation DeleteFlashCards(
   APITypes.DeleteFlashCardsMutationVariables,
   APITypes.DeleteFlashCardsMutation
 >;
+export const createComment = /* GraphQL */ `mutation CreateComment(
+  $input: CreateCommentInput!
+  $condition: ModelCommentConditionInput
+) {
+  createComment(input: $input, condition: $condition) {
+    id
+    content
+    postID
+    numberOfLikes
+    numberOfComments
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateCommentMutationVariables,
+  APITypes.CreateCommentMutation
+>;
+export const updateComment = /* GraphQL */ `mutation UpdateComment(
+  $input: UpdateCommentInput!
+  $condition: ModelCommentConditionInput
+) {
+  updateComment(input: $input, condition: $condition) {
+    id
+    content
+    postID
+    numberOfLikes
+    numberOfComments
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateCommentMutationVariables,
+  APITypes.UpdateCommentMutation
+>;
+export const deleteComment = /* GraphQL */ `mutation DeleteComment(
+  $input: DeleteCommentInput!
+  $condition: ModelCommentConditionInput
+) {
+  deleteComment(input: $input, condition: $condition) {
+    id
+    content
+    postID
+    numberOfLikes
+    numberOfComments
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteCommentMutationVariables,
+  APITypes.DeleteCommentMutation
+>;
 export const createPost = /* GraphQL */ `mutation CreatePost(
   $input: CreatePostInput!
   $condition: ModelPostConditionInput
 ) {
   createPost(input: $input, condition: $condition) {
     id
-    title
     content
+    audioUrl
+    videoUrl
+    numberOfLikes
+    numberOfComments
+    numbsOfViews
     images
+    userID
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -2092,9 +2535,29 @@ export const updatePost = /* GraphQL */ `mutation UpdatePost(
 ) {
   updatePost(input: $input, condition: $condition) {
     id
-    title
     content
+    audioUrl
+    videoUrl
+    numberOfLikes
+    numberOfComments
+    numbsOfViews
     images
+    userID
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -2110,9 +2573,29 @@ export const deletePost = /* GraphQL */ `mutation DeletePost(
 ) {
   deletePost(input: $input, condition: $condition) {
     id
-    title
     content
+    audioUrl
+    videoUrl
+    numberOfLikes
+    numberOfComments
+    numbsOfViews
     images
+    userID
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -2177,6 +2660,14 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2206,6 +2697,7 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2236,6 +2728,54 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
           level
           category
           user
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Posts {
+        items {
+          id
+          content
+          audioUrl
+          videoUrl
+          numberOfLikes
+          numberOfComments
+          numbsOfViews
+          images
+          userID
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
           createdAt
           updatedAt
           __typename
@@ -2282,6 +2822,7 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -2318,6 +2859,14 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2347,6 +2896,7 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2398,6 +2948,7 @@ export const createUserChatRoom = /* GraphQL */ `mutation CreateUserChatRoom(
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -2488,6 +3039,14 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2517,6 +3076,7 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2547,6 +3107,54 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
           level
           category
           user
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Posts {
+        items {
+          id
+          content
+          audioUrl
+          videoUrl
+          numberOfLikes
+          numberOfComments
+          numbsOfViews
+          images
+          userID
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
           createdAt
           updatedAt
           __typename
@@ -2593,6 +3201,7 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -2629,6 +3238,14 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2658,6 +3275,7 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2709,6 +3327,7 @@ export const updateUserChatRoom = /* GraphQL */ `mutation UpdateUserChatRoom(
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -2799,6 +3418,14 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2828,6 +3455,7 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2858,6 +3486,54 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
           level
           category
           user
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Posts {
+        items {
+          id
+          content
+          audioUrl
+          videoUrl
+          numberOfLikes
+          numberOfComments
+          numbsOfViews
+          images
+          userID
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
           createdAt
           updatedAt
           __typename
@@ -2904,6 +3580,7 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -2940,6 +3617,14 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2969,6 +3654,7 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -3020,6 +3706,7 @@ export const deleteUserChatRoom = /* GraphQL */ `mutation DeleteUserChatRoom(
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }

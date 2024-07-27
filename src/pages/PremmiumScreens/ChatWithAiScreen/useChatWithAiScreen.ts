@@ -59,6 +59,13 @@ const useChatWithAiScreen = () => {
     },
   });
 
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
   const [createUserChatRoomMutation] = useMutation<
     CreateUserChatRoomMutation,
     CreateUserChatRoomMutationVariables
@@ -101,6 +108,10 @@ const useChatWithAiScreen = () => {
       item => !!item?.chatRoom?.artificialInteligenceRoom,
     )?.chatRoom;
 
+  console.log(
+    "🚀 ~ useChatWithAiScreen ~ firstChatRoomWithMyUserAndAi:",
+    firstChatRoomWithMyUserAndAi,
+  );
   const aiChatInfo = firstChatRoomWithMyUserAndAi?.users?.items.find(
     item => !!item?.user?.artificialInteligenceUser,
   );
@@ -109,6 +120,7 @@ const useChatWithAiScreen = () => {
   const [nextToken, setNextToken] = useState<string | null>(null);
   const {
     data,
+    loading: LoadingMessagesByChatroom,
     refetch: refetchListMessages,
     fetchMore,
   } = useQuery<MessagesByChatRoomQuery, MessagesByChatRoomQueryVariables>(
@@ -159,15 +171,11 @@ const useChatWithAiScreen = () => {
     };
   }, []);
 
-  const checkIfUserHasAiChatRoom =
-    listUserChatRoomsQuery?.listUserChatRooms?.items.some(
-      item => item?.chatRoom?.artificialInteligenceRoom,
-    );
-
   const createChatRoomFunction = async () => {
-    if (checkIfUserHasAiChatRoom) {
+    if (firstChatRoomWithMyUserAndAi) {
       return;
     }
+    console.log("Create Chat Room Triggered");
 
     const { data: createdChatRoomMutation } = await createChatRoomMutation({
       variables: {
@@ -203,10 +211,11 @@ const useChatWithAiScreen = () => {
       variables: {
         input: {
           chatroomID: chatRoomID,
-          text: "Hello, I am Linguao AI. How can I help you today?",
+          text: "Hello, I am Linguao AI. I'm very happy to help you. I'll always answer with audio messages.\nYou can also send me audio messages.\nAlso if you have any problems to understand me there is a menu button that you can click to see the options.\nDo you have something in mind that you want to talk about ? ",
           userID: String(artificialInteligenceUserId),
           showMenu: true,
           userName: aiInfo?.user?.name!,
+          messageType: MessageType.TEXT,
         },
       },
     });
@@ -264,19 +273,11 @@ const useChatWithAiScreen = () => {
   );
 
   useEffect(() => {
-    if (!mountedRef.current) return;
-    if (
-      !checkIfUserHasAiChatRoom &&
-      !loadingListUserhatRoomsQuery &&
-      !firstChatRoomWithMyUserAndAi
-    ) {
+    if (!firstChatRoomWithMyUserAndAi && !loadingListUserhatRoomsQuery) {
+      console.log("ENTROU PARA CRIAR CHAT COM AI");
       createChatRoomFunction();
     }
-  }, [
-    mountedRef.current,
-    loadingListUserhatRoomsQuery,
-    firstChatRoomWithMyUserAndAi,
-  ]);
+  }, [loadingListUserhatRoomsQuery]);
 
   return {
     data: listUserChatRoomsQuery,
@@ -286,7 +287,8 @@ const useChatWithAiScreen = () => {
     flatListRef,
     loadingNewMessage,
     fetchMoreMessages,
-    loadMoreMessages
+    loadMoreMessages,
+    LoadingMessagesByChatroom
   };
 };
 

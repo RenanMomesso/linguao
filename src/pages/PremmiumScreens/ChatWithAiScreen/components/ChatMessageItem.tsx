@@ -7,11 +7,12 @@ import { Row } from "@/theme/GlobalComponents";
 import { theme } from "@/theme/theme";
 import Text from "@/components/Text";
 import Animated, { FadeIn, FadeInLeft } from "react-native-reanimated";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { formatDate } from "@/utils/formatDate";
 import Avatar from "@/components/Avatar/Avatar";
 import { useAppSelector } from "@/store";
 import { TranslatorProvider } from "react-native-translator";
+import Button from "@/components/Button/Button";
 
 const ChatMessageItem = ({
   item,
@@ -75,9 +76,10 @@ const ChatMessageItem = ({
           avatarUrl={item?.userID === otherUserId ? avatarUrlAi : myUserAvatar}
         />
       </View>
-      <Text weight="semibold" size="text" color="greyScale800" align="justify">
+      <Text weight="semibold" size="text" color="greyScale800" align="left">
         {item.text}
       </Text>
+
       <Text size="tiny" weight="light" align="left" style={{ marginTop: 4 }}>
         {formatDate(item.createdAt || "")}
       </Text>

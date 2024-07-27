@@ -25,7 +25,7 @@ const ProgressStatus = styled.View<{ percentageStatus: number }>`
 const BarProgress = ({
   percentageStatus,
   icon,
-  showSkip = false
+  showSkip = true
 }: {
   percentageStatus: number;
   icon?: any;

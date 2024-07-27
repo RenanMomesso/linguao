@@ -77,6 +77,39 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -99,6 +132,7 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -135,6 +169,7 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -178,6 +213,54 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
         level
         category
         user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Posts {
+      items {
+        id
+        content
+        audioUrl
+        videoUrl
+        numberOfLikes
+        numberOfComments
+        numbsOfViews
+        images
+        userID
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
         createdAt
         updatedAt
         __typename
@@ -263,6 +346,39 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -285,6 +401,7 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -321,6 +438,7 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -364,6 +482,54 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
         level
         category
         user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Posts {
+      items {
+        id
+        content
+        audioUrl
+        videoUrl
+        numberOfLikes
+        numberOfComments
+        numbsOfViews
+        images
+        userID
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
         createdAt
         updatedAt
         __typename
@@ -449,6 +615,39 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -471,6 +670,7 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -507,6 +707,7 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -550,6 +751,54 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
         level
         category
         user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Posts {
+      items {
+        id
+        content
+        audioUrl
+        videoUrl
+        numberOfLikes
+        numberOfComments
+        numbsOfViews
+        images
+        userID
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
         createdAt
         updatedAt
         __typename
@@ -617,7 +866,7 @@ export const onDeleteSentence = /* GraphQL */ `subscription OnDeleteSentence($fi
 export const onCreateWord = /* GraphQL */ `subscription OnCreateWord($filter: ModelSubscriptionWordFilterInput) {
   onCreateWord(filter: $filter) {
     id
-    languange
+    language
     word
     translatedWord
     wordlistID
@@ -633,7 +882,7 @@ export const onCreateWord = /* GraphQL */ `subscription OnCreateWord($filter: Mo
 export const onUpdateWord = /* GraphQL */ `subscription OnUpdateWord($filter: ModelSubscriptionWordFilterInput) {
   onUpdateWord(filter: $filter) {
     id
-    languange
+    language
     word
     translatedWord
     wordlistID
@@ -649,7 +898,7 @@ export const onUpdateWord = /* GraphQL */ `subscription OnUpdateWord($filter: Mo
 export const onDeleteWord = /* GraphQL */ `subscription OnDeleteWord($filter: ModelSubscriptionWordFilterInput) {
   onDeleteWord(filter: $filter) {
     id
-    languange
+    language
     word
     translatedWord
     wordlistID
@@ -670,7 +919,7 @@ export const onCreateWordList = /* GraphQL */ `subscription OnCreateWordList($fi
     Words {
       items {
         id
-        languange
+        language
         word
         translatedWord
         wordlistID
@@ -698,7 +947,7 @@ export const onUpdateWordList = /* GraphQL */ `subscription OnUpdateWordList($fi
     Words {
       items {
         id
-        languange
+        language
         word
         translatedWord
         wordlistID
@@ -726,7 +975,7 @@ export const onDeleteWordList = /* GraphQL */ `subscription OnDeleteWordList($fi
     Words {
       items {
         id
-        languange
+        language
         word
         translatedWord
         wordlistID
@@ -1040,6 +1289,7 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -1097,6 +1347,39 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1119,6 +1402,7 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -1155,6 +1439,7 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -1219,6 +1504,7 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1286,6 +1572,7 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -1343,6 +1630,39 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1365,6 +1685,7 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -1401,6 +1722,7 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -1465,6 +1787,7 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1532,6 +1855,7 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -1589,6 +1913,39 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -1611,6 +1968,7 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -1647,6 +2005,7 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -1711,6 +2070,7 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1774,6 +2134,7 @@ export const onCreateMessage = /* GraphQL */ `subscription OnCreateMessage($filt
     audioDuration
     audioText
     createdAt
+    deleted
     updatedAt
     __typename
   }
@@ -1814,6 +2175,7 @@ export const onUpdateMessage = /* GraphQL */ `subscription OnUpdateMessage($filt
     audioDuration
     audioText
     createdAt
+    deleted
     updatedAt
     __typename
   }
@@ -1854,6 +2216,7 @@ export const onDeleteMessage = /* GraphQL */ `subscription OnDeleteMessage($filt
     audioDuration
     audioText
     createdAt
+    deleted
     updatedAt
     __typename
   }
@@ -1988,12 +2351,83 @@ export const onDeleteFlashCards = /* GraphQL */ `subscription OnDeleteFlashCards
   APITypes.OnDeleteFlashCardsSubscriptionVariables,
   APITypes.OnDeleteFlashCardsSubscription
 >;
+export const onCreateComment = /* GraphQL */ `subscription OnCreateComment($filter: ModelSubscriptionCommentFilterInput) {
+  onCreateComment(filter: $filter) {
+    id
+    content
+    postID
+    numberOfLikes
+    numberOfComments
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateCommentSubscriptionVariables,
+  APITypes.OnCreateCommentSubscription
+>;
+export const onUpdateComment = /* GraphQL */ `subscription OnUpdateComment($filter: ModelSubscriptionCommentFilterInput) {
+  onUpdateComment(filter: $filter) {
+    id
+    content
+    postID
+    numberOfLikes
+    numberOfComments
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateCommentSubscriptionVariables,
+  APITypes.OnUpdateCommentSubscription
+>;
+export const onDeleteComment = /* GraphQL */ `subscription OnDeleteComment($filter: ModelSubscriptionCommentFilterInput) {
+  onDeleteComment(filter: $filter) {
+    id
+    content
+    postID
+    numberOfLikes
+    numberOfComments
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteCommentSubscriptionVariables,
+  APITypes.OnDeleteCommentSubscription
+>;
 export const onCreatePost = /* GraphQL */ `subscription OnCreatePost($filter: ModelSubscriptionPostFilterInput) {
   onCreatePost(filter: $filter) {
     id
-    title
     content
+    audioUrl
+    videoUrl
+    numberOfLikes
+    numberOfComments
+    numbsOfViews
     images
+    userID
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -2006,9 +2440,29 @@ export const onCreatePost = /* GraphQL */ `subscription OnCreatePost($filter: Mo
 export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost($filter: ModelSubscriptionPostFilterInput) {
   onUpdatePost(filter: $filter) {
     id
-    title
     content
+    audioUrl
+    videoUrl
+    numberOfLikes
+    numberOfComments
+    numbsOfViews
     images
+    userID
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -2021,9 +2475,29 @@ export const onUpdatePost = /* GraphQL */ `subscription OnUpdatePost($filter: Mo
 export const onDeletePost = /* GraphQL */ `subscription OnDeletePost($filter: ModelSubscriptionPostFilterInput) {
   onDeletePost(filter: $filter) {
     id
-    title
     content
+    audioUrl
+    videoUrl
+    numberOfLikes
+    numberOfComments
+    numbsOfViews
     images
+    userID
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -2087,6 +2561,14 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2116,6 +2598,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2146,6 +2629,54 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
           level
           category
           user
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Posts {
+        items {
+          id
+          content
+          audioUrl
+          videoUrl
+          numberOfLikes
+          numberOfComments
+          numbsOfViews
+          images
+          userID
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
           createdAt
           updatedAt
           __typename
@@ -2192,6 +2723,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -2228,6 +2760,14 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2257,6 +2797,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2308,6 +2849,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `subscription OnCreateUserChat
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -2397,6 +2939,14 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2426,6 +2976,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2456,6 +3007,54 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
           level
           category
           user
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Posts {
+        items {
+          id
+          content
+          audioUrl
+          videoUrl
+          numberOfLikes
+          numberOfComments
+          numbsOfViews
+          images
+          userID
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
           createdAt
           updatedAt
           __typename
@@ -2502,6 +3101,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -2538,6 +3138,14 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2567,6 +3175,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2618,6 +3227,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `subscription OnUpdateUserChat
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -2707,6 +3317,14 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2736,6 +3354,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2766,6 +3385,54 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
           level
           category
           user
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Posts {
+        items {
+          id
+          content
+          audioUrl
+          videoUrl
+          numberOfLikes
+          numberOfComments
+          numbsOfViews
+          images
+          userID
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
           createdAt
           updatedAt
           __typename
@@ -2812,6 +3479,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -2848,6 +3516,14 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -2877,6 +3553,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -2928,6 +3605,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `subscription OnDeleteUserChat
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }

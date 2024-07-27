@@ -30,7 +30,7 @@
         "aireply": {
           "linguaoaireply": "user",
           "deploymentBucketName": "amplify-linguao-dev-13eb4-deployment",
-          "s3Key": "amplify-builds/aireply-4e42697a71735a503272-build.zip"
+          "s3Key": "amplify-builds/aireply-54335051376e63654d6a-build.zip"
         }
       },
       "storage": {

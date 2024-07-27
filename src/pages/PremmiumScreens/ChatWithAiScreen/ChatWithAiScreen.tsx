@@ -8,6 +8,7 @@ import HeaderChat from "./components/HeaderChat";
 import ChatMessages from "./components/ChatMessages";
 import { Message } from "@/API";
 import SendMessage from "./components/SendMessage/SendMessage";
+import ChatMessagesSkeleton from "./components/ChatMessagesSkeleton";
 
 const ChatWithAiScreen = () => {
   const {
@@ -18,6 +19,7 @@ const ChatWithAiScreen = () => {
     loadingNewMessage,
     loadMoreMessages,
     fetchMoreMessages,
+    LoadingMessagesByChatroom,
   } = useChatWithAiScreen();
   const dispatch = useAppDispatch();
 
@@ -34,15 +36,19 @@ const ChatWithAiScreen = () => {
         aiAvatar={aiChatInfo?.user?.avatar || ""}
       />
 
-      <ChatMessages
-        messages={messages || null}
-        otherUserId={aiChatInfo?.user?.id || ""}
-        avatarUrlAi={aiChatInfo?.user?.avatar || ""}
-        otherUserName={aiChatInfo?.user?.name || ""}
-        loadingNewMessage={loadingMessages}
-        fetchMoreMessages={fetchMoreMessages}
-        loadMoreMessages={loadMoreMessages}
-      />
+      {LoadingMessagesByChatroom ? (
+        <ChatMessagesSkeleton />
+      ) : (
+        <ChatMessages
+          messages={messages || null}
+          otherUserId={aiChatInfo?.user?.id || ""}
+          avatarUrlAi={aiChatInfo?.user?.avatar || ""}
+          otherUserName={aiChatInfo?.user?.name || ""}
+          loadingNewMessage={loadingMessages}
+          fetchMoreMessages={fetchMoreMessages}
+          loadMoreMessages={loadMoreMessages}
+        />
+      )}
       <SendMessage
         handleCreateMessage={handleCreateMessage}
         aiId={aiChatInfo.user?.id}

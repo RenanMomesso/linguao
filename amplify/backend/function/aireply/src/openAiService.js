@@ -1,6 +1,5 @@
 const axios = require("axios");
-const apiKey =
-"sk-proj-OfkcEpPiSvQjwDGTs8hxT3BlbkFJFUiXbwvGHXD256DaspJH";
+const apiKey = "sk-proj-OfkcEpPiSvQjwDGTs8hxT3BlbkFJFUiXbwvGHXD256DaspJH";
 
 const sendMessageToOpenAI = async text => {
   if (!apiKey) {
@@ -10,7 +9,8 @@ const sendMessageToOpenAI = async text => {
 
   const url = "https://api.openai.com/v1/chat/completions";
   const data = {
-    model: "ft:gpt-3.5-turbo-1106:renandev::9oCSvKd7:ckpt-step-80",
+    // model: "ft:gpt-3.5-turbo-1106:renandev::9oCSvKd7:ckpt-step-80",
+    model: "ft:gpt-3.5-turbo-0613:renandev:linguao-teacher:9odqzs2J",
     messages: [
       {
         role: "system",

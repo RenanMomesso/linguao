@@ -45,17 +45,19 @@ type User @model @auth(rules: [{ allow: public }]) {
   artificialInteligenceUser: Boolean
   ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
   flashCards: [FlashCards] @hasMany(indexName: "byFlashcard", fields: ["id"])
+  Posts: [Post] @hasMany(indexName: "byPost", fields: ["id"])
+  Comments: [Comment] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
 enum Language {
   ENGLISH
   PORTUGUESE
   CHINESE
-  GERMANY
+  GERMAN
   FRENCH
-  ARABIAN
+  ARABIC
   RUSSIAN
-  SWEDESH
+  SWEDISH
   SPANISH
 }
 
@@ -69,7 +71,7 @@ type Sentence @model @auth(rules: [{ allow: public }]) {
 
 type Word @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  languange: Language
+  language: Language
   word: String
   translatedWord: String
   wordlistID: ID! @index(name: "byWordList")
@@ -94,7 +96,6 @@ enum EnglishLevel {
 type EnglishSentence @model @auth(rules: [{ allow: public }]) {
   id: ID!
   sentence: String!
-
   type: String!
     @index(
       name: "sentencesByCreatedAt"
@@ -151,7 +152,6 @@ type ChatRoom @model @auth(rules: [{ allow: public }]) {
 type Message @model @auth(rules: [{ allow: public }]) {
   id: ID!
   text: String!
-
   chatroomID: ID!
     @index(
       name: "byChatRoom"
@@ -207,12 +207,29 @@ type FlashCards @model @auth(rules: [{ allow: public }]) {
   user: ID! @index(name: "byFlashcard")
 }
 
-type Post @model @auth(rules: [{ allow: public }]) {
+type Comment @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  title: String!
   content: String!
-  images: [String]
+  postID: ID! @index(name: "byComment")
+  numberOfLikes: Int
+  numberOfComments: Int
+  userID: ID! @index(name: "byUser")
 }
 
-# type Report
-# type Kanban
+type Post @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  content: String!
+  audioUrl: String
+  videoUrl: String
+  numberOfLikes: Int
+  numberOfComments: Int
+  numbsOfViews: Int
+  images: [String]
+  userID: ID! @index(
+      name: "byPost"
+      queryField: "postsByUser"
+      sortKeyFields: ["createdAt"]
+    )
+  Comments: [Comment] @hasMany(indexName: "byComment", fields: ["id"])
+  createdAt: String
+}

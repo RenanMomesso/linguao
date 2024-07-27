@@ -6,12 +6,13 @@ const imgPlaceholder = "https://via.placeholder.com/150";
 interface AvatarProps {
   avatarUrl?: string | null | undefined;
   showEditIcon?: boolean;
-  size?: "small" | "medium" | "large";
+  size?: "small" | "medium" | "large" | "tiny";
 }
 
 const sizes = {
+  tiny:25,
   small: 40,
-  medium: 120,
+  medium: 50,
   large: 160,
 };
 const Avatar = ({

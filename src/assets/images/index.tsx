@@ -29,8 +29,10 @@ import PlayIcon from "./PlayIcon.svg";
 import PauseIcon from "./PauseIcon.svg";
 import ReverseIcon from "./reverseIcon.svg";
 import MenuIcon from "./MenuIcon.svg";
-import TranslateIcon from "./TranslatorIcon.svg"
-import CopyIcon from "./CopyIcon.svg"
+import TranslateIcon from "./TranslatorIcon.svg";
+import CopyIcon from "./CopyIcon.svg";
+import CommentIcon from "./CommentIcon.svg";
+import LikeIcon from "./LikeIcon.svg";
 
 export const SvgComponent = (props: SvgProps) => (
   <Svg width={60} height={60} fill="none" {...props}>
@@ -83,6 +85,7 @@ export {
   ReverseIcon,
   MenuIcon,
   TranslateIcon,
-  CopyIcon
-
+  CopyIcon,
+  CommentIcon,
+  LikeIcon
 };

@@ -19,15 +19,15 @@ import AccountNavigation from "./AccountNavigation";
 import { getCurrentUser } from "aws-amplify/auth";
 import PremmiumNavigation from "./PremmiumNavigation";
 import { useAppSelector } from "@/store";
+import LottieView from "lottie-react-native";
+import { WordConnection } from "@/assets/json";
+import WorldConnectionNavigation from "./WorldConnectionNavigation";
 
 const bottomTabNavigationOptions: BottomTabNavigationOptions = {
   headerShown: false,
 
   tabBarStyle: {
     backgroundColor: "white",
-    position: "absolute",
-    bottom: 10,
-    marginHorizontal: 10,
     // Max Height...
     height: 70,
     borderRadius: 10,
@@ -96,13 +96,16 @@ const BottomNavigation = () => {
       />
       <BottomTabNavigation.Screen
         name="Challenge"
-        component={View}
+        component={WorldConnectionNavigation}
         options={{
           tabBarIcon: ({ focused }) => {
-            return !focused ? (
-              <TicketStar height={35} width={35} />
-            ) : (
-              <TicketStarActived height={35} width={35} />
+            return (
+              <LottieView
+                source={WordConnection}
+                autoPlay
+                loop
+                style={{ height: 50, width: 50 }}
+              />
             );
           },
         }}

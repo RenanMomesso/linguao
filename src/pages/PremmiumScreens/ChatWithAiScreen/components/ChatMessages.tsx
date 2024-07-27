@@ -28,6 +28,15 @@ interface ChatMessagesProps {
   fetchMoreMessages?: () => void;
   avatarUrlAi?: string;
   loadMoreMessages?: boolean;
+  handleCreateMessage?: (
+    text: string,
+    showMenu: boolean,
+    messageType: any,
+    audioDuration: number,
+    audioMessage?: string,
+    userSender?: string,
+    userName?: string,
+  ) => void;
 }
 
 const ChatMessages = ({
@@ -38,6 +47,7 @@ const ChatMessages = ({
   loadingNewMessage = false,
   avatarUrlAi,
   loadMoreMessages,
+  handleCreateMessage,
   fetchMoreMessages,
 }: ChatMessagesProps) => {
   console.log("🚀 ~ loadingNewMessage:", loadingNewMessage);

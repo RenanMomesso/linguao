@@ -84,6 +84,39 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -106,6 +139,7 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -142,6 +176,7 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -185,6 +220,54 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
         level
         category
         user
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Posts {
+      items {
+        id
+        content
+        audioUrl
+        videoUrl
+        numberOfLikes
+        numberOfComments
+        numbsOfViews
+        images
+        userID
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
         createdAt
         updatedAt
         __typename
@@ -251,6 +334,14 @@ export const listUsers = /* GraphQL */ `query ListUsers(
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -280,6 +371,7 @@ export const listUsers = /* GraphQL */ `query ListUsers(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -310,6 +402,54 @@ export const listUsers = /* GraphQL */ `query ListUsers(
           level
           category
           user
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Posts {
+        items {
+          id
+          content
+          audioUrl
+          videoUrl
+          numberOfLikes
+          numberOfComments
+          numbsOfViews
+          images
+          userID
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
           createdAt
           updatedAt
           __typename
@@ -369,7 +509,7 @@ export const listSentences = /* GraphQL */ `query ListSentences(
 export const getWord = /* GraphQL */ `query GetWord($id: ID!) {
   getWord(id: $id) {
     id
-    languange
+    language
     word
     translatedWord
     wordlistID
@@ -387,7 +527,7 @@ export const listWords = /* GraphQL */ `query ListWords(
   listWords(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      languange
+      language
       word
       translatedWord
       wordlistID
@@ -416,7 +556,7 @@ export const wordsByWordlistID = /* GraphQL */ `query WordsByWordlistID(
   ) {
     items {
       id
-      languange
+      language
       word
       translatedWord
       wordlistID
@@ -440,7 +580,7 @@ export const getWordList = /* GraphQL */ `query GetWordList($id: ID!) {
     Words {
       items {
         id
-        languange
+        language
         word
         translatedWord
         wordlistID
@@ -473,7 +613,7 @@ export const listWordLists = /* GraphQL */ `query ListWordLists(
       Words {
         items {
           id
-          languange
+          language
           word
           translatedWord
           wordlistID
@@ -795,6 +935,7 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -852,6 +993,39 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
             nextToken
             __typename
           }
+          Posts {
+            items {
+              id
+              content
+              audioUrl
+              videoUrl
+              numberOfLikes
+              numberOfComments
+              numbsOfViews
+              images
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
           createdAt
           updatedAt
           __typename
@@ -874,6 +1048,7 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -910,6 +1085,7 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -974,6 +1150,7 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1046,6 +1223,7 @@ export const listChatRooms = /* GraphQL */ `query ListChatRooms(
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -1082,6 +1260,14 @@ export const listChatRooms = /* GraphQL */ `query ListChatRooms(
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -1111,6 +1297,7 @@ export const listChatRooms = /* GraphQL */ `query ListChatRooms(
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -1162,6 +1349,7 @@ export const listChatRooms = /* GraphQL */ `query ListChatRooms(
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -1228,6 +1416,7 @@ export const getMessage = /* GraphQL */ `query GetMessage($id: ID!) {
     audioDuration
     audioText
     createdAt
+    deleted
     updatedAt
     __typename
   }
@@ -1273,6 +1462,7 @@ export const listMessages = /* GraphQL */ `query ListMessages(
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1331,6 +1521,7 @@ export const messagesByChatRoom = /* GraphQL */ `query MessagesByChatRoom(
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1387,6 +1578,7 @@ export const messagesByUserID = /* GraphQL */ `query MessagesByUserID(
       audioDuration
       audioText
       createdAt
+      deleted
       updatedAt
       __typename
     }
@@ -1595,12 +1787,140 @@ export const flashCardsByUser = /* GraphQL */ `query FlashCardsByUser(
   APITypes.FlashCardsByUserQueryVariables,
   APITypes.FlashCardsByUserQuery
 >;
+export const getComment = /* GraphQL */ `query GetComment($id: ID!) {
+  getComment(id: $id) {
+    id
+    content
+    postID
+    numberOfLikes
+    numberOfComments
+    userID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetCommentQueryVariables,
+  APITypes.GetCommentQuery
+>;
+export const listComments = /* GraphQL */ `query ListComments(
+  $filter: ModelCommentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      content
+      postID
+      numberOfLikes
+      numberOfComments
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListCommentsQueryVariables,
+  APITypes.ListCommentsQuery
+>;
+export const commentsByPostID = /* GraphQL */ `query CommentsByPostID(
+  $postID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelCommentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  commentsByPostID(
+    postID: $postID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      content
+      postID
+      numberOfLikes
+      numberOfComments
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.CommentsByPostIDQueryVariables,
+  APITypes.CommentsByPostIDQuery
+>;
+export const commentsByUserID = /* GraphQL */ `query CommentsByUserID(
+  $userID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelCommentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  commentsByUserID(
+    userID: $userID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      content
+      postID
+      numberOfLikes
+      numberOfComments
+      userID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.CommentsByUserIDQueryVariables,
+  APITypes.CommentsByUserIDQuery
+>;
 export const getPost = /* GraphQL */ `query GetPost($id: ID!) {
   getPost(id: $id) {
     id
-    title
     content
+    audioUrl
+    videoUrl
+    numberOfLikes
+    numberOfComments
+    numbsOfViews
     images
+    userID
+    Comments {
+      items {
+        id
+        content
+        postID
+        numberOfLikes
+        numberOfComments
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -1615,9 +1935,29 @@ export const listPosts = /* GraphQL */ `query ListPosts(
   listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      title
       content
+      audioUrl
+      videoUrl
+      numberOfLikes
+      numberOfComments
+      numbsOfViews
       images
+      userID
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -1627,6 +1967,59 @@ export const listPosts = /* GraphQL */ `query ListPosts(
   }
 }
 ` as GeneratedQuery<APITypes.ListPostsQueryVariables, APITypes.ListPostsQuery>;
+export const postsByUser = /* GraphQL */ `query PostsByUser(
+  $userID: ID!
+  $createdAt: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelPostFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  postsByUser(
+    userID: $userID
+    createdAt: $createdAt
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      content
+      audioUrl
+      videoUrl
+      numberOfLikes
+      numberOfComments
+      numbsOfViews
+      images
+      userID
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.PostsByUserQueryVariables,
+  APITypes.PostsByUserQuery
+>;
 export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
   getUserChatRoom(id: $id) {
     id
@@ -1679,6 +2072,14 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -1708,6 +2109,7 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -1738,6 +2140,54 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
           level
           category
           user
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Posts {
+        items {
+          id
+          content
+          audioUrl
+          videoUrl
+          numberOfLikes
+          numberOfComments
+          numbsOfViews
+          images
+          userID
+          Comments {
+            items {
+              id
+              content
+              postID
+              numberOfLikes
+              numberOfComments
+              userID
+              createdAt
+              updatedAt
+              __typename
+            }
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      Comments {
+        items {
+          id
+          content
+          postID
+          numberOfLikes
+          numberOfComments
+          userID
           createdAt
           updatedAt
           __typename
@@ -1784,6 +2234,7 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -1820,6 +2271,14 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
               nextToken
               __typename
             }
+            Posts {
+              nextToken
+              __typename
+            }
+            Comments {
+              nextToken
+              __typename
+            }
             createdAt
             updatedAt
             __typename
@@ -1849,6 +2308,7 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
               audioDuration
               audioText
               createdAt
+              deleted
               updatedAt
               __typename
             }
@@ -1900,6 +2360,7 @@ export const getUserChatRoom = /* GraphQL */ `query GetUserChatRoom($id: ID!) {
         audioDuration
         audioText
         createdAt
+        deleted
         updatedAt
         __typename
       }
@@ -2021,6 +2482,43 @@ export const listUserChatRooms = /* GraphQL */ `query ListUserChatRooms(
           nextToken
           __typename
         }
+        Posts {
+          items {
+            id
+            content
+            audioUrl
+            videoUrl
+            numberOfLikes
+            numberOfComments
+            numbsOfViews
+            images
+            userID
+            Comments {
+              nextToken
+              __typename
+            }
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
         createdAt
         updatedAt
         __typename
@@ -2047,6 +2545,7 @@ export const listUserChatRooms = /* GraphQL */ `query ListUserChatRooms(
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -2126,6 +2625,7 @@ export const listUserChatRooms = /* GraphQL */ `query ListUserChatRooms(
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -2258,6 +2758,43 @@ export const userChatRoomsByUserId = /* GraphQL */ `query UserChatRoomsByUserId(
           nextToken
           __typename
         }
+        Posts {
+          items {
+            id
+            content
+            audioUrl
+            videoUrl
+            numberOfLikes
+            numberOfComments
+            numbsOfViews
+            images
+            userID
+            Comments {
+              nextToken
+              __typename
+            }
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
         createdAt
         updatedAt
         __typename
@@ -2284,6 +2821,7 @@ export const userChatRoomsByUserId = /* GraphQL */ `query UserChatRoomsByUserId(
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -2363,6 +2901,7 @@ export const userChatRoomsByUserId = /* GraphQL */ `query UserChatRoomsByUserId(
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
@@ -2495,6 +3034,43 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `query UserChatRoomsByCha
           nextToken
           __typename
         }
+        Posts {
+          items {
+            id
+            content
+            audioUrl
+            videoUrl
+            numberOfLikes
+            numberOfComments
+            numbsOfViews
+            images
+            userID
+            Comments {
+              nextToken
+              __typename
+            }
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        Comments {
+          items {
+            id
+            content
+            postID
+            numberOfLikes
+            numberOfComments
+            userID
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
         createdAt
         updatedAt
         __typename
@@ -2521,6 +3097,7 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `query UserChatRoomsByCha
             audioDuration
             audioText
             createdAt
+            deleted
             updatedAt
             __typename
           }
@@ -2600,6 +3177,7 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `query UserChatRoomsByCha
           audioDuration
           audioText
           createdAt
+          deleted
           updatedAt
           __typename
         }
